@@ -7,7 +7,8 @@ private:
   short m_length;
   short m_width;
 
-  lv_style_t *m_style;
+  lv_obj_t* m_rectangle;
+  lv_style_t* m_style;
 public:
   /*  Constuctors  */
   Rectangle();
