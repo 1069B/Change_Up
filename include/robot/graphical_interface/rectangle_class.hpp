@@ -1,14 +1,19 @@
 #include "main.h"
 
+#ifndef RECTAGNLE_CLASS_H
+#define RECTAGNLE_CLASS_H
+
+class Screen;
+
 class Rectangle{
 private:
-  short m_xOrigin;
-  short m_yOrigin;
-  short m_length;
-  short m_width;
+  short m_xOrigin{};
+  short m_yOrigin{};
+  short m_length{};
+  short m_width{};
 
-  lv_obj_t* m_rectangle;
-  lv_style_t* m_style;
+  lv_obj_t* m_rectangle{};
+  lv_style_t* m_style{};
 public:
   /*  Constuctors  */
   Rectangle();
@@ -25,13 +30,20 @@ public:
   lv_style_t* get_style(){ return m_style; }
 
   /*  Setter Function  */
-  void set_xOrgin(const short p_xOrgin);
+  void set_xOrgin(short const p_xOrgin);
 
-  void set_yOrgin(const short p_yOrgin);
+  void set_yOrgin(short const p_yOrgin);
 
-  void set_legnth(const short p_length);
+  void set_legnth(short const p_length);
 
-  void set_width(const short p_width);
+  void set_width(short const p_width);
 
   void set_style(lv_style_t& p_style);
+
+  /*  Action Function */
+  void draw_rectangle(Screen& p_screen);
+
+  void update_rectangle(Screen& p_screen);
 };
+
+#endif // RECTAGNLE_CLASS_H
