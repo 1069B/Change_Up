@@ -5,7 +5,7 @@
 
 class Screen; // TODO: Remove Once we have decleration file
 
-template <class T>
+template <class T = std::string>
 class Label{
 private:
   short m_xOrigin{};
@@ -20,9 +20,7 @@ private:
 
 public:
   /*  Constuctors  */
-  Label<T>(){
-
-  }
+  Label<T>();
 
   /*  Getting Function  */
   short get_xOrgin(){ return m_xOrigin; }
@@ -46,15 +44,43 @@ public:
 
   void set_style(lv_style_t& p_style){ m_style = &p_style; }
 
-  /*  Action Function */
+  /*  Action Functions */
   void draw_label();// TODO: Add Screen& p_screen
 
   void update_label();// TODO: Add Screen& p_screen
 
   std::string format_text();
+
+  /*  Converstion Functions pointer -> std::string */
+  std::string evaluate_value(int* p_pointer){ return std::to_string(*p_pointer); }
+
+  std::string evaluate_value(double* p_pointer){ return std::to_string(*p_pointer).substr(0, std::to_string(*p_pointer).find(".")+3); }
+
+  std::string evaluate_value(std::string* p_pointer){ return *p_pointer; }
+
+  std::string evaluate_value(bool* p_pointer);
+
+  /*  Converstion Functions function -> std::string */
+  std::string evaluate_value(std::function<int()> p_function){ return std::to_string(p_function()); }
+
+  std::string evaluate_value(std::function<double()> p_function){ return std::to_string(p_function()).substr(0, std::to_string(p_function()).find(".")+3); }
+
+  std::string evaluate_value(std::function<std::string()> p_function){ return p_function(); }
+
+  std::string evaluate_value(std::function<bool()> p_function);
+
+  /*  No Dynamic Feature */
+  std::string evaluate_value(std::string p_pointer){ return "Error"; }
 };
 
 template class Label<int*>;
 template class Label<double*>;
+template class Label<std::string*>;
+template class Label<bool*>;
+
+template class Label<std::function<int()>>;
+template class Label<std::function<double()>>;
+template class Label<std::function<std::string()>>;
+template class Label<std::function<bool()>>;
 
 #endif // LABEL_CLASS_H

@@ -8,6 +8,11 @@
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
+
+bool get_42(){
+	return 0;
+}
+
 void initialize() {
 
 
@@ -28,17 +33,16 @@ void initialize() {
 
 	//header_rectangle.draw_rectangle();
 
-	int test = 5;
+	std::function<bool()> test = get_42;
 
-	Label<int*> basic_label{};
+	Label<std::function<bool()>> basic_label{};
 	basic_label.set_xOrgin(20);
 	basic_label.set_yOrgin(100);
-	basic_label.set_text("Hello I am %p years old");
-	basic_label.set_dynamic_functionality(&test);
+	basic_label.set_text("Hello I am %d years old");
+	basic_label.set_dynamic_functionality(test);
 	basic_label.set_style(style_txt);
 
 	basic_label.draw_label();
-	test = 10;
 	pros::delay(2000);
 	basic_label.update_label();
 
