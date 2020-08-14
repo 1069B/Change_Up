@@ -2,8 +2,17 @@
 
 /*  Constuctors  */
 template <class T>
-Label<T>::Label(){
+Label<T>::Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text){
+  m_xOrigin = p_xOrigin;
+  m_yOrigin = p_yOrigin;
+  m_style = &p_style;
+  m_text = p_text;
+}
 
+template <class T>
+Label<T>::Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, T p_dynamic_functionality){
+  Label(p_xOrigin, p_yOrigin, p_style, p_text);
+  m_dynamic_functionality = p_dynamic_functionality;
 }
 
 /*  Action Function */

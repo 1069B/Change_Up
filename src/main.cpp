@@ -9,35 +9,7 @@
  * to keep execution time for this mode under a few seconds.
  */
 
-bool get_42(){
-	return 0;
-}
-
 void initialize(){
-	static lv_style_t style_txt;
-	lv_style_copy(&style_txt, &lv_style_plain);
-	//style_txt.text.font = &lv_font_dejavu_40;
-	style_txt.text.letter_space = 2;
-	style_txt.text.line_space = 1;
-	style_txt.text.color = LV_COLOR_HEX(0xFF0000);
-
-
-	Rectangle header_rectangle{20, 20, 200, 50, lv_style_plain};
-
-	header_rectangle.draw_rectangle();
-
-	std::function<bool()> test = get_42;
-
-	Label<std::function<bool()>> basic_label{};
-	basic_label.set_xOrgin(20);
-	basic_label.set_yOrgin(100);
-	basic_label.set_text("Hello I am %d years old");
-	basic_label.set_dynamic_functionality(test);
-	basic_label.set_style(style_txt);
-
-	basic_label.draw_label();
-	pros::delay(2000);
-	basic_label.update_label();
 
 }
 

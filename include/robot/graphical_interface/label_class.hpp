@@ -20,10 +20,12 @@ private:
 
 public:
   /*  Constuctors  */
-  Label<T>();
+  Label<T>(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text);
+
+  Label<T>(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, T p_dynamic_functionality);
 
   /*  Getting Function  */
-  short get_xOrgin(){ return m_xOrigin; }
+  short get_xOrigin(){ return m_xOrigin; }
 
   short get_yOrigin(){ return m_yOrigin; }
 
@@ -34,9 +36,9 @@ public:
   lv_style_t* get_style(){ return m_style; }
 
   /*  Setter Function  */
-  void set_xOrgin(short const p_xOrgin){ m_xOrigin = p_xOrgin; }
+  void set_xOrgin(short const p_xOrigin){ m_xOrigin = p_xOrigin; }
 
-  void set_yOrgin(short const p_yOrgin){ m_yOrigin = p_yOrgin; }
+  void set_yOrgin(short const p_yOrigin){ m_yOrigin = p_yOrigin; }
 
   void set_text(std::string const p_text){ m_text = p_text; }
 
