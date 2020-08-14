@@ -13,9 +13,7 @@ bool get_42(){
 	return 0;
 }
 
-void initialize() {
-
-
+void initialize(){
 	static lv_style_t style_txt;
 	lv_style_copy(&style_txt, &lv_style_plain);
 	//style_txt.text.font = &lv_font_dejavu_40;
@@ -24,14 +22,9 @@ void initialize() {
 	style_txt.text.color = LV_COLOR_HEX(0xFF0000);
 
 
-	Rectangle header_rectangle{};
-	header_rectangle.set_xOrgin(20);
-	header_rectangle.set_yOrgin(20);
-	header_rectangle.set_legnth(200);
-	header_rectangle.set_width(50);
-	header_rectangle.set_style(lv_style_plain);
+	Rectangle header_rectangle{20, 20, 200, 50, lv_style_plain};
 
-	//header_rectangle.draw_rectangle();
+	header_rectangle.draw_rectangle();
 
 	std::function<bool()> test = get_42;
 
