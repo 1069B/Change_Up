@@ -20,7 +20,9 @@ private:
 
 public:
   /*  Constuctors  */
-  Label();
+  Label<T>(){
+
+  }
 
   /*  Getting Function  */
   short get_xOrgin(){ return m_xOrigin; }
@@ -34,22 +36,25 @@ public:
   lv_style_t* get_style(){ return m_style; }
 
   /*  Setter Function  */
-  void set_xOrgin(short const p_xOrgin);
+  void set_xOrgin(short const p_xOrgin){ m_xOrigin = p_xOrgin; }
 
-  void set_yOrgin(short const p_yOrgin);
+  void set_yOrgin(short const p_yOrgin){ m_yOrigin = p_yOrgin; }
 
-  void set_text(short const p_text);
+  void set_text(std::string const p_text){ m_text = p_text; }
 
-  void set_dynamic_functionality(T p_dynamic_functionality);
+  void set_dynamic_functionality(T p_dynamic_functionality){ m_dynamic_functionality = p_dynamic_functionality; }
 
-  void set_style(lv_style_t& p_style);
+  void set_style(lv_style_t& p_style){ m_style = &p_style; }
 
   /*  Action Function */
-  void draw_label(Screen& p_screen);
+  void draw_label();// TODO: Add Screen& p_screen
 
-  void update_label(Screen& p_screen);
+  void update_label();// TODO: Add Screen& p_screen
 
   std::string format_text();
 };
+
+template class Label<int*>;
+template class Label<double*>;
 
 #endif // LABEL_CLASS_H

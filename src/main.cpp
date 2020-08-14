@@ -1,20 +1,6 @@
 #include "main.h"
-
-/**
- * A callback function for LLEMU's center button.
- *
- * When this callback is fired, it will toggle line 2 of the LCD text between
- * "I was pressed!" and nothing.
- */
-void on_center_button() {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-	} else {
-		pros::lcd::clear_line(2);
-	}
-}
+#include "robot/graphical_interface/rectangle_class.hpp"
+#include "robot/graphical_interface/label_class.hpp"
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -23,10 +9,39 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
 
-	pros::lcd::register_btn1_cb(on_center_button);
+
+	static lv_style_t style_txt;
+	lv_style_copy(&style_txt, &lv_style_plain);
+	//style_txt.text.font = &lv_font_dejavu_40;
+	style_txt.text.letter_space = 2;
+	style_txt.text.line_space = 1;
+	style_txt.text.color = LV_COLOR_HEX(0xFF0000);
+
+
+	Rectangle header_rectangle{};
+	header_rectangle.set_xOrgin(20);
+	header_rectangle.set_yOrgin(20);
+	header_rectangle.set_legnth(200);
+	header_rectangle.set_width(50);
+	header_rectangle.set_style(lv_style_plain);
+
+	//header_rectangle.draw_rectangle();
+
+	int test = 5;
+
+	Label<int*> basic_label{};
+	basic_label.set_xOrgin(20);
+	basic_label.set_yOrgin(100);
+	basic_label.set_text("Hello I am %p years old");
+	basic_label.set_dynamic_functionality(&test);
+	basic_label.set_style(style_txt);
+
+	basic_label.draw_label();
+	test = 10;
+	pros::delay(2000);
+	basic_label.update_label();
+
 }
 
 /**
