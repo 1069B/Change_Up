@@ -72,6 +72,7 @@ void opcontrol(void);
 #endif
 
 #ifdef __cplusplus
+  #include <cstdarg>
 /**
  * You can add C++-only headers here
  */

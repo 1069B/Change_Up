@@ -61,15 +61,8 @@ namespace CONTROLLER{
 
   class Controller{
   private:
-
+    pros::controller_id_e_t m_controller_type{};
   public:
-    /*  Constuctors  */
-    Controller();
-    /*  Getting Function  */
-
-    /*  Setter Function  */
-
-    /*  Action Functions */
     Button ButtonL1;
     Button ButtonL2;
     Button ButtonR1;
@@ -86,8 +79,22 @@ namespace CONTROLLER{
     Joystick Axis2;
     Joystick Axis3;
     Joystick Axis4;
-  };
 
+    /*  Constuctors  */
+    Controller(const pros::controller_id_e_t p_controller_type);
+
+    /*  Getting Function  */
+    int get_connected(){ return pros::c::controller_is_connected(m_controller_type); };
+
+    int get_battery_level(){ return pros::c::controller_get_battery_level(m_controller_type); };
+
+    /*  Action Functions */
+    void clear_screen();
+
+    void print(const int p_row, const int p_col, const char* p_fmt...);
+
+    void rumble(const char* p_rumble_pattern);
+  };
 }
 
 #endif // CONTROLLER_CLASS_H
