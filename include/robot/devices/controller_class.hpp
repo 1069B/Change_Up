@@ -16,7 +16,7 @@ namespace CONTROLLER{
     std::function<void()> m_callback_released{};
   public:
     /*  Constuctors  */
-    Button(const pros::controller_id_e_t p_controller_type, const pros::controller_digital_e_t p_button_type);
+    Button( pros::controller_id_e_t const p_controller_type, pros::controller_digital_e_t const p_button_type);
 
     /*  Getting Function  */
     bool get_state(){ return m_state; }
@@ -28,7 +28,7 @@ namespace CONTROLLER{
     std::function<void()> get_callback_released(){ return m_callback_released; }
 
     /*  Setter Function  */
-    void set_previous_state(const bool p_previous_state){ m_previous_state = p_previous_state; }
+    void set_previous_state(bool const p_previous_state){ m_previous_state = p_previous_state; }
 
     void set_callback_pressed(std::function<void()> p_callback_pressed){ m_callback_pressed = p_callback_pressed; }
 
@@ -91,9 +91,9 @@ namespace CONTROLLER{
     /*  Action Functions */
     void clear_screen();
 
-    void print(const int p_row, const int p_col, const char* p_fmt...);
+    void print(int const p_row, int const p_col, char* const p_fmt...);
 
-    void rumble(const char* p_rumble_pattern);
+    void rumble(char* const p_rumble_pattern);
   };
 }
 
