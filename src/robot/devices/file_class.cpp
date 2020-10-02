@@ -19,3 +19,18 @@ void Data_Logging::write_buffer(){
 void Data_Logging::clear_buffer(){
   m_buffer = "";
 }
+
+Data_Logging& operator<< (Data_Logging& out, std::string const p_input){
+  out.m_buffer += p_input;
+  return out;
+}
+
+Data_Logging& operator<< (Data_Logging& out, int const p_input){
+  out.m_buffer += std::to_string(p_input);
+  return out;
+}
+
+Data_Logging& operator<< (Data_Logging& out, double const p_input){
+  out.m_buffer += std::to_string(p_input);
+  return out;
+}

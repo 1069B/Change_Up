@@ -3,22 +3,6 @@
 #ifndef FILE_H
 #define FILE_H
 
-/*
-Frequent Long Information (Writing & Appending)
-  Hold all of the changes and write to file all at once
-
-Infrequent Short Information (Reading & Writting & Appending)
-  Motor1_port=2
-  Motor2_port_9
-
-*/
-
-// read
-
-// write (Entire File at once)
-
-// append
-
 class Data_Logging{
 private:
   std::fstream m_file{};
@@ -46,8 +30,13 @@ public:
 
   void clear_buffer();
 
-
-
+  friend Data_Logging& operator<< (Data_Logging& out, std::string const p_input);
+  friend Data_Logging& operator<< (Data_Logging& out, int const p_input);
+  friend Data_Logging& operator<< (Data_Logging& out, double const p_input);
 };
+
+Data_Logging& operator<< (Data_Logging& out, std::string const p_input);
+Data_Logging& operator<< (Data_Logging& out, int const p_input);
+Data_Logging& operator<< (Data_Logging& out, double const p_input);
 
 #endif // FILE_H
