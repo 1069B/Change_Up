@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "Change_Up_Code",
+        "project_name": "CU ~ Graphical Testing",
         "target": "v5",
         "templates": {
             "kernel": {
