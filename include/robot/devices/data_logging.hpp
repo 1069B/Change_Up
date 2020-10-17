@@ -1,7 +1,7 @@
 #include "main.h"
 
-#ifndef FILE_H
-#define FILE_H
+#ifndef DATALOGGING_H
+#define DATALOGGING_H
 
 class Data_Logging{
 private:
@@ -42,4 +42,4 @@ Data_Logging& operator<< (Data_Logging& out, std::string const p_input);
 Data_Logging& operator<< (Data_Logging& out, int const p_input);
 Data_Logging& operator<< (Data_Logging& out, double const p_input);
 
-#endif // FILE_H
+#endif // DATALOGGING_H
