@@ -22,6 +22,9 @@ public:
   static bool get_sd_card_connected(){ return pros::c::usd_is_installed(); };
 
   /*  Setter  */
+  void set_address(std::string const p_address){ m_address = p_address; };
+
+  void set_buffer(std::string const p_buffer){ m_address = p_buffer; };
 
   /*  Action  */
   void add_line(std::string const p_text);

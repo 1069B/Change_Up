@@ -62,7 +62,7 @@ void CONTROLLER::Controller::clear_screen(){
   pros::c::controller_clear(m_controller_type);
 };
 
-void CONTROLLER::Controller::print(const int p_row, const int p_col, const char* p_fmt...){// TODO: Remove Variadic Function
+void CONTROLLER::Controller::print(int const p_row, int const p_col, char* p_fmt...){// TODO: Remove Variadic Function
   std::string sum = "";
   va_list args;
   va_start(args, p_fmt);
@@ -98,6 +98,6 @@ void CONTROLLER::Controller::print(const int p_row, const int p_col, const char*
   pros::delay(50);
 }
 
-void CONTROLLER::Controller::rumble(const char* p_rumble_pattern){
+void CONTROLLER::Controller::rumble(char* const p_rumble_pattern){
   pros::c::controller_rumble(m_controller_type, p_rumble_pattern);
 };
