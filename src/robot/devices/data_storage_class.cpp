@@ -22,7 +22,7 @@ pugi::xml_attribute Data_Storing::retreive_attribute(std::string const p_varible
 }
 
 Data_Storing::Data_Storing(std::string const p_address, std::string const p_class_name, std::string const p_instance_name){
-    m_address = p_address;
+    m_address = "/usd/" + p_address;
     m_class_name = p_class_name;
     m_instance_name = p_instance_name;
 
