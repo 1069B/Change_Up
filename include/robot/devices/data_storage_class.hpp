@@ -28,6 +28,8 @@ public:
 
   std::string get_instance_name(){ return m_instance_name; };
 
+  static bool get_sd_card_connected(){ return pros::c::usd_is_installed(); };
+
   /*  File Write Functions  */
   void store_int(std::string const p_varible_name, int const p_value);
 
