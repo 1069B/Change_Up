@@ -12,6 +12,9 @@ private:
   std::vector<int> m_average_lap_vector;
 
   int m_action_flag{INT_MAX};
+
+  bool m_stopped{false};
+  int m_stop_time{0};
 public:
   /*  Constuctors  */
   Timer();

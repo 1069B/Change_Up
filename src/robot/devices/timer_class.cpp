@@ -1,8 +1,7 @@
 #include "robot/devices/timer_class.hpp"
 
-Timer::Timer():m_average_lap_vector(10,0){
-
-}
+Timer::Timer():
+m_average_lap_vector(10,0){}
 
 int Timer::get_absolute_time(){
   return pros::millis();
@@ -45,6 +44,10 @@ double Timer::get_average_lap_time(){
 }
 
 bool Timer::get_preform_action(){
+  if(m_current_time >= m_action_flag){
+    m_action_flag = INT_MAX;
+    return true;
+  }
   return false;
 }
 
@@ -54,9 +57,15 @@ void Timer::reset_timer(){
 }
 
 void Timer::stop_timer(){
-
+  if(!m_stopped){
+    m_stop_time = get_absolute_time();
+    m_stopped = true;
+  }
 }
 
 void Timer::resume_timer(){
-
+  if(m_stopped){
+    m_reset_time += get_absolute_time() - m_stop_time;
+    m_stopped = false;
+  }
 }
