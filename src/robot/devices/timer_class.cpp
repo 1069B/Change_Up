@@ -44,6 +44,7 @@ double Timer::get_average_lap_time(){
 }
 
 bool Timer::get_preform_action(){
+  m_current_time = get_absolute_time();
   if(m_current_time >= m_action_flag){
     m_action_flag = INT_MAX;
     return true;
@@ -52,7 +53,7 @@ bool Timer::get_preform_action(){
 }
 
 void Timer::reset_timer(){
-  m_reset_time = pros::millis();
+  m_reset_time = get_absolute_time();
   m_action_flag = INT_MAX;
 }
 
