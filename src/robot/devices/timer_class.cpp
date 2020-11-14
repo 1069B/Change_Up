@@ -8,6 +8,9 @@ int Timer::get_absolute_time(){
 }
 
 int Timer::get_elapsed_time(){
+  if(m_stopped){
+    return m_stop_time - m_reset_time;
+  }
   m_current_time = get_absolute_time();
   return m_current_time - m_reset_time;
 }
@@ -17,7 +20,7 @@ int Timer::get_current_lap_time(){
   int l_lap_time = m_current_time - m_previous_lap_time;
   m_previous_lap_time = m_current_time;
 
-  std::vector<int> l_temp{
+  std::vector<int> l_temp{// TODO: Use a for loop
     m_average_lap_vector.at(1),
     m_average_lap_vector.at(2),
     m_average_lap_vector.at(3),
