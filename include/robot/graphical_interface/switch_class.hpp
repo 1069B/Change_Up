@@ -31,7 +31,7 @@ private:
 public:
   /*  Constuctors  */
   Switch(short const p_xOrgin, short const p_yOrgin, int const p_state, lv_style_t& p_background_style,
-    lv_style_t& p_indicator_style, lv_style_t& p_true_style, lv_style_t& p_false_style);
+    lv_style_t& p_indicator_style, lv_style_t& p_true_style, lv_style_t& p_false_style);// TODO: Add Default Values
 
   /*  Getter Function  */
   short get_xOrgin(){ return m_xOrigin; }

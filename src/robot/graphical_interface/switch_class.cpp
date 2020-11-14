@@ -32,12 +32,7 @@ void Switch::draw_switch(){
   lv_sw_set_style(m_switch, LV_SW_STYLE_KNOB_OFF, m_false_style);
   lv_obj_align(m_switch, lv_scr_act(), LV_ALIGN_IN_TOP_LEFT, m_xOrigin, m_yOrigin); // TODO: Change parent
 
-  if(m_state)
-    lv_sw_on(m_switch);
-  else
-    lv_sw_off(m_switch);
-
-  update_switch();
+  set_state(m_state);
 }
 
 void Switch::update_switch(){
