@@ -1,4 +1,4 @@
-#include "main.h"
+#include "robot/robot_main.hpp"
 
 #ifndef TIMER_CLASS_H
 #define TIMER_CLASS_H

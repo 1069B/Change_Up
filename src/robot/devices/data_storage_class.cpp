@@ -21,6 +21,16 @@ pugi::xml_attribute Data_Storing::retreive_attribute(std::string const p_varible
     }
 }
 
+bool Data_Storing::check_attribute(std::string const p_varible_name, std::string const p_varible_type){
+  m_doc.load_file(m_address.c_str());
+  pugi::xml_node l_node = m_doc.child(m_class_name.c_str()).child(m_instance_name.c_str());
+
+  if(!l_node.child(p_varible_name.c_str()))
+    return false;
+  return true;
+
+}
+
 Data_Storing::Data_Storing(std::string const p_address, std::string const p_class_name, std::string const p_instance_name){
   m_address = "/usd/" + p_address;
   m_class_name = p_class_name;
@@ -77,5 +87,62 @@ bool Data_Storing::read_bool(std::string const p_varible_name){
 std::string Data_Storing::read_string(std::string const p_varible_name){
   if(get_sd_card_connected())
     return retreive_attribute(p_varible_name, "string").as_string();
+  return "SD Card Not Found";
+}
+
+/* Varible Intitialize Functions*/
+int Data_Storing::intitialize_int(std::string const p_varible_name, int const p_value){
+  if(get_sd_card_connected()){
+    if(check_attribute(p_varible_name, "int")){
+      return retreive_attribute(p_varible_name, "int").as_int();
+    }
+    else{
+      retreive_attribute(p_varible_name, "int").set_value(p_value);
+      m_doc.save_file(m_address.c_str());
+      return p_value;
+    }
+  }
+  return INT_MAX;
+}
+
+double Data_Storing::intitialize_double(std::string const p_varible_name, double const p_value){
+  if(get_sd_card_connected()){
+    if(check_attribute(p_varible_name, "double")){
+      return retreive_attribute(p_varible_name, "double").as_double();
+    }
+    else{
+      retreive_attribute(p_varible_name, "double").set_value(p_value);
+      m_doc.save_file(m_address.c_str());
+      return p_value;
+    }
+  }
+  return INT_MAX;
+}
+
+bool Data_Storing::intitialize_bool(std::string const p_varible_name, bool const p_value){
+  if(get_sd_card_connected()){
+    if(check_attribute(p_varible_name, "bool")){
+      return retreive_attribute(p_varible_name, "bool").as_bool();
+    }
+    else{
+      retreive_attribute(p_varible_name, "bool").set_value(p_value);
+      m_doc.save_file(m_address.c_str());
+      return p_value;
+    }
+  }
+  return false;
+}
+
+std::string Data_Storing::intitialize_string(std::string const p_varible_name, std::string const p_value){
+  if(get_sd_card_connected()){
+    if(check_attribute(p_varible_name, "string")){
+      return retreive_attribute(p_varible_name, "string").as_string();
+    }
+    else{
+      retreive_attribute(p_varible_name, "string").set_value(p_value.c_str());
+      m_doc.save_file(m_address.c_str());
+      return p_value;
+    }
+  }
   return "SD Card Not Found";
 }

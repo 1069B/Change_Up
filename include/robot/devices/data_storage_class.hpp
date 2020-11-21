@@ -1,4 +1,4 @@
-#include "main.h"
+#include "robot/robot_main.hpp"
 #include "pugi/pugiconfig.hpp"
 #include "pugi/pugixml.hpp"
 
@@ -17,6 +17,8 @@ private:
   void check_node(pugi::xml_node p_node, std::string const p_node_name);
 
   pugi::xml_attribute retreive_attribute(std::string const p_varible_name, std::string const p_varible_type);
+
+  bool check_attribute(std::string const p_varible_name, std::string const p_varible_type);
 public:
   /*  Constructors  */
   Data_Storing(std::string const p_address, std::string const p_class_name, std::string const p_instance_name);
@@ -47,6 +49,15 @@ public:
   bool read_bool(std::string const p_varible_name);
 
   std::string read_string(std::string const p_varible_name);
+
+  /* Varible Intitialize Functions*/
+  int intitialize_int(std::string const p_varible_name, int const p_value);
+
+  double intitialize_double(std::string const p_varible_name, double const p_value);
+
+  bool intitialize_bool(std::string const p_varible_name, bool const p_value);
+
+  std::string intitialize_string(std::string const p_varible_name, std::string const p_value);
 
 };
 

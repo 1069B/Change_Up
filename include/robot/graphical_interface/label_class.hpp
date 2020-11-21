@@ -1,9 +1,7 @@
-#include "main.h"
+#include "robot/robot_main.hpp"
 
 #ifndef LABEL_CLASS_H
 #define LABEL_CLASS_H
-
-class Screen; // TODO: Remove Once we have decleration file
 
 template <class T = std::string>
 class Label{

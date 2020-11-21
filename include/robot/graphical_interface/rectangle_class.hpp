@@ -1,9 +1,7 @@
-#include "main.h"
+#include "robot/robot_main.hpp"
 
 #ifndef RECTAGNLE_CLASS_H
 #define RECTAGNLE_CLASS_H
-
-class Screen;
 
 class Rectangle{
 private:

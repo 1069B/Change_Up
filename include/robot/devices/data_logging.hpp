@@ -1,4 +1,4 @@
-#include "main.h"
+#include "robot/robot_main.hpp"
 
 #ifndef DATALOGGING_H
 #define DATALOGGING_H

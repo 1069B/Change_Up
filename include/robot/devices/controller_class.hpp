@@ -1,4 +1,4 @@
-#include "main.h"
+#include "robot/robot_main.hpp"
 
 #ifndef CONTROLLER_CLASS_H
 #define CONTROLLER_CLASS_H
