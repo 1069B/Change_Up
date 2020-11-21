@@ -1,6 +1,11 @@
 #include "robot/robot_class.hpp"
 #include "robot/devices/motor_class.hpp"
 
+Robot::Robot(){
+  m_recall_settings = m_settings.intitialize_bool("Recall_Settings", false);
+}
+
+
 
 Motor& Robot::add_motor(std::string const p_name, short const p_port, pros::motor_gearset_e_t const p_motor_gearset, bool const p_reversed){
   for(int x = 0; x < m_motor_list.size(); x++){

@@ -1,4 +1,6 @@
 #include "robot/robot_main.hpp"
+#include "robot/devices/data_storage_class.hpp"
+
 
 #ifndef ROBOT_CLASS_H
 #define ROBOT_CLASS_H
@@ -13,11 +15,13 @@ enum RobotState{
 
 class Robot{
 private:
-  bool m_recall_settings{false};
+  bool m_recall_settings{};
 
   RobotState m_robot_state{ROBOT_INTITIALIZATION};
 
   std::vector<Motor*> m_motor_list{};
+
+  Data_Storing m_settings{"Settings.xml", "Robot", "1069B"};
 
 public:
   /*  Constuctors  */
