@@ -20,8 +20,6 @@ m_robot(p_robot){
   pros::c::motor_set_brake_mode(m_port, m_brake_mode);
   pros::c::motor_set_reversed(m_port, m_reversed);
   pros::c::motor_set_encoder_units(m_port, pros::E_MOTOR_ENCODER_ROTATIONS);
-
-
 }
 
 /* Setter Function */

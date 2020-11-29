@@ -31,7 +31,7 @@ public:
   /*  Setter Function  */
 
   /* Creation Functions */
-  Motor& add_motor(std::string const p_name, short const p_port, pros::motor_gearset_e_t const p_motor_gearset, bool const p_reversed);
+  Motor& add_motor(std::string const p_name, short const p_port, pros::motor_gearset_e_t const p_gearset, pros::motor_brake_mode_e_t const p_brake, bool const p_reversed);
 
   /* Finder Functions */
 
