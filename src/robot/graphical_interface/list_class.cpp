@@ -1,7 +1,17 @@
 #include "robot/graphical_interface/list_class.hpp"
 
-List::List(){
+List::List(short const p_xOrgin, short const p_yOrgin, short const p_length, short const p_width, std::vector<std::string>& p_list_options,
+  unsigned short p_state, lv_style_t* p_background_style ,lv_style_t* p_selected_style, lv_style_t* p_scrollbar_style):
+  m_list_options(p_list_options){
+    m_xOrigin = p_xOrigin;
+    m_background_style = p_background_style
 
+
+    int abc = 5;
+    int def = 10;
+    int& ref_abc = abc;
+
+    ref_abc = def;
 }
 
 /*

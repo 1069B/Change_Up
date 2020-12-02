@@ -29,7 +29,8 @@ private:
 
 public:
   /*  Constuctors  */
-  List(short const p_xOrgin, short const p_yOrgin, short const p_length, short const p_width, lv_style_t& p_style);
+  List(short const p_xOrgin, short const p_yOrgin, short const p_length, short const p_width, std::vector<std::string>& p_list_options,
+    unsigned short p_state, lv_style_t* p_background_style ,lv_style_t* p_selected_style, lv_style_t* p_scrollbar_style);
 
   /*  Getting Function  */
   short get_xOrgin(){ return m_xOrigin; }
@@ -66,8 +67,6 @@ public:
   void set_scrollbar_style(lv_style_t& p_scrollbar_style){ m_scrollbar_style = &p_scrollbar_style; }
 
   void set_state(unsigned short const p_state){ m_state = p_state; }
-
-  void set_list_options(std::vector<std::string>& p_list_options){ m_list_options = &p_list_options; }
 
   /*  Action Function */
   void draw_list();// TODO: Add Screen& p_screen
