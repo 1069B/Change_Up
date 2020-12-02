@@ -24,21 +24,16 @@ namespace SENSOR{
   short get_port(){ return m_port; }
 
 
-  int get_distance(){ return pros::c::distance_get(m_port) };
+  int get_distance(){ return pros::c::distance_get(m_port); };
 
-  int get_confidence( return pros::c::);
+  int get_confidence(){ return pros::c::distance_get_confidence(m_port); };
 
-  int get_object_size( return pros::c::);
+  int get_object_size(){ return pros::c::distance_get_object_size(m_port); };
 
-  int get_object_velocity( return pros::c::);
+  int get_object_velocity(){ return pros::c::distance_get_object_velocity(m_port); };
 
   /* Setter Function*/
   void set_port(short const p_port);
-
-
-distance_get_confidence
-distance_get_object_size
-distance_get_object_velocity
   };
 }
 
