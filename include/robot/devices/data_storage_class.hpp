@@ -51,13 +51,13 @@ public:
   std::string read_string(std::string const p_varible_name);
 
   /* Varible Intitialize Functions*/
-  int intitialize_int(std::string const p_varible_name, int const p_value);
+  int initialize_int(std::string const p_varible_name, int const p_value);
 
-  double intitialize_double(std::string const p_varible_name, double const p_value);
+  double initialize_double(std::string const p_varible_name, double const p_value);
 
-  bool intitialize_bool(std::string const p_varible_name, bool const p_value);
+  bool initialize_bool(std::string const p_varible_name, bool const p_value);
 
-  std::string intitialize_string(std::string const p_varible_name, std::string const p_value);
+  std::string initialize_string(std::string const p_varible_name, std::string const p_value);
 
 };
 

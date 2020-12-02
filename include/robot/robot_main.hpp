@@ -12,6 +12,7 @@ namespace SENSOR{
   class Optical;
   class Rotation;
   class Distance;
+  class Inertial;
 }
 
 class Data_Logging;

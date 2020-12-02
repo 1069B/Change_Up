@@ -6,10 +6,10 @@ m_robot(p_robot),
 m_settings("Settings.xml", "Motors", p_name){
   if(m_robot.get_recall_settings()){
     m_name = p_name;
-    m_port = m_settings.intitialize_int("Port", p_port);
-    m_motor_gearset = (pros::motor_gearset_e_t)m_settings.intitialize_int("Gearset", (int)p_motor_gearset);
-    m_brake_mode = (pros::motor_brake_mode_e_t)m_settings.intitialize_int("Brake", (int)p_motor_brake);
-    m_reversed = m_settings.intitialize_bool("Reversed", p_reversed);
+    m_port = m_settings.initialize_int("Port", p_port);
+    m_motor_gearset = (pros::motor_gearset_e_t)m_settings.initialize_int("Gearset", (int)p_motor_gearset);
+    m_brake_mode = (pros::motor_brake_mode_e_t)m_settings.initialize_int("Brake", (int)p_motor_brake);
+    m_reversed = m_settings.initialize_bool("Reversed", p_reversed);
   }
   else{
     m_name = p_name;

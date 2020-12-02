@@ -3,7 +3,7 @@
 #include "robot/sensors/distance_class.hpp"
 
 Robot::Robot(){
-  m_recall_settings = m_settings.intitialize_bool("Recall_Settings", false);
+  m_recall_settings = m_settings.initialize_bool("Recall_Settings", false);
 }
 
 Motor& Robot::add_motor(std::string const p_name, short const p_port, pros::motor_gearset_e_t const p_gearset, pros::motor_brake_mode_e_t const p_brake, bool const p_reversed){

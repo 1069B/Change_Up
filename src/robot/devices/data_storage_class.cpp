@@ -91,7 +91,7 @@ std::string Data_Storing::read_string(std::string const p_varible_name){
 }
 
 /* Varible Intitialize Functions*/
-int Data_Storing::intitialize_int(std::string const p_varible_name, int const p_value){
+int Data_Storing::initialize_int(std::string const p_varible_name, int const p_value){
   if(get_sd_card_connected()){
     if(check_attribute(p_varible_name, "int")){
       return retreive_attribute(p_varible_name, "int").as_int();
@@ -105,7 +105,7 @@ int Data_Storing::intitialize_int(std::string const p_varible_name, int const p_
   return INT_MAX;
 }
 
-double Data_Storing::intitialize_double(std::string const p_varible_name, double const p_value){
+double Data_Storing::initialize_double(std::string const p_varible_name, double const p_value){
   if(get_sd_card_connected()){
     if(check_attribute(p_varible_name, "double")){
       return retreive_attribute(p_varible_name, "double").as_double();
@@ -119,7 +119,7 @@ double Data_Storing::intitialize_double(std::string const p_varible_name, double
   return INT_MAX;
 }
 
-bool Data_Storing::intitialize_bool(std::string const p_varible_name, bool const p_value){
+bool Data_Storing::initialize_bool(std::string const p_varible_name, bool const p_value){
   if(get_sd_card_connected()){
     if(check_attribute(p_varible_name, "bool")){
       return retreive_attribute(p_varible_name, "bool").as_bool();
@@ -133,7 +133,7 @@ bool Data_Storing::intitialize_bool(std::string const p_varible_name, bool const
   return false;
 }
 
-std::string Data_Storing::intitialize_string(std::string const p_varible_name, std::string const p_value){
+std::string Data_Storing::initialize_string(std::string const p_varible_name, std::string const p_value){
   if(get_sd_card_connected()){
     if(check_attribute(p_varible_name, "string")){
       return retreive_attribute(p_varible_name, "string").as_string();

@@ -8,7 +8,7 @@ m_robot(p_robot),
 m_settings("Settings.xml", "Distance", p_name){
   if(m_robot.get_recall_settings()){
     m_name = p_name;
-    m_port = m_settings.intitialize_int("Port", p_port);
+    m_port = m_settings.initialize_int("Port", p_port);
   }
   else{
     m_name = p_name;
