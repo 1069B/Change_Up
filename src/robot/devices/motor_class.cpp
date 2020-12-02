@@ -2,8 +2,10 @@
 #include "robot/robot_class.hpp"
 
 Motor::Motor(Robot &p_robot, std::string const p_name, short const p_port, pros::motor_gearset_e_t const p_motor_gearset, pros::motor_brake_mode_e_t const p_motor_brake, bool const p_reversed):
-m_robot(p_robot){
+m_robot(p_robot),
+m_settings("Settings.xml", "Motors", p_name){
   if(m_robot.get_recall_settings()){
+    m_name = p_name;
     m_port = m_settings.intitialize_int("Port", p_port);
     m_motor_gearset = (pros::motor_gearset_e_t)m_settings.intitialize_int("Gearset", (int)p_motor_gearset);
     m_brake_mode = (pros::motor_brake_mode_e_t)m_settings.intitialize_int("Brake", (int)p_motor_brake);

@@ -11,7 +11,7 @@ enum Motor_Mode{
 
 class Motor{
 private:
-  Robot &m_robot;
+  Robot& m_robot;
 
   /*Settings*/
   std::string m_name{};
@@ -20,7 +20,7 @@ private:
   pros::motor_brake_mode_e_t m_brake_mode{};
   pros::motor_gearset_e_t m_motor_gearset{};
 
-  Data_Storing m_settings{"Settings.xml", "Motors", m_name };
+  Data_Storing m_settings;
 
   Motor_Mode m_mode{MOTOR_VELOCITY_DEPENDENT};
   int m_desired_velocity;
@@ -70,12 +70,11 @@ public:
   int get_desired_voltage(){ return m_desired_voltage; }
 
   bool get_connected(){ return !(get_tempature() == 2147483647); }
+
   /*  Setter Function  */
-  void set_name(std::string const p_name){ m_name = p_name; }
+  void set_port(short const p_port);
 
-  void set_port(short p_port);
-
-  void set_reversed(bool p_reversed);
+  void set_reversed(bool const p_reversed);
 
   void set_brake_mode(pros::motor_brake_mode_e_t p_brake_mode);
 

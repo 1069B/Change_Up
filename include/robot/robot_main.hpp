@@ -8,6 +8,12 @@ namespace CONTROLLER{
   class Controller;
 }
 
+namespace SENSOR{
+  class Optical;
+  class Rotation;
+  class Distance;
+}
+
 class Data_Logging;
 class Data_Storing;
 class Motor;
