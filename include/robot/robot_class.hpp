@@ -23,6 +23,7 @@ private:
   std::vector<SENSOR::Distance*> m_distance_list{};
   std::vector<SENSOR::Rotation*> m_rotation_list{};
   std::vector<SENSOR::Optical*> m_optical_list{};
+  std::vector<SENSOR::Digital*> m_digital_list{};
 
   Data_Storing m_settings{"Settings.xml", "Robot", "1069B"};
 public:
@@ -40,6 +41,8 @@ public:
   SENSOR::Rotation& add_rotation(std::string const p_name, short const p_port, bool const p_reversed, int const p_position_offset = 0);
 
   SENSOR::Optical& add_optical(std::string const p_name, short const p_port, short const p_pwm_value);
+
+  SENSOR::Digital& add_digital(std::string const p_name, short const p_port);
   /* Finder Functions */
 
   /*  Action Functions */

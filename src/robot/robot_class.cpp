@@ -3,6 +3,7 @@
 #include "robot/sensors/rotation_class.hpp"
 #include "robot/sensors/distance_class.hpp"
 #include "robot/sensors/optical_class.hpp"
+#include "robot/sensors/digital_class.hpp"
 
 
 Robot::Robot(){
@@ -51,4 +52,15 @@ SENSOR::Optical& Robot::add_optical(std::string const p_name, short const p_port
   SENSOR::Optical* l_new_optical{new SENSOR::Optical(*this, p_name, p_port, p_pwm_value)};
   m_optical_list.push_back(l_new_optical);
   return *l_new_optical;
+}
+
+SENSOR::Digital& Robot::add_digital(std::string const p_name, short const p_port){
+  for(int x = 0; x < m_digital_list.size(); x++){
+    if(m_digital_list.at(x)->get_name() == p_name)
+      return *m_digital_list.at(x);
+  }
+
+  SENSOR::Digital* l_new_digital{new SENSOR::Digital(*this, p_name, p_port)};
+  m_digital_list.push_back(l_new_digital);
+  return *l_new_digital;
 }
