@@ -65,7 +65,7 @@ namespace GUI{
 
     void set_scrollbar_style(lv_style_t& p_scrollbar_style){ m_scrollbar_style = &p_scrollbar_style; }
 
-    void set_state(unsigned short const p_state){ m_state = p_state; }
+    void set_state(unsigned short const p_state);
 
     /*  Action Function */
     void draw_list();// TODO: Add Screen& p_screen
