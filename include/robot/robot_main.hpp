@@ -8,6 +8,16 @@ namespace CONTROLLER{
   class Controller;
 }
 
+namespace GUI{
+  class Screen;
+  class Rectangle;
+  class List;
+
+  template <class T>
+  class Label;
+
+}
+
 namespace SENSOR{
   class Optical;
   class Rotation;

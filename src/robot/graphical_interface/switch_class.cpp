@@ -1,5 +1,7 @@
 #include "robot/graphical_interface/switch_class.hpp"
 
+using namespace GUI;
+
 /*  Constuctors  */
 Switch::Switch(short const p_xOrgin, short const p_yOrgin, int const p_state, lv_style_t& p_background_style,
   lv_style_t& p_indicator_style, lv_style_t& p_true_style, lv_style_t& p_false_style){

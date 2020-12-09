@@ -1,5 +1,7 @@
 #include "robot/graphical_interface/label_class.hpp"
 
+using namespace GUI;
+
 /*  Constuctors  */
 template <class T>
 Label<T>::Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text){
