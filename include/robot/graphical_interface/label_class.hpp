@@ -1,9 +1,7 @@
-#include "main.h"
+#include "robot/robot_main.hpp"
 
 #ifndef LABEL_CLASS_H
 #define LABEL_CLASS_H
-
-class Screen; // TODO: Remove Once we have decleration file
 
 template <class T = std::string>
 class Label{
@@ -17,6 +15,27 @@ private:
 
   lv_obj_t* m_label{};
   lv_style_t* m_style{};
+
+  /*  Converstion Functions pointer -> std::string */
+  std::string evaluate_value(int* p_pointer){ return std::to_string(*p_pointer); }
+
+  std::string evaluate_value(double* p_pointer){ return std::to_string(*p_pointer).substr(0, std::to_string(*p_pointer).find(".")+3); }
+
+  std::string evaluate_value(std::string* p_pointer){ return *p_pointer; }
+
+  std::string evaluate_value(bool* p_pointer);
+
+  /*  Converstion Functions function -> std::string */
+  std::string evaluate_value(std::function<int()> p_function){ return std::to_string(p_function()); }
+
+  std::string evaluate_value(std::function<double()> p_function){ return std::to_string(p_function()).substr(0, std::to_string(p_function()).find(".")+3); }
+
+  std::string evaluate_value(std::function<std::string()> p_function){ return p_function(); }
+
+  std::string evaluate_value(std::function<bool()> p_function);
+
+  /*  No Dynamic Feature */
+  std::string evaluate_value(std::string p_pointer){ return "Error"; }
 
 public:
   /*  Constuctors  */
@@ -52,27 +71,6 @@ public:
   void update_label();// TODO: Add Screen& p_screen
 
   std::string format_text();
-
-  /*  Converstion Functions pointer -> std::string */
-  std::string evaluate_value(int* p_pointer){ return std::to_string(*p_pointer); }
-
-  std::string evaluate_value(double* p_pointer){ return std::to_string(*p_pointer).substr(0, std::to_string(*p_pointer).find(".")+3); }
-
-  std::string evaluate_value(std::string* p_pointer){ return *p_pointer; }
-
-  std::string evaluate_value(bool* p_pointer);
-
-  /*  Converstion Functions function -> std::string */
-  std::string evaluate_value(std::function<int()> p_function){ return std::to_string(p_function()); }
-
-  std::string evaluate_value(std::function<double()> p_function){ return std::to_string(p_function()).substr(0, std::to_string(p_function()).find(".")+3); }
-
-  std::string evaluate_value(std::function<std::string()> p_function){ return p_function(); }
-
-  std::string evaluate_value(std::function<bool()> p_function);
-
-  /*  No Dynamic Feature */
-  std::string evaluate_value(std::string p_pointer){ return "Error"; }
 };
 
 template class Label<int*>;

@@ -72,10 +72,14 @@ void opcontrol(void);
 #endif
 
 #ifdef __cplusplus
+  #include <cstdarg>
+  #include <iostream>
+  #include <fstream>
+  #include <bits/stdc++.h>
 /**
  * You can add C++-only headers here
  */
-//#include <iostream>
+//
 #endif
 
 #endif  // _PROS_MAIN_H_
