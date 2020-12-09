@@ -1,4 +1,4 @@
-#include "main.h"
+#include "robot/robot_main.hpp"
 
 #ifndef CONTROLLER_CLASS_H
 #define CONTROLLER_CLASS_H
@@ -91,7 +91,7 @@ namespace CONTROLLER{
     /*  Action Functions */
     void clear_screen();
 
-    void print(int const p_row, int const p_col, char* const p_fmt...);
+    void print(int const p_row, int const p_col, char* p_fmt...);
 
     void rumble(char* const p_rumble_pattern);
   };

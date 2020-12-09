@@ -75,6 +75,7 @@ void opcontrol(void);
   #include <cstdarg>
   #include <iostream>
   #include <fstream>
+  #include <bits/stdc++.h>
 /**
  * You can add C++-only headers here
  */
