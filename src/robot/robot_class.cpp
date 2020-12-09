@@ -1,6 +1,9 @@
 #include "robot/robot_class.hpp"
 #include "robot/devices/motor_class.hpp"
+#include "robot/sensors/rotation_class.hpp"
 #include "robot/sensors/distance_class.hpp"
+#include "robot/sensors/optical_class.hpp"
+
 
 Robot::Robot(){
   m_recall_settings = m_settings.initialize_bool("Recall_Settings", false);
@@ -26,4 +29,26 @@ SENSOR::Distance& Robot::add_distance(std::string const p_name, short const p_po
   SENSOR::Distance* l_new_distance{new SENSOR::Distance(*this, p_name, p_port)};
   m_distance_list.push_back(l_new_distance);
   return *l_new_distance;
+}
+
+SENSOR::Rotation& Robot::add_rotation(std::string const p_name, short const p_port, bool const p_reversed, int const p_position_offset){
+  for(int x = 0; x < m_rotation_list.size(); x++){
+    if(m_rotation_list.at(x)->get_name() == p_name)
+      return *m_rotation_list.at(x);
+  }
+
+  SENSOR::Rotation* l_new_rotation{new SENSOR::Rotation(*this, p_name, p_port, p_reversed, p_position_offset)};
+  m_rotation_list.push_back(l_new_rotation);
+  return *l_new_rotation;
+}
+
+SENSOR::Optical& Robot::add_optical(std::string const p_name, short const p_port, short const p_pwm_value){
+  for(int x = 0; x < m_optical_list.size(); x++){
+    if(m_optical_list.at(x)->get_name() == p_name)
+      return *m_optical_list.at(x);
+  }
+
+  SENSOR::Optical* l_new_optical{new SENSOR::Optical(*this, p_name, p_port, p_pwm_value)};
+  m_optical_list.push_back(l_new_optical);
+  return *l_new_optical;
 }

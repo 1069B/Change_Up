@@ -13,15 +13,22 @@ namespace SENSOR{
     std::string m_name{};
     short m_port{};
 
-    int m_pitch_offset{};
-    int m_roll_offset{};
-    int m_yaw_offset{};
+    double m_pitch_offset{};
+    double m_roll_offset{};
+    double m_yaw_offset{};
 
-    std::vector<int> m_average_pitch_vector;
-    std::vector<int> m_average_roll_vector;
-    std::vector<int> m_average_yaw_vector;
+    std::vector<double> m_average_pitch_vector;
+    std::vector<double> m_average_roll_vector;
+    std::vector<double> m_average_yaw_vector;
+
+    std::vector<double> m_average_pitch_acceleration_vector;
+    std::vector<double> m_average_roll_acceleration_vector;
+    std::vector<double> m_average_yaw_acceleration_vector;
 
     Data_Storing m_settings;
+
+    double running_average(std::vector<double>& p_vector);
+    double store_running_value(double const p_value, std::vector<double>& p_vector);
   public:
     /*  Constuctors  */
     Inertial(Robot &p_robot, std::string const p_name, short const p_port);
@@ -31,46 +38,47 @@ namespace SENSOR{
 
     short get_port(){ return m_port; }
 
-    int get_pitch();
+    double get_pitch(){ return store_running_value(pros::c::imu_get_pitch(m_port) + m_pitch_offset, m_average_pitch_vector); }
 
-    int get_roll();
+    double get_roll(){ return store_running_value(pros::c::imu_get_roll(m_port) + m_roll_offset, m_average_roll_vector); }
 
-    int get_yaw();
+    double get_yaw(){ return store_running_value(pros::c::imu_get_yaw(m_port) + m_yaw_offset, m_average_yaw_vector); }
 
-    int get_average_pitch();
+    double get_average_pitch(){ return running_average(m_average_pitch_vector); }
 
-    int get_average_roll();
+    double get_average_roll(){ return running_average(m_average_roll_vector); }
 
-    int get_average_yaw();
+    double get_average_yaw(){ return running_average(m_average_yaw_vector); }
 
-    int get_pitch_rate();
+    double get_pitch_rate();
 
-    int get_roll_rate();
+    double get_roll_rate();
 
-    int get_yaw_rate();
+    double get_yaw_rate();
 
-    int get_pitch_acceleration();
+    double get_pitch_acceleration();
 
-    int get_roll_acceleration();
+    double get_roll_acceleration();
 
-    int get_yaw_acceleration();
+    double get_yaw_acceleration();
+
+    double get_average_pitch_acceleration(){ return running_average(m_average_pitch_acceleration_vector); }
+
+    double get_average_roll_acceleration(){ return running_average(m_average_roll_acceleration_vector); }
+
+    double get_average_yaw_acceleration(){ return running_average(m_average_yaw_acceleration_vector); }
 
     bool is_calibrating();
 
     /* Setter Functions */
-    void set_pitch_offset(int const p_pitch_offset){ m_pitch_offset = p_pitch_offset; };
+    void set_pitch_offset(double const p_pitch_offset){ m_pitch_offset = p_pitch_offset; };
 
-    void set_roll_offset(int const p_roll_offset){ m_roll_offset = p_roll_offset; };
+    void set_roll_offset(double const p_roll_offset){ m_roll_offset = p_roll_offset; };
 
-    void set_yaw_offset(int const p_yaw_offset){ m_yaw_offset = p_yaw_offset; };
+    void set_yaw_offset(double const p_yaw_offset){ m_yaw_offset = p_yaw_offset; };
 
     /* Action Functions */
-    void reset();
-
-
-
-
-
+    void calibrate();
 
     /* Setter Function*/
     void set_port(short const p_port);

@@ -3,9 +3,35 @@
 
 using namespace SENSOR;
 
+double Inertial::running_average(std::vector<double> &p_vector){
+  double l_sum = 0;
+  for(int x = 0; x < p_vector.size(); x++){
+    l_sum += p_vector.at(x);
+  }
+  return l_sum/10.0;
+}
+
+double Inertial::store_running_value(double const p_value, std::vector<double>& p_vector){
+  std::vector<double> l_value_vector;
+  for(int x = 1; x < p_vector.size(); x++){
+    l_value_vector.push_back(p_vector.at(x));
+  }
+  l_value_vector.push_back(p_value);
+  p_vector = l_value_vector;
+  return p_value;
+}
+
+
 Inertial::Inertial(Robot &p_robot, std::string const p_name, short const p_port):
 m_robot(p_robot),
-m_settings("Settings.xml", "Inertial", p_name){
+m_settings("Settings.xml", "Inertial", p_name),
+m_average_pitch_vector(10,0),
+m_average_roll_vector(10,0),
+m_average_yaw_vector(10,0),
+m_average_pitch_acceleration_vector(10,0),
+m_average_roll_acceleration_vector(10,0),
+m_average_yaw_acceleration_vector(10,0)
+{
   if(m_robot.get_recall_settings()){
     m_name = p_name;
     m_port = m_settings.initialize_int("Port", p_port);
@@ -17,80 +43,42 @@ m_settings("Settings.xml", "Inertial", p_name){
 }
 
 /*  Getting Functions  */
-int Inertial::get_pitch(){
-  int l_pitch = pros::c::imu_get_pitch(m_port) + m_pitch_offset;
 
-  std::vector<int> l_pitch_vector;
-  for(int x = 1; x < m_average_pitch_vector.size(); x++){
-    l_pitch_vector.push_back(m_average_pitch_vector.at(x));
-  }
-  l_pitch_vector.push_back(l_pitch);
-  m_average_pitch_vector = l_pitch_vector;
-  return l_pitch;
+
+double Inertial::get_pitch_rate(){
+  pros::c::imu_gyro_s_t l_gyro = pros::c::imu_get_gyro_rate(m_port);
+  return l_gyro.y;
 }
 
-int Inertial::get_roll(){
-  int l_roll = pros::c::imu_get_roll(m_port) + m_roll_offset;
-
-  std::vector<int> l_roll_vector;
-  for(int x = 1; x < m_average_roll_vector.size(); x++){
-    l_roll_vector.push_back(m_average_roll_vector.at(x));
-  }
-  l_roll_vector.push_back(l_roll);
-  m_average_roll_vector = l_roll_vector;
-  return l_roll;
+double Inertial::get_roll_rate(){
+  pros::c::imu_gyro_s_t l_gyro = pros::c::imu_get_gyro_rate(m_port);
+  return l_gyro.x;
 }
 
-int Inertial::get_yaw(){
-  int l_yaw = pros::c::imu_get_yaw(m_port) + m_yaw_offset;
-
-  std::vector<int> l_yaw_vector;
-  for(int x = 1; x < m_average_yaw_vector.size(); x++){
-    l_yaw_vector.push_back(m_average_yaw_vector.at(x));
-  }
-  l_yaw_vector.push_back(l_yaw);
-  m_average_yaw_vector = l_yaw_vector;
-  return l_yaw;
+double Inertial::get_yaw_rate(){
+  pros::c::imu_gyro_s_t l_gyro = pros::c::imu_get_gyro_rate(m_port);
+  return l_gyro.z;
 }
 
-int Inertial::get_average_pitch(){
-  return 0;
+double Inertial::get_pitch_acceleration(){
+  pros::c::imu_accel_s_t l_accel = pros::c::imu_get_accel(m_port);
+  return store_running_value(l_accel.y, m_average_pitch_acceleration_vector);
 }
 
-int Inertial::get_average_roll(){
-  return 0;
+double Inertial::get_roll_acceleration(){
+  pros::c::imu_accel_s_t l_accel = pros::c::imu_get_accel(m_port);
+  return store_running_value(l_accel.x, m_average_roll_acceleration_vector);
 }
 
-int Inertial::get_average_yaw(){
-  return 0;
-}
-
-int Inertial::get_pitch_rate(){
-  return 0;
-}
-
-int Inertial::get_roll_rate(){
-  return 0;
-}
-
-int Inertial::get_yaw_rate(){
-  return 0;
-}
-
-int Inertial::get_pitch_acceleration(){
-  return 0;
-}
-
-int Inertial::get_roll_acceleration(){
-  return 0;
-}
-
-int Inertial::get_yaw_acceleration(){
-  return 0;
+double Inertial::get_yaw_acceleration(){
+  pros::c::imu_accel_s_t l_accel = pros::c::imu_get_accel(m_port);
+  return store_running_value(l_accel.z, m_average_yaw_acceleration_vector);
 }
 
 bool Inertial::is_calibrating(){
-  return 0;
+  if(pros::c::imu_get_status(m_port) & pros::c::E_IMU_STATUS_CALIBRATING)
+    return true;
+  return false;
 }
 
 /* Setter Function */

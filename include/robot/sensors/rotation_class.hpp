@@ -4,7 +4,7 @@
 #ifndef ROTATION_CLASS_H
 #define ROTATION_CLASS_H
 
-namespace SENSORS{
+namespace SENSOR{
   class Rotation{
   private:
     Robot& m_robot;
@@ -12,33 +12,38 @@ namespace SENSORS{
     // Settings
     std::string m_name{};
     short m_port{};
-    int m_position{};
+    int m_position_offset{};
     bool m_reversed{};
 
     Data_Storing m_settings;
 
+    std::vector<double> m_average_velocity_vector;
+
   public:
     //Constructor
-   Rotation(Robot &p_robot, std::string const p_name, short const p_port, bool const p_reversed, int const p_position = 0);
+   Rotation(Robot &p_robot, std::string const p_name, short const p_port, bool const p_reversed, int const p_position_offset = 0);
 
-    // Getting Functions
+    // Getter Functions
     std::string get_name(){ return m_name; }
 
-    int get_absolute_position(){ return pros::c::rotation_get_position(m_port); }
+    double get_absolute_position(){ return (double)pros::c::rotation_get_position(m_port)/36000.0; }
 
-    int get_velocity(){ return pros::c::rotation_get_velocity(m_port); }
-    //^^ change to revolutions per sec ^^
-    int get_relative_position(){ return pros::c::rotation_get_angle(m_port); }
+    double get_relative_position(){ return (double)pros::c::rotation_get_angle(m_port)/36000.0; }
+
+    double get_velocity();
 
     bool get_reversed(){ return m_reversed; }
 
-    // add a ten interval running average, see timer class
+    double get_running_average_velocity();
+
+    int get_port(){ return m_port; }
 
     // Setter Functions
-    void set_position(short const p_port, int p_position);
+    void set_position_offset(int const p_position_offset);
 
-    void set_reversed(short const p_port);
+    void set_reversed(bool const p_reversed);
 
+    void set_port(int const p_port);
 
     // Action Functions
     void reset(){ pros::c::rotation_reset(m_port); }

@@ -30,10 +30,10 @@ namespace SENSOR{
     int get_object_size(){ return pros::c::distance_get_object_size(m_port); };
 
     int get_object_velocity(){ return pros::c::distance_get_object_velocity(m_port); };
-    
+
     /* Setter Function*/
     void set_port(short const p_port);
   };
 }
 
-#endif // MOTOR_CLASS_H
+#endif // DISTANCE_CLASS_H
