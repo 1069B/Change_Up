@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "ChangeUp~Dev",
+        "project_name": "ChangeUp~Main",
         "target": "v5",
         "templates": {
             "kernel": {
