@@ -17,7 +17,7 @@ namespace GUI{
     std::vector<Rectangle*> m_rectangle_list;
 
     /* Labels */
-    std::vector<Label> m_label_string_list;
+      std::vector<Label<std::string>> m_label_string_list;
       /* Pointers */
       std::vector<Label<int*>*> m_label_int_pointer_list;
       std::vector<Label<double*>*> m_label_double_pointer_list;

@@ -13,8 +13,8 @@ namespace GUI{
   class Rectangle;
   class List;
 
-  // template <class T>
-  //template class Label;
+  template <class T>
+  class Label;
 
   class Bar;
   class Button;

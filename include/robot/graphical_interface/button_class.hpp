@@ -1,77 +1,97 @@
-#include "main.h"
+#include "robot/robot_main.hpp"
 
 #ifndef BUTTON_CLASS_H
-//#define BUTTON_CLASS_H
+#define BUTTON_CLASS_H
 
-template<class T = std::string>
-class Button{
-private:
-   std::string m_name{};
-   bool m_toggled{};
-   bool m_pressed{};
-   bool m_active{};
-   short m_xOrigin{};
-   short m_yOrigin{};
-   short m_width{};
-   short m_height{};
-   lv_obj_t*m_style_pressed{};
-   lv_obj_t*m_style_released{};
-   lv_obj_t*m_style_inactive{};
+namespace GUI{
+  class Button{
+  private:
+    lv_obj_t* m_button{};
+    lv_obj_t* m_label{};
 
+    short m_xOrigin{};
+    short m_yOrigin{};
+    short m_width{};
+    short m_height{};
 
-public:
-  //constructors
+    std::string m_text{};
 
-  Button<T>(std::string const p_name, bool const p_toggled, bool const p_pressed, bool const p_active, short const p_yOrigin, short const p_xOrigin, short const p_width, short const p_height, lv_style_t& p_style_pressed, lv_style_t& p_style_released, lv_style_t& p_style_inactive);
+    bool m_state{};
 
-  //getter function
+    lv_style_t* m_style_pressed{};
+    lv_style_t* m_style_released{};
 
-  std::string get_name(){ return m_name; }
+    static Timer s_timer;
 
-  bool get_toggled(){ return m_toggled; }
+    /*Required Variles for Change Screen Action*/
+    bool m_change_screen = false;
+    std::string m_change_screen_ID;
 
-  bool get_pressed(){ return m_pressed; }
+    /*Required Variles for Change Varible Value Action*/
+    bool m_connected_double = false;
+    double* m_connected_double_pointer;
+    double m_connected_double_value;
 
-  bool get_active(){ return m_active; }
+    /*Required Variles for Increment Varible Screen Action*/
+    bool m_connected_increment = false;
+    double* m_connected_increment_pointer;
+    double m_connected_increment_value;
 
-  short get_xOrigin(){ return m_xOrigin; }
+    /*Required Varibles for Run Function*/
+    bool m_preform_function = false;
+    std::function<int()> m_run_function;
 
-  short get_YOrigin(){ return m_yOrigin; }
+  public:
+    /* Constructors */
+    Button(std::string const p_text, bool const p_state,short const p_yOrigin, short const p_xOrigin, short const p_width, short const p_height, lv_style_t& p_style_pressed, lv_style_t& p_style_released);
 
-  short get_width(){ return m_width; }
+    /* Getter Function */
+    short get_xOrigin(){ return m_xOrigin; }
 
-  short get_height(){ return m_height; }
+    short get_YOrigin(){ return m_yOrigin; }
 
-  lv_style_t* get_style_pressed(){ return m_style_pressed; }
+    short get_width(){ return m_width; }
 
-  lv_style_t* get_style_released(){ return m_style_released; }
+    short get_height(){ return m_height; }
 
-  lv_style_t* get_style_inactive(){ return m_style_inactive; }
+    std::string get_text(){ return m_text; }
 
-  //setter function
-  void set_name(std::string const p_text){ m_text = p_text; }
+    bool get_state(){ return m_state; }
 
-  void set_toggled(bool const p_toggled){ m_toggled = p_toggled; }
+    lv_style_t* get_style_pressed(){ return m_style_pressed; }
 
-  void set_pressed(bool const p_pressed){ m_pressed = p_pressed; }
+    lv_style_t* get_style_released(){ return m_style_released; }
 
-  void set_active(bool const p_active){ m_active = p_active; }
+    //setter function
+    void set_text(std::string const p_text){ m_text = p_text; }
 
-  void set_xOrigin(short const p_xOrigin){ m_xOrigin = p_xOrigin; }
+    void set_state(bool const p_state);
 
-  void set_yOrigin(short const p_yOrigin){ m_yOrigin = p_yOrigin; }
+    void set_xOrigin(short const p_xOrigin){ m_xOrigin = p_xOrigin; }
 
-  void set_height(short const p_height){ m_height = p_height; }
+    void set_yOrigin(short const p_yOrigin){ m_yOrigin = p_yOrigin; }
 
-  void set_width(short const p_width){ m_width = p_width; }
+    void set_height(short const p_height){ m_height = p_height; }
 
-  void set_style_pressed(lv_style_t& p_style_pressed){ m_style_pressed = &p_style_pressed; }
+    void set_width(short const p_width){ m_width = p_width; }
 
-  void set_style_released(lv_style_t& p_style_released){ m_style_released = &p_style_released; }
+    void set_style_pressed(lv_style_t& p_style_pressed);
 
-  void set_style_inactive(lv_style_t& p_style_inactive){ m_style_inactive = &p_style_inactive}
+    void set_style_released(lv_style_t& p_style_released);
 
-  // Action Functions
-  void draw
+    // Action Functions
+    void draw_button();
 
-  #endif //BUTTON_CLASS_H
+    void update_button();
+
+    void add_connected_screen(std::string const p_change_screen_ID);
+
+    void add_connected_double(double const p_connected_double_value, double& p_connected_double_pointer);
+
+    void add_connected_increment(double const p_connected_increment_value, double& p_connected_increment_pointer);
+
+    void add_connected_function(std::function<int()> p_run_function);
+  };
+}
+
+#endif //BUTTON_CLASS_H
