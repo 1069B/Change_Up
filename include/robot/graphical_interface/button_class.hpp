@@ -1,15 +1,15 @@
 #include "main.h"
 
 #ifndef BUTTON_CLASS_H
-#define BUTTON_CLASS_H
+//#define BUTTON_CLASS_H
 
 template<class T = std::string>
 class Button{
 private:
-   std::string name{};
-   bool toggled{};
-   bool pressed{};
-   bool active{};
+   std::string m_name{};
+   bool m_toggled{};
+   bool m_pressed{};
+   bool m_active{};
    short m_xOrigin{};
    short m_yOrigin{};
    short m_width{};
@@ -72,5 +72,6 @@ public:
   void set_style_inactive(lv_style_t& p_style_inactive){ m_style_inactive = &p_style_inactive}
 
   // Action Functions
+  void draw
 
-  void
+  #endif //BUTTON_CLASS_H

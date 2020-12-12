@@ -13,9 +13,11 @@ namespace GUI{
   class Rectangle;
   class List;
 
-  template <class T>
-  class Label;
+  // template <class T>
+  //template class Label;
 
+  class Bar;
+  class Button;
 }
 
 namespace SENSOR{
