@@ -16,12 +16,11 @@ namespace GUI{
 
     std::string m_text{};
 
-    bool m_state{};
+    bool m_current_state{false};
+    bool m_previous_state{false};
 
     lv_style_t* m_style_pressed{};
     lv_style_t* m_style_released{};
-
-    static Timer s_timer;
 
     /*Required Variles for Change Screen Action*/
     bool m_change_screen = false;
@@ -43,7 +42,7 @@ namespace GUI{
 
   public:
     /* Constructors */
-    Button(std::string const p_text, bool const p_state,short const p_yOrigin, short const p_xOrigin, short const p_width, short const p_height, lv_style_t& p_style_pressed, lv_style_t& p_style_released);
+    Button(std::string const p_text, short const p_yOrigin, short const p_xOrigin, short const p_width, short const p_height, lv_style_t& p_style_pressed, lv_style_t& p_style_released);
 
     /* Getter Function */
     short get_xOrigin(){ return m_xOrigin; }
@@ -56,7 +55,7 @@ namespace GUI{
 
     std::string get_text(){ return m_text; }
 
-    bool get_state(){ return m_state; }
+    bool get_state();
 
     lv_style_t* get_style_pressed(){ return m_style_pressed; }
 
@@ -64,8 +63,6 @@ namespace GUI{
 
     //setter function
     void set_text(std::string const p_text){ m_text = p_text; }
-
-    void set_state(bool const p_state);
 
     void set_xOrigin(short const p_xOrigin){ m_xOrigin = p_xOrigin; }
 
