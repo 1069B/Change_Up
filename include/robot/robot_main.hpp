@@ -18,6 +18,7 @@ namespace GUI{
 
   class Bar;
   class Button;
+  class Switch;
 }
 
 namespace SENSOR{

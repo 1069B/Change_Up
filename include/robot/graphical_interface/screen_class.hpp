@@ -6,68 +6,85 @@
 namespace GUI{
   class Screen{
   private:
-    short m_xOrgin;
-    short m_yOrgin;
-    short m_length;
-    short m_width;
-
-    lv_obj_t* m_container;
+    lv_obj_t* m_screen;
     lv_style_t* m_style;
 
-    std::vector<Rectangle*> m_rectangle_list;
+    std::vector<Rectangle*> m_rectangle_vector;
 
     /* Labels */
-      std::vector<Label<std::string>> m_label_string_list;
+      std::vector<Label<std::string>> m_label_string_vector;
       /* Pointers */
-      std::vector<Label<int*>*> m_label_int_pointer_list;
-      std::vector<Label<double*>*> m_label_double_pointer_list;
-      std::vector<Label<std::string*>*> m_label_string_pointer_list;
-      std::vector<Label<bool*>*> m_label_bool_pointer_list;
+      std::vector<Label<int*>*> m_label_int_pointer_vector;
+      std::vector<Label<double*>*> m_label_double_pointer_vector;
+      std::vector<Label<std::string*>*> m_label_string_pointer_vector;
+      std::vector<Label<bool*>*> m_label_bool_pointer_vector;
       /* Functions */
-      std::vector<Label<std::function<int()>>*> m_label_int_function_list;
-      std::vector<Label<std::function<double()>>*> m_label_double_function_list;
+      std::vector<Label<std::function<int()>>*> m_label_int_function_vector;
+      std::vector<Label<std::function<double()>>*> m_label_double_function_vector;
       std::vector<Label<std::function<std::string()>>*> m_label_string_function_list;
-      std::vector<Label<std::function<bool()>>*> m_label_bool_function_list;
+      std::vector<Label<std::function<bool()>>*> m_label_bool_function_vector;
 
-    std::vector<List*> m_list_list;
+    std::vector<List*> m_list_vector;
+    std::vector<Bar*> m_bar_vector;
+    std::vector<Button*> m_button_vector;
+    std::vector<Switch*> m_switch_vector;
 
-    std::vector<Bar*> m_bar_list;
+    std::string m_screen_name;
+    std::string m_error_screen;
+
+    /* Static Members */
+    static std::vector<Screen*> m_screen_vector;
+
+    static std::string m_current_screen_name;
+    static std::string m_previous_screen_name;
+    static std::string m_next_screen_name;
+
+    static Screen* m_current_screen_pointer;// TODO:: Created Deafult Screen
+    static Screen* m_next_screen_pointer;
+
+    static Data_Storing m_settings;
 
 
-
-
-
-    std::string m_pageID;
-    std::string m_relatedScreen;
-    std::string& m_nextScreenID;
-
-
-
-
-    std::vector<Button*> m_btnArray;
-    std::vector<Label*> m_labelArray;
-    std::vector<Meter*> m_meterArray;
-    std::vector<Line*> m_lineArray;
-    std::vector<Toggle*> m_toggleArray;
-    std::vector<Rectangle*> m_rectArray;
   public:
-    std::vector<Screen*> m_screenArray;
-  int m_noVersion = 0;// For screens with only one version
-  std::string m_previousScreenID = "A";
-  std::string m_currentScreenID = "B";
-  std::string m_nextScreenID = "C";
-  Screen* m_nextScreen;// = new Screen("Blank", noVersion, defaultBackground, nextScreenID);
-  Screen* m_currentScreen;// = new Screen("Blank", noVersion, defaultBackground, nextScreenID);
-  Timer m_timer;
-  ExternalFile m_GUIStorage;
-  void updateScreen();
+    /* Constructor */
+    Screen();
 
-public:
-  GraphicalInterface(const std::string p_startingScreen="Home");
+    /* Getter Functions */
+    std::string get_screen_name(){return m_screen_name; }
 
-  void addScreen(const std::string p_name, lv_style_t& p_style = defaultBackground);
-  void addScreen(const std::string p_name, const int p_xOrgin, const int p_yOrgin, const int p_length, const int p_width, lv_style_t& p_style = defaultBackground);
+    lv_obj_t* get_screen(){return m_screen; }
 
+    /* Add Functions */
+    Rectangle& add_rectanlge();
+
+
+    template Label<>
+
+    Label<std::string>& add_label_string();
+
+    Label<int*>& add_lable_int_pointer();
+    Label<double*>& add_lable_double_pointer();
+    Label<std::string*>& add_lable_string_pointer();
+    Label<bool*>& add_lable_bool_pointer();
+    /* Functions */
+    Label<std::function<int()>>& add_label_int_function();
+    Label<std::function<double()>>& add_label_double_function();
+    Label<std::function<std::string()>>& add_label_string_function_list();
+    Label<std::function<bool()>>& add_label_bool_function();
+
+    List& add_list();
+    Bar& add_bar();
+    Button& add_button();
+    Switch& add_switch();
+
+    /* Action */
+    void draw_screen();
+
+    void update_screen();
+
+    void delete_screen();
+
+    static void task();
   };
 }
 

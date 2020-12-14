@@ -2,7 +2,7 @@
 
 using namespace GUI;
 
-//Constructors
+/* Constructor */
 Button::Button(std::string const p_text, short const p_yOrigin, short const p_xOrigin, short const p_width, short const p_height, lv_style_t& p_style_pressed, lv_style_t& p_style_released){
   m_xOrigin = p_xOrigin;
   m_yOrigin = p_yOrigin;
@@ -12,10 +12,12 @@ Button::Button(std::string const p_text, short const p_yOrigin, short const p_xO
   m_style_released = &p_style_released;
 }
 
+/* Getter Fucntions */
 bool Button::get_state(){
   return lv_btn_get_state(m_button);
 }
 
+/* Setter Fucntions */
 void Button::set_style_pressed(lv_style_t& p_style_pressed){
   m_style_pressed = &p_style_pressed;
   lv_btn_set_style(m_button, LV_BTN_STYLE_PR, m_style_released);
