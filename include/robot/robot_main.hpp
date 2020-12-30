@@ -12,10 +12,7 @@ namespace GUI{
   class Screen;
   class Rectangle;
   class List;
-
-  template <class T>
   class Label;
-
   class Bar;
   class Button;
   class Switch;

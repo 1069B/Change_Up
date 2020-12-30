@@ -10,20 +10,7 @@ namespace GUI{
     lv_style_t* m_style;
 
     std::vector<Rectangle*> m_rectangle_vector;
-
-    /* Labels */
-      std::vector<Label<std::string>> m_label_string_vector;
-      /* Pointers */
-      std::vector<Label<int*>*> m_label_int_pointer_vector;
-      std::vector<Label<double*>*> m_label_double_pointer_vector;
-      std::vector<Label<std::string*>*> m_label_string_pointer_vector;
-      std::vector<Label<bool*>*> m_label_bool_pointer_vector;
-      /* Functions */
-      std::vector<Label<std::function<int()>>*> m_label_int_function_vector;
-      std::vector<Label<std::function<double()>>*> m_label_double_function_vector;
-      std::vector<Label<std::function<std::string()>>*> m_label_string_function_list;
-      std::vector<Label<std::function<bool()>>*> m_label_bool_function_vector;
-
+    std::vector<Label*> m_label_vector;
     std::vector<List*> m_list_vector;
     std::vector<Bar*> m_bar_vector;
     std::vector<Button*> m_button_vector;
@@ -57,20 +44,15 @@ namespace GUI{
     /* Add Functions */
     Rectangle& add_rectanlge();
 
-
-    template Label<>
-
-    Label<std::string>& add_label_string();
-
-    Label<int*>& add_lable_int_pointer();
-    Label<double*>& add_lable_double_pointer();
-    Label<std::string*>& add_lable_string_pointer();
-    Label<bool*>& add_lable_bool_pointer();
-    /* Functions */
-    Label<std::function<int()>>& add_label_int_function();
-    Label<std::function<double()>>& add_label_double_function();
-    Label<std::function<std::string()>>& add_label_string_function_list();
-    Label<std::function<bool()>>& add_label_bool_function();
+    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text);
+    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, int& p_int_value);
+    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, double& p_double_value);
+    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::string& p_string_value);
+    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, bool& p_bool_value);
+    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<int()> p_int_value);
+    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<double()> p_double_value);
+    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<std::string()> p_string_value);
+    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<bool()> p_bool_value);
 
     List& add_list();
     Bar& add_bar();
