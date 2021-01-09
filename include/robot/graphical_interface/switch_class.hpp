@@ -1,4 +1,4 @@
-#include "main.h"
+#include "robot/robot_main.hpp"
 
 #ifndef SWITCH_CLASS_H
 #define SWITCH_CLASS_H
@@ -66,7 +66,7 @@ namespace GUI {
     void set_state(bool const p_state);
 
     /*  Action Function */
-    void draw_switch();// TODO: Add Screen& p_screen
+    void draw_switch(Screen& p_screen);// TODO: Add Screen& p_screen
 
     void update_switch();// TODO: Add Screen& p_screen
 

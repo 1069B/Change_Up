@@ -77,9 +77,9 @@ namespace GUI{
     void set_style(lv_style_t& p_style){ m_style = &p_style; }
 
     /*  Action Functions */
-    void draw_label();// TODO: Add Screen& p_screen
+    void draw_label(Screen& p_screen);
 
-    void update_label();// TODO: Add Screen& p_screen
+    void update_label();
 
     std::string format_text();
   };

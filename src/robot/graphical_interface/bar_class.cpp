@@ -1,4 +1,5 @@
 #include "robot/graphical_interface/bar_class.hpp"
+#include "robot/graphical_interface/screen_class.hpp"
 
 using namespace GUI;
 
@@ -39,8 +40,8 @@ void Bar::set_indicator_style(lv_style_t& p_indicator_style){
 }
 
 /* Action Functions */
-void Bar::draw_bar(){
-  m_bar = lv_bar_create(lv_scr_act(), NULL);// TODO: Add Screen Refernece
+void Bar::draw_bar(Screen& p_screen){
+  m_bar = lv_bar_create(p_screen.get_screen(), NULL);// TODO: Add Screen Refernece
   lv_obj_set_size(m_bar, m_length, m_width);
   lv_obj_align(m_bar, NULL, LV_ALIGN_IN_TOP_LEFT, m_xOrigin, m_yOrigin);
   lv_bar_set_value(m_bar, m_position);

@@ -1,4 +1,5 @@
 #include "robot/graphical_interface/label_class.hpp"
+#include "robot/graphical_interface/screen_class.hpp"
 
 using namespace GUI;
 
@@ -55,9 +56,9 @@ Label::Label(std::string const p_name, short const p_xOrigin, short const p_yOri
 }
 
 /*  Action Function */
-void Label::draw_label(){
-  m_label = lv_label_create(lv_scr_act(), NULL); // TODO: Change parent
-  lv_obj_align(m_label, lv_scr_act(), LV_ALIGN_IN_TOP_LEFT, m_xOrigin, m_yOrigin);  // TODO: Change parent
+void Label::draw_label(Screen& p_screen){
+  m_label = lv_label_create(p_screen.get_screen(), NULL);
+  lv_obj_align(m_label, p_screen.get_screen(), LV_ALIGN_IN_TOP_LEFT, m_xOrigin, m_yOrigin);
   lv_label_set_text(m_label, format_text().c_str());
   lv_obj_set_style(m_label, m_style);
 }

@@ -1,4 +1,6 @@
 #include "robot/graphical_interface/list_class.hpp"
+#include "robot/graphical_interface/screen_class.hpp"
+
 
 using namespace GUI;
 
@@ -16,20 +18,22 @@ List::List(std::string const p_name,short const p_xOrgin, short const p_yOrgin, 
     m_scrollbar_style = p_scrollbar_style;
 }
 
+//Setter Function
 void List::set_state(const unsigned short p_state){
   m_state = p_state;
   lv_ddlist_set_selected(m_list, m_state);
   update_list();
 }
 
-void List::draw_list(){
+//Action Functions
+void List::draw_list(Screen& p_screen){
   std::string l_list{};
 
   for(std::string& x : m_list_options){
     l_list += x + "\n";
   }
 
-  m_list = lv_ddlist_create(lv_scr_act(), NULL);
+  m_list = lv_ddlist_create(p_screen.get_screen(), NULL);
   lv_ddlist_set_options(m_list, l_list.c_str());
 
   lv_obj_align(m_list, NULL, LV_ALIGN_IN_TOP_LEFT, m_xOrigin, m_yOrigin);

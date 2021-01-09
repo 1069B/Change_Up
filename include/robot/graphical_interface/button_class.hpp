@@ -81,9 +81,9 @@ namespace GUI{
     void set_style_released(lv_style_t& p_style_released);
 
     // Action Functions
-    void draw_button();
+    void draw_button(Screen& p_screen);
 
-    void update_button();
+    void update_button(Screen& p_screen);
 
     void add_connected_screen(std::string const p_change_screen_ID);
 

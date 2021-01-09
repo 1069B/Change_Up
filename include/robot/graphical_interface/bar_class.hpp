@@ -66,7 +66,7 @@ namespace GUI{
     void set_indicator_style(lv_style_t& p_indicator_style);
 
     /* Action Functions */
-    void draw_bar();
+    void draw_bar(Screen& p_screen);
 
     void update_bar();
 

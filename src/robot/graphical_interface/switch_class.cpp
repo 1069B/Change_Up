@@ -1,4 +1,5 @@
 #include "robot/graphical_interface/switch_class.hpp"
+#include "robot/graphical_interface/screen_class.hpp"
 
 using namespace GUI;
 
@@ -27,13 +28,13 @@ void Switch::set_state(bool const p_state){
 }
 
 /*  Action Function */
-void Switch::draw_switch(){
-  m_switch = lv_sw_create(lv_scr_act(), NULL); // TODO: Change parent
+void Switch::draw_switch(Screen& p_screen){
+  m_switch = lv_sw_create(p_screen.get_screen(), NULL);
   lv_sw_set_style(m_switch, LV_SW_STYLE_BG, m_background_style);
   lv_sw_set_style(m_switch, LV_SW_STYLE_INDIC, m_indicator_style);
   lv_sw_set_style(m_switch, LV_SW_STYLE_KNOB_ON, m_true_style);
   lv_sw_set_style(m_switch, LV_SW_STYLE_KNOB_OFF, m_false_style);
-  lv_obj_align(m_switch, lv_scr_act(), LV_ALIGN_IN_TOP_LEFT, m_xOrigin, m_yOrigin); // TODO: Change parent
+  lv_obj_align(m_switch, p_screen.get_screen(), LV_ALIGN_IN_TOP_LEFT, m_xOrigin, m_yOrigin);
 
   set_state(m_state);
 }

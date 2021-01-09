@@ -1,4 +1,4 @@
-#include "main.h"
+#include "robot/robot_main.hpp"
 
 #ifndef LIST_CLASS_H
 #define LIST_CLASS_H
@@ -72,9 +72,9 @@ namespace GUI{
     void set_state(unsigned short const p_state);
 
     /*  Action Function */
-    void draw_list();// TODO: Add Screen& p_screen
+    void draw_list(Screen& p_screen);
 
-    void update_list();// TODO: Add Screen& p_screen
+    void update_list();
 
     void add_connected_int(int& p_connected_int_pointer, std::vector<int>& p_connected_int_values);
   };

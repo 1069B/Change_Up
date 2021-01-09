@@ -1,4 +1,5 @@
 #include "robot/graphical_interface/button_class.hpp"
+#include "robot/graphical_interface/screen_class.hpp"
 
 using namespace GUI;
 
@@ -29,19 +30,20 @@ void Button::set_style_released(lv_style_t& p_style_released){
   lv_btn_set_style(m_button, LV_BTN_STYLE_REL, m_style_pressed);
 }
 
-void Button::draw_button(){
-  m_button = lv_btn_create(lv_scr_act(), NULL);// TODO: Screen Class
+/* Action Fucntions */
+void Button::draw_button(Screen& p_screen){
+  m_button = lv_btn_create(p_screen.get_screen(), NULL);
   m_label = lv_label_create(m_button, NULL);
 
-  lv_obj_align(m_button, lv_scr_act(), LV_ALIGN_IN_TOP_LEFT, m_xOrigin, m_yOrigin);
+  lv_obj_align(m_button, p_screen.get_screen(), LV_ALIGN_IN_TOP_LEFT, m_xOrigin, m_yOrigin);
   lv_obj_set_size(m_button, m_width, m_height);
   lv_btn_set_style(m_button, LV_BTN_STYLE_REL, m_style_pressed);
   lv_btn_set_style(m_button, LV_BTN_STYLE_PR, m_style_released);
   lv_label_set_text(m_label, m_text.c_str());
-  update_button();
+  update_button(p_screen);
 }
 
-void Button::update_button(){
+void Button::update_button(Screen& p_screen){
   m_current_state = lv_btn_get_state(m_button);
   if(m_current_state == false && m_previous_state == true){
     if(m_change_screen)//m_change_screen_ID TODO: Screen Class

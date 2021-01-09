@@ -44,9 +44,9 @@ namespace GUI{
     void set_style(lv_style_t& p_style){ m_style = &p_style; }
 
     /*  Action Function */
-    void draw_rectangle();// TODO: Add Screen& p_screen
+    void draw_rectangle(Screen& p_screen);
 
-    void update_rectangle();// TODO: Add Screen& p_screen
+    void update_rectangle();
   };
 }
 
