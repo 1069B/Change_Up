@@ -6,6 +6,8 @@
 namespace GUI{
   class List{
   private:
+    std::string m_name{};
+
     short m_xOrigin{};
     short m_yOrigin{};
     short m_length{};
@@ -28,10 +30,12 @@ namespace GUI{
 
   public:
     /*  Constuctors  */
-    List(short const p_xOrgin, short const p_yOrgin, short const p_length, short const p_width, std::vector<std::string>& p_list_options,
+    List(std::string const p_name, short const p_xOrgin, short const p_yOrgin, short const p_length, short const p_width, std::vector<std::string>& p_list_options,
       unsigned short p_state, lv_style_t* p_background_style ,lv_style_t* p_selected_style, lv_style_t* p_scrollbar_style);
 
     /*  Getting Function  */
+    std::string get_name(){ return m_name; }
+
     short get_xOrgin(){ return m_xOrigin; }
 
     short get_yOrigin(){ return m_yOrigin; }

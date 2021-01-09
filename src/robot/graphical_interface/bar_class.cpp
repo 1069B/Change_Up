@@ -3,7 +3,8 @@
 using namespace GUI;
 
 /* Constructors */
-Bar::Bar(short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, int const p_position, int const p_range_minimum, int const p_range_maximum, lv_style_t&  p_bar_style, lv_style_t&  p_indicator_style){
+Bar::Bar(std::string const p_name, short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, int const p_position, int const p_range_minimum, int const p_range_maximum, lv_style_t&  p_bar_style, lv_style_t&  p_indicator_style){
+  m_name = p_name;
   m_xOrigin = p_xOrigin;
   m_yOrigin = p_yOrigin;
   m_length = p_length;

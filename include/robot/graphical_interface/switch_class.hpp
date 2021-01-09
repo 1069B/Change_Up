@@ -6,6 +6,7 @@
 namespace GUI {
   class Switch{
   private:
+    std::string m_name{};
     short m_xOrigin{};
     short m_yOrigin{};
 
@@ -29,10 +30,12 @@ namespace GUI {
     int m_connected_int_value_false;
   public:
     /*  Constuctors  */
-    Switch(short const p_xOrgin, short const p_yOrgin, int const p_state, lv_style_t& p_background_style,
+    Switch(std::string const p_name, short const p_xOrgin, short const p_yOrgin, int const p_state, lv_style_t& p_background_style,
       lv_style_t& p_indicator_style, lv_style_t& p_true_style, lv_style_t& p_false_style);// TODO: Add Default Values
 
     /*  Getter Function  */
+    std::string get_name(){ return m_name; }
+
     short get_xOrgin(){ return m_xOrigin; }
 
     short get_yOrigin(){ return m_yOrigin; }

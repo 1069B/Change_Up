@@ -42,17 +42,10 @@ namespace GUI{
     lv_obj_t* get_screen(){return m_screen; }
 
     /* Add Functions */
-    Rectangle& add_rectanlge();
+    Rectangle& add_rectanlge(std::string const p_name, short const p_xOrgin, short const p_yOrgin, short const p_length, short const p_width, lv_style_t& p_style);
 
-    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text);
-    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, int& p_int_value);
-    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, double& p_double_value);
-    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::string& p_string_value);
-    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, bool& p_bool_value);
-    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<int()> p_int_value);
-    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<double()> p_double_value);
-    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<std::string()> p_string_value);
-    Label& add_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<bool()> p_bool_value);
+    template <typename T = std::string>
+    Label& add_label(std::string const p_name, short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, T value);
 
     List& add_list();
     Bar& add_bar();

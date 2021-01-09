@@ -1,7 +1,8 @@
 #include "robot/graphical_interface/rectangle_class.hpp"
 
 /*  Constuctors  */
-GUI::Rectangle::Rectangle(short const p_xOrgin, short const p_yOrgin, short const p_length, short const p_width, lv_style_t& p_style){
+GUI::Rectangle::Rectangle(std::string const p_name, short const p_xOrgin, short const p_yOrgin, short const p_length, short const p_width, lv_style_t& p_style){
+  m_name = p_name;
   m_xOrigin = p_xOrgin;
   m_yOrigin = p_yOrgin;
   m_length = p_length;

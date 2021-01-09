@@ -6,6 +6,7 @@
 namespace GUI{
   class Bar{
   private:
+    std::string m_name{};
     short m_xOrigin{};
     short m_yOrigin{};
     short m_length{};
@@ -25,8 +26,10 @@ namespace GUI{
 
   public:
     /* Constuctors */
-    Bar(short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, int const p_position, int const p_range_minimum, int const p_range_maximum, lv_style_t&  p_bar_style, lv_style_t&  p_indicator_style);
+    Bar(std::string const p_name, short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, int const p_position, int const p_range_minimum, int const p_range_maximum, lv_style_t&  p_bar_style, lv_style_t&  p_indicator_style);
     /* Getter Functions */
+    std::string get_name(){ return m_name; }
+
     short get_xOrigin(){ return m_xOrigin; }
 
     short get_yOrigin(){ return m_yOrigin; }

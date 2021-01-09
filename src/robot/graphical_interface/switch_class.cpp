@@ -3,8 +3,9 @@
 using namespace GUI;
 
 /*  Constuctors  */
-Switch::Switch(short const p_xOrgin, short const p_yOrgin, int const p_state, lv_style_t& p_background_style,
+Switch::Switch(std::string const p_name, short const p_xOrgin, short const p_yOrgin, int const p_state, lv_style_t& p_background_style,
   lv_style_t& p_indicator_style, lv_style_t& p_true_style, lv_style_t& p_false_style){
+  m_name = p_name;
   m_xOrigin = p_xOrgin;
   m_yOrigin = p_yOrgin;
   m_state = p_state;

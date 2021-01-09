@@ -2,9 +2,10 @@
 
 using namespace GUI;
 
-List::List(short const p_xOrgin, short const p_yOrgin, short const p_length, short const p_width, std::vector<std::string>& p_list_options,
+List::List(std::string const p_name,short const p_xOrgin, short const p_yOrgin, short const p_length, short const p_width, std::vector<std::string>& p_list_options,
   unsigned short p_state, lv_style_t* p_background_style ,lv_style_t* p_selected_style, lv_style_t* p_scrollbar_style):
   m_list_options(p_list_options){
+    m_name = p_name;
     m_xOrigin = p_xOrgin;
     m_yOrigin = p_yOrgin;
     m_length = p_length;

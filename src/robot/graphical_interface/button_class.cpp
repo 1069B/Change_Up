@@ -3,7 +3,8 @@
 using namespace GUI;
 
 /* Constructor */
-Button::Button(std::string const p_text, short const p_yOrigin, short const p_xOrigin, short const p_width, short const p_height, lv_style_t& p_style_pressed, lv_style_t& p_style_released){
+Button::Button(std::string const p_name, std::string const p_text, short const p_yOrigin, short const p_xOrigin, short const p_width, short const p_height, lv_style_t& p_style_pressed, lv_style_t& p_style_released){
+  m_name = p_name;
   m_xOrigin = p_xOrigin;
   m_yOrigin = p_yOrigin;
   m_height = p_height;

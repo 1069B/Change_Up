@@ -3,7 +3,8 @@
 using namespace GUI;
 
 /*  Constuctors  */
-Label::Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text){
+Label::Label(std::string const p_name, short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text){
+  m_name = p_name;
   m_xOrigin = p_xOrigin;
   m_yOrigin = p_yOrigin;
   m_style = &p_style;
@@ -11,44 +12,44 @@ Label::Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, 
   m_lable_type = DEFAULT;
 }
 
-Label::Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, int& p_int_value){
-  Label(p_xOrigin, p_yOrigin, p_style, p_text);
+Label::Label(std::string const p_name, short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, int& p_int_value){
+  Label(p_name, p_xOrigin, p_yOrigin, p_style, p_text);
   m_int_pointer = &p_int_value;
   m_lable_type = INT_POINTER;
 }
-Label::Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, double& p_double_value){
-  Label(p_xOrigin, p_yOrigin, p_style, p_text);
+Label::Label(std::string const p_name, short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, double& p_double_value){
+  Label(p_name, p_xOrigin, p_yOrigin, p_style, p_text);
   m_double_pointer = &p_double_value;
   m_lable_type = DOUBLE_POINTER;
 }
-Label::Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::string& p_string_value){
-  Label(p_xOrigin, p_yOrigin, p_style, p_text);
+Label::Label(std::string const p_name, short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::string& p_string_value){
+  Label(p_name, p_xOrigin, p_yOrigin, p_style, p_text);
   m_string_pointer = &p_string_value;
   m_lable_type = STRING_POINTER;
 }
-Label::Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, bool& p_bool_value){
-  Label(p_xOrigin, p_yOrigin, p_style, p_text);
+Label::Label(std::string const p_name, short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, bool& p_bool_value){
+  Label(p_name, p_xOrigin, p_yOrigin, p_style, p_text);
   m_bool_pointer = &p_bool_value;
   m_lable_type = BOOL_POINTER;
 }
 
-Label::Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<int()> p_int_value){
-  Label(p_xOrigin, p_yOrigin, p_style, p_text);
+Label::Label(std::string const p_name, short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<int()> p_int_value){
+  Label(p_name, p_xOrigin, p_yOrigin, p_style, p_text);
   m_int_function = p_int_value;
   m_lable_type = INT_FUNCTION;
 }
-Label::Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<double()> p_double_value){
-  Label(p_xOrigin, p_yOrigin, p_style, p_text);
+Label::Label(std::string const p_name, short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<double()> p_double_value){
+  Label(p_name, p_xOrigin, p_yOrigin, p_style, p_text);
   m_double_function = p_double_value;
   m_lable_type = DOUBLE_FUNCTION;
 }
-Label::Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<std::string()> p_string_value){
-  Label(p_xOrigin, p_yOrigin, p_style, p_text);
+Label::Label(std::string const p_name, short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<std::string()> p_string_value){
+  Label(p_name, p_xOrigin, p_yOrigin, p_style, p_text);
   m_string_function = p_string_value;
   m_lable_type = STRING_FUNCTION;
 }
-Label::Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<bool()> p_bool_value){
-  Label(p_xOrigin, p_yOrigin, p_style, p_text);
+Label::Label(std::string const p_name, short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<bool()> p_bool_value){
+  Label(p_name, p_xOrigin, p_yOrigin, p_style, p_text);
   m_bool_function = p_bool_value;
   m_lable_type = BOOL_FUNCTION;
 }
