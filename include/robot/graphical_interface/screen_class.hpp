@@ -36,11 +36,12 @@ namespace GUI{
     static Screen& s_home_screen;
     static Screen& s_disconnected_screen;
 
-    static Screen* s_current_screen_pointer;// TODO:: Created Deafult Screen
-    static Screen* s_next_screen_pointer;
+    static Screen* s_current_screen_pointer;
 
     static Data_Storing s_settings;
     static Timer s_timer;
+
+    friend class Button;
 
   public:
     /* Constructor */
@@ -86,6 +87,8 @@ namespace GUI{
     void add_relationship(std::function<bool()> p_function, std::string const p_screen_name, bool const p_inversed = false);
 
     static void initialize(Robot& p_robot);
+
+    static void draw_current_screen();
 
     static void task();
   };

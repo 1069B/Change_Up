@@ -1,5 +1,6 @@
 #include "robot/graphical_interface/button_class.hpp"
 #include "robot/graphical_interface/screen_class.hpp"
+#include "robot/devices/timer_class.hpp"
 
 using namespace GUI;
 
@@ -46,8 +47,10 @@ void Button::draw_button(Screen& p_screen){
 void Button::update_button(Screen& p_screen){
   m_current_state = lv_btn_get_state(m_button);
   if(m_current_state == false && m_previous_state == true){
-    if(m_change_screen)//m_change_screen_ID TODO: Screen Class
-      int x{0};
+    if(m_change_screen){
+      Screen::s_next_screen_name = m_change_screen_ID;
+      Screen::s_timer.set_flag_delay(250);
+    }
 
     if(m_connected_double)
       *m_connected_double_pointer = m_connected_double_value;
