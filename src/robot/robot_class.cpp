@@ -8,6 +8,8 @@
 
 Robot::Robot(){
   m_recall_settings = m_settings.initialize_bool("Recall_Settings", false);
+  GUI::Screen::initialize(*this);
+  defineGUI();
 }
 
 Motor& Robot::add_motor(std::string const p_name, short const p_port, pros::motor_gearset_e_t const p_gearset, pros::motor_brake_mode_e_t const p_brake, bool const p_reversed){
@@ -63,4 +65,13 @@ SENSOR::Digital& Robot::add_digital(std::string const p_name, short const p_port
   SENSOR::Digital* l_new_digital{new SENSOR::Digital(*this, p_name, p_port)};
   m_digital_list.push_back(l_new_digital);
   return *l_new_digital;
+}
+
+void Robot::task(){
+  GUI::Screen::task();
+}
+
+void defineGUI(){
+  GUI::Screen& l_home = GUI::Screen::find_screen("Home");
+  l_home.create_label("Inital", 20, 20, whiteText, "Hello Corey");
 }
