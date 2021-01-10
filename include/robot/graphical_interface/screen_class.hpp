@@ -17,9 +17,14 @@ namespace GUI{
     std::vector<Switch*> m_switch_vector;
 
     std::string m_screen_name;
-    std::string m_error_screen;
 
     bool m_displayed{false};
+
+    /* Screen Relationship */
+    std::function<bool()> m_related_function;
+    std::string m_error_screen_name;
+    bool m_related_screen_inversed {false};
+    bool m_screen_relation {false};
 
     /* Static Members */
     static std::vector<Screen*> s_screen_vector;
@@ -28,15 +33,19 @@ namespace GUI{
     static std::string s_previous_screen_name;
     static std::string s_next_screen_name;
 
+    static Screen& s_home_screen;
+    static Screen& s_disconnected_screen;
+
     static Screen* s_current_screen_pointer;// TODO:: Created Deafult Screen
     static Screen* s_next_screen_pointer;
 
     static Data_Storing s_settings;
-
+    static Timer s_timer;
 
   public:
     /* Constructor */
     Screen(const std::string p_name);
+    Screen(const std::string p_name, std::function<bool()> p_function, std::string const p_screen_name, bool const p_inversed = false);
 
     /* Getter Functions */
     std::string get_screen_name(){return m_screen_name; }
@@ -45,9 +54,10 @@ namespace GUI{
 
     bool get_displayed(){ return m_displayed; }
 
+    static Screen& find_screen(std::string const p_screen_name);
+
     /* Add Functions */
     Rectangle& create_rectanlge(std::string const p_name, short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, lv_style_t& p_style);
-
 
     Label& create_label(std::string const p_name, short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text);
     template <typename T = std::string>
@@ -64,6 +74,7 @@ namespace GUI{
       lv_style_t& p_indicator_style, lv_style_t& p_true_style, lv_style_t& p_false_style);
 
     static Screen& create_screen(const std::string p_name);
+    static Screen& create_screen(const std::string p_name, std::function<bool()> p_function, std::string const p_screen_name, bool const m_inversed = false);
 
     /* Action */
     void draw_screen();
@@ -71,6 +82,10 @@ namespace GUI{
     void update_screen();
 
     void delete_screen();
+
+    void add_relationship(std::function<bool()> p_function, std::string const p_screen_name, bool const p_inversed = false);
+
+    static void initialize(Robot& p_robot);
 
     static void task();
   };

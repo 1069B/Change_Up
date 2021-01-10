@@ -5,11 +5,26 @@
 #include "robot/graphical_interface/bar_class.hpp"
 #include "robot/graphical_interface/button_class.hpp"
 #include "robot/graphical_interface/switch_class.hpp"
+#include "robot/devices/timer_class.hpp"
+#include "robot/robot_class.hpp"
 
 using namespace GUI;
 /* Constructor */
 Screen::Screen(const std::string p_name){
   m_screen_name = p_name;
+}
+Screen::Screen(const std::string p_name, std::function<bool()> p_function, std::string const p_screen_name, bool const p_inversed){
+  m_screen_name = p_name;
+  add_relationship(p_function, p_screen_name, p_inversed);
+}
+
+/* Getter Functions */
+Screen& Screen::find_screen(std::string const p_screen_name){
+  for(auto x : s_screen_vector){
+    if(x->get_screen_name() == p_screen_name)
+      return *x;
+  }
+  return s_home_screen;
 }
 
 /* Add Functions */
@@ -92,17 +107,6 @@ Switch& Screen::create_switch(std::string const p_name, short const p_xOrgin, sh
     return *l_new_switch;
   }
 
-Screen& Screen::create_screen(const std::string p_name){
-  for(auto x : s_screen_vector){
-    if(x->get_screen_name() == p_name)
-      return *x;
-  }
-
-  Screen* l_new_screen{new Screen(p_name)};
-  s_screen_vector.push_back(l_new_screen);
-  return *l_new_screen;
-};
-
 /* Action */
 void Screen::draw_screen(){
   m_screen = lv_cont_create(lv_scr_act(), NULL);
@@ -157,9 +161,106 @@ void Screen::delete_screen(){
   }
 }
 
-/* Static */
-//std::vector<Screen*> Screen::m_screen_vector{};//TODO: Add defult Screen
+void Screen::add_relationship(std::function<bool()> p_function, std::string const p_screen_name, bool const p_inversed){
+  m_related_function = p_function;
+  m_error_screen_name = p_screen_name;
+  m_screen_relation = p_inversed;
+}
+
+/* Static Members */
+std::vector<Screen*> Screen::s_screen_vector{};
+
+std::string Screen::s_current_screen_name{};
+std::string Screen::s_previous_screen_name{};
+std::string Screen::s_next_screen_name{};
+
+Screen& Screen::s_home_screen{ create_screen("Home") };
+Screen& Screen::s_disconnected_screen{ create_screen("Disconnected") };
+
+Screen* Screen::s_current_screen_pointer{ &s_home_screen };
+Screen* Screen::s_next_screen_pointer{ &s_home_screen };
+
+Data_Storing Screen::s_settings{"Settings.xml", "GUI", "Main"};
+Timer Screen::s_timer{};
+
+Screen& Screen::create_screen(const std::string p_name){
+  for(auto x : s_screen_vector){
+    if(x->get_screen_name() == p_name)
+      return *x;
+  }
+
+  Screen* l_new_screen{new Screen(p_name)};
+  s_screen_vector.push_back(l_new_screen);
+  return *l_new_screen;
+};
+Screen& Screen::create_screen(const std::string p_name, std::function<bool()> p_function, std::string const p_screen_name, bool const m_inversed){
+  for(auto x : s_screen_vector){
+    if(x->get_screen_name() == p_name)
+      return *x;
+  }
+
+  Screen* l_new_screen{new Screen(p_name, p_function, p_screen_name, m_inversed)};
+  s_screen_vector.push_back(l_new_screen);
+  return *l_new_screen;
+}
+
+
+void Screen::initialize(Robot& p_robot){
+  if(p_robot.get_recall_settings()){
+    s_next_screen_name = s_settings.initialize_string("Previous_Screen_Name", "Home");
+  }
+  else{
+    s_next_screen_name = "Home";
+  }
+
+  s_current_screen_pointer->draw_screen();
+}
 
 void Screen::task(){
 
+}
+
+void GraphicalInterface::updateScreen(){
+  m_previousScreenID = m_currentScreenID;
+  m_currentScreen->remove();
+  m_nextScreen = findScreen(m_nextScreenID);
+  m_currentScreen = m_nextScreen;
+  m_currentScreenID = m_nextScreenID;
+  m_currentScreen->draw();
+  m_GUIStorage.storeString("Previous_Screen", m_currentScreenID);
+}
+
+void GraphicalInterface::task(){
+  if(m_timer.preformAction() && m_nextScreenID != m_currentScreenID && pros::millis() > 10){// Makes the change of screen
+    updateScreen();
+    m_timer.addActionDelay(400);
+  }
+
+  m_currentScreen->detect();
+
+  if(m_timer.preformAction() && m_nextScreenID != m_currentScreenID){// Delay for Visual Button
+    m_timer.addActionDelay(100);
+  }
+
+  if(m_nextScreen->isRelation() && m_nextScreen->getInverse() && !m_nextScreen->getRelatedFunc()()){
+    if(m_currentScreen == findScreen(m_currentScreenID)){
+      m_currentScreen->remove();
+      m_currentScreen = findScreen(m_nextScreen->getRelatedScreen());
+      m_currentScreen->draw();
+    }
+  }
+  else if(m_nextScreen->isRelation() && !m_nextScreen->getInverse() && m_nextScreen->getRelatedFunc()()){
+    if(m_currentScreen == findScreen(m_currentScreenID)){
+      m_currentScreen->remove();
+      m_currentScreen = findScreen(m_nextScreen->getRelatedScreen());
+      m_currentScreen->draw();
+    }
+  }
+  else if(m_nextScreen->isRelation() && m_currentScreen != findScreen(m_currentScreenID)){
+    m_currentScreen->remove();
+    m_currentScreen = findScreen(m_currentScreenID);
+    m_currentScreen->draw();
+  }
+
+  m_currentScreen->update();
 }
