@@ -4,12 +4,12 @@
 #include "robot/sensors/distance_class.hpp"
 #include "robot/sensors/optical_class.hpp"
 #include "robot/sensors/digital_class.hpp"
+#include "robot/graphical_interface/button_class.hpp"
 
 
 Robot::Robot(){
   m_recall_settings = m_settings.initialize_bool("Recall_Settings", false);
-  GUI::Screen::initialize(*this);
-  defineGUI();
+  defineStyles();
 }
 
 Motor& Robot::add_motor(std::string const p_name, short const p_port, pros::motor_gearset_e_t const p_gearset, pros::motor_brake_mode_e_t const p_brake, bool const p_reversed){
@@ -71,7 +71,16 @@ void Robot::task(){
   GUI::Screen::task();
 }
 
-void defineGUI(){
+void Robot::defineGUI(){
+
   GUI::Screen& l_home = GUI::Screen::find_screen("Home");
   l_home.create_label("Inital", 20, 20, whiteText, "Hello Corey");
+  l_home.create_rectanlge("Rect1", 20, 50, 460, 10, redBtnRel);
+  GUI::Button& btn1 = l_home.create_button("Btn1", "Settings", 100, 100, 100, 50, blueBtnPress, blueBtnRel);
+  btn1.add_connected_screen("Settings");
+
+  GUI::Screen& l_settings = GUI::Screen::create_screen("Settings");
+  l_settings.create_label("Inital", 20, 20, whiteText, "It Worked!");
+
+  GUI::Screen::initialize(*this);
 }

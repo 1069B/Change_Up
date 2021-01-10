@@ -1,135 +1,141 @@
 #include "robot/graphical_interface/styles.hpp"
 
-lv_style_t redBtnRel;
-lv_style_t redBtnPress;
-lv_style_t blueBtnRel;
-lv_style_t blueBtnPress;
-lv_style_t greenBtnRel;
-lv_style_t greenBtnPress;
-lv_style_t defaultBtnRel;
-lv_style_t defaultBtnPress;
+int GUI_STYLES::color_red;// TODO: How is this used
+int GUI_STYLES::color_blue;
+int GUI_STYLES::color_green;
+int GUI_STYLES::color_defualt;
 
-lv_style_t redText;
-lv_style_t blueText;
-lv_style_t greenText;
-lv_style_t blackText;
-lv_style_t whiteText;
+lv_style_t GUI_STYLES::red_button_released;
+lv_style_t GUI_STYLES::red_button_pressed;
+lv_style_t GUI_STYLES::blue_button_released;
+lv_style_t GUI_STYLES::blue_button_pressed;
+lv_style_t GUI_STYLES::green_button_released;
+lv_style_t GUI_STYLES::green_button_pressed;
+lv_style_t GUI_STYLES::default_button_released;
+lv_style_t GUI_STYLES::default_button_pressed;
 
-lv_style_t defaultBackground;
-lv_style_t popupBackground;
+lv_style_t GUI_STYLES::red_text;
+lv_style_t GUI_STYLES::blue_text;
+lv_style_t GUI_STYLES::green_text;
+lv_style_t GUI_STYLES::black_text;
+lv_style_t GUI_STYLES::white_text;
 
-lv_style_t meterStyle;
+lv_style_t GUI_STYLES::default_background;
+lv_style_t GUI_STYLES::popup_background;
 
-lv_style_t toggleBackground;
-lv_style_t toggleInactive;
-lv_style_t toggleOn;
-lv_style_t toggleOff;
+lv_style_t GUI_STYLES::default_meter;
+
+lv_style_t GUI_STYLES::toggle_background;
+lv_style_t GUI_STYLES::toggle_inactive;
+lv_style_t GUI_STYLES::toggle_on;
+lv_style_t GUI_STYLES::toggle_off;
 
 void defineStyles(){
+  using namespace GUI_STYLES;
   //Default relesed style
-  lv_style_copy(&defaultBtnRel, &lv_style_plain);
-  defaultBtnRel.body.radius = 8;
-  defaultBtnRel.body.main_color = LV_COLOR_WHITE;
-  defaultBtnRel.body.grad_color = LV_COLOR_WHITE;
-  defaultBtnRel.text.color = LV_COLOR_RED;
+  lv_style_copy(&default_button_released, &lv_style_plain);
+  default_button_released.body.radius = 8;
+  default_button_released.body.main_color = LV_COLOR_WHITE;
+  default_button_released.body.grad_color = LV_COLOR_WHITE;
+  default_button_released.text.color = LV_COLOR_RED;
 
   //Default relesed style
-  lv_style_copy(&defaultBtnPress, &defaultBtnRel);
-  defaultBtnPress.body.main_color = LV_COLOR_SILVER;
-  defaultBtnPress.body.grad_color = LV_COLOR_SILVER;
+  lv_style_copy(&default_button_pressed, &default_button_released);
+  default_button_pressed.body.main_color = LV_COLOR_SILVER;
+  default_button_pressed.body.grad_color = LV_COLOR_SILVER;
 
   //Red Rel style
-  lv_style_copy(&redBtnRel, &defaultBtnRel);
-  redBtnRel.body.main_color = LV_COLOR_RED;
-  redBtnRel.body.grad_color = LV_COLOR_RED;
-  redBtnRel.text.color = LV_COLOR_MAKE(255, 255, 255);
+  lv_style_copy(&red_button_released, &default_button_released);
+  red_button_released.body.main_color = LV_COLOR_RED;
+  red_button_released.body.grad_color = LV_COLOR_RED;
+  red_button_released.text.color = LV_COLOR_MAKE(255, 255, 255);
 
   //Red pressed style
-  lv_style_copy(&redBtnPress, &redBtnRel);
-  redBtnPress.body.main_color = LV_COLOR_MAROON;
-  redBtnPress.body.grad_color = LV_COLOR_MAROON;
+  lv_style_copy(&red_button_pressed, &red_button_released);
+  red_button_pressed.body.main_color = LV_COLOR_MAROON;
+  red_button_pressed.body.grad_color = LV_COLOR_MAROON;
 
   //Blue Rel style
-  lv_style_copy(&blueBtnRel, &defaultBtnRel);
-  blueBtnRel.body.main_color = LV_COLOR_BLUE;
-  blueBtnRel.body.grad_color = LV_COLOR_BLUE;
-  blueBtnRel.text.color = LV_COLOR_MAKE(255, 255, 255);
+  lv_style_copy(&blue_button_released, &default_button_released);
+  blue_button_released.body.main_color = LV_COLOR_BLUE;
+  blue_button_released.body.grad_color = LV_COLOR_BLUE;
+  blue_button_released.text.color = LV_COLOR_MAKE(255, 255, 255);
 
   //Blue pressed style
-  lv_style_copy(&blueBtnPress, &blueBtnRel);
-  blueBtnPress.body.main_color = LV_COLOR_NAVY;
-  blueBtnPress.body.grad_color = LV_COLOR_NAVY;
+  lv_style_copy(&blue_button_pressed, &blue_button_released);
+  blue_button_pressed.body.main_color = LV_COLOR_NAVY;
+  blue_button_pressed.body.grad_color = LV_COLOR_NAVY;
 
   //Green Rel style
-  lv_style_copy(&greenBtnRel, &defaultBtnRel);
-  greenBtnRel.body.radius = 8;
-  greenBtnRel.body.main_color = LV_COLOR_GREEN;
-  greenBtnRel.body.grad_color = LV_COLOR_GREEN;
-  greenBtnRel.text.color = LV_COLOR_MAKE(255, 255, 255);
+  lv_style_copy(&green_button_released, &default_button_released);
+  green_button_released.body.radius = 8;
+  green_button_released.body.main_color = LV_COLOR_GREEN;
+  green_button_released.body.grad_color = LV_COLOR_GREEN;
+  green_button_released.text.color = LV_COLOR_MAKE(255, 255, 255);
 
   //Green Pressed style
-  lv_style_copy(&greenBtnPress, &greenBtnRel);
-  greenBtnPress.body.main_color = LV_COLOR_HEX(0x10690C);
-  greenBtnPress.body.grad_color = LV_COLOR_HEX(0x10690C);
+  lv_style_copy(&green_button_pressed, &green_button_released);
+  green_button_pressed.body.main_color = LV_COLOR_HEX(0x10690C);
+  green_button_pressed.body.grad_color = LV_COLOR_HEX(0x10690C);
 
-  lv_style_copy(&redText, &lv_style_plain);
-  redText.text.color = LV_COLOR_RED;
-  redText.line.color = LV_COLOR_RED;
-  redText.line.width = 3;
-  lv_style_copy(&blueText, &lv_style_plain);
-  blueText.text.color = LV_COLOR_BLUE;
-  blueText.line.color = LV_COLOR_BLUE;
-  blueText.line.width = 3;
-  lv_style_copy(&greenText, &lv_style_plain);
-  greenText.text.color = LV_COLOR_GREEN;
-  greenText.line.color = LV_COLOR_GREEN;
-  greenText.line.width = 3;
-  lv_style_copy(&blackText, &lv_style_plain);
-  blackText.text.color = LV_COLOR_BLACK;
-  blackText.line.color = LV_COLOR_BLACK;
-  blackText.line.width = 3;
-  lv_style_copy(&whiteText, &lv_style_plain);
-  whiteText.text.color = LV_COLOR_WHITE;
-  whiteText.line.color = LV_COLOR_WHITE;
-  whiteText.line.width = 3;
+  lv_style_copy(&red_text, &lv_style_plain);
+  red_text.text.color = LV_COLOR_RED;
+  red_text.line.color = LV_COLOR_RED;
+  red_text.line.width = 3;
+  lv_style_copy(&blue_text, &lv_style_plain);
+  blue_text.text.color = LV_COLOR_BLUE;
+  blue_text.line.color = LV_COLOR_BLUE;
+  blue_text.line.width = 3;
+  lv_style_copy(&green_text, &lv_style_plain);
+  green_text.text.color = LV_COLOR_GREEN;
+  green_text.line.color = LV_COLOR_GREEN;
+  green_text.line.width = 3;
+  lv_style_copy(&black_text, &lv_style_plain);
+  black_text.text.color = LV_COLOR_BLACK;
+  black_text.line.color = LV_COLOR_BLACK;
+  black_text.line.width = 3;
+  lv_style_copy(&white_text, &lv_style_plain);
+  white_text.text.color = LV_COLOR_WHITE;
+  white_text.line.color = LV_COLOR_WHITE;
+  white_text.line.width = 3;
 
-  lv_style_copy(&defaultBackground, &lv_style_plain);
-  defaultBackground.body.main_color = LV_COLOR_MAKE(0, 0, 0);
-  defaultBackground.body.grad_color = LV_COLOR_MAKE(0, 0, 0);
+  lv_style_copy(&default_background, &lv_style_plain);
+  default_background.body.main_color = LV_COLOR_MAKE(0, 0, 0);
+  default_background.body.grad_color = LV_COLOR_MAKE(0, 0, 0);
 
-  lv_style_copy(&popupBackground, &lv_style_plain);
-  popupBackground.body.main_color = LV_COLOR_MAKE(126, 126, 126);
-  popupBackground.body.grad_color = LV_COLOR_MAKE(126, 126, 126);
-  popupBackground.body.radius = 8;
-  popupBackground.body.border.color = LV_COLOR_MAROON;
-  popupBackground.body.border.width = 2;
+  lv_style_copy(&popup_background, &lv_style_plain);
+  popup_background.body.main_color = LV_COLOR_MAKE(126, 126, 126);
+  popup_background.body.grad_color = LV_COLOR_MAKE(126, 126, 126);
+  popup_background.body.radius = 8;
+  popup_background.body.border.color = LV_COLOR_MAROON;
+  popup_background.body.border.width = 2;
 
 
-  lv_style_copy(&meterStyle, &lv_style_pretty_color);
-  meterStyle.line.width = 2;
-  meterStyle.line.color = LV_COLOR_WHITE;
-  meterStyle.body.padding.hor = 16;            /*Line length*/
-  meterStyle.body.main_color = LV_COLOR_LIME;
-  meterStyle.body.grad_color = LV_COLOR_RED;
+  lv_style_copy(&default_meter, &lv_style_pretty_color);
+  default_meter.line.width = 2;
+  default_meter.line.color = LV_COLOR_WHITE;
+  default_meter.body.padding.hor = 16;            /*Line length*/
+  default_meter.body.main_color = LV_COLOR_LIME;
+  default_meter.body.grad_color = LV_COLOR_RED;
 
   /* Toggle Styles*/
-  lv_style_copy(&toggleBackground, &lv_style_pretty);
-  toggleBackground.body.radius = LV_RADIUS_CIRCLE;
+  lv_style_copy(&toggle_background, &lv_style_pretty);
+  toggle_background.body.radius = LV_RADIUS_CIRCLE;
 
-  lv_style_copy(&toggleInactive, &lv_style_pretty_color);
-  toggleInactive.body.radius = LV_RADIUS_CIRCLE;
-  toggleInactive.body.main_color = LV_COLOR_HEX(0x9fc8ef);
-  toggleInactive.body.grad_color = LV_COLOR_HEX(0x9fc8ef);
-  toggleInactive.body.padding.hor = 0;
-  toggleInactive.body.padding.ver = 0;
+  lv_style_copy(&toggle_inactive, &lv_style_pretty_color);
+  toggle_inactive.body.radius = LV_RADIUS_CIRCLE;
+  toggle_inactive.body.main_color = LV_COLOR_HEX(0x9fc8ef);
+  toggle_inactive.body.grad_color = LV_COLOR_HEX(0x9fc8ef);
+  toggle_inactive.body.padding.hor = 0;
+  toggle_inactive.body.padding.ver = 0;
 
-  lv_style_copy(&toggleOff, &lv_style_pretty);
-  toggleOff.body.radius = LV_RADIUS_CIRCLE;
-  toggleOff.body.shadow.width = 4;
-  toggleOff.body.shadow.type = LV_SHADOW_BOTTOM;
+  lv_style_copy(&toggle_off, &lv_style_pretty);
+  toggle_off.body.radius = LV_RADIUS_CIRCLE;
+  toggle_off.body.shadow.width = 4;
+  toggle_off.body.shadow.type = LV_SHADOW_BOTTOM;
 
-  lv_style_copy(&toggleOn, &lv_style_pretty_color);
-  toggleOn.body.radius = LV_RADIUS_CIRCLE;
-  toggleOn.body.shadow.width = 4;
-  toggleOn.body.shadow.type = LV_SHADOW_BOTTOM;
+  lv_style_copy(&toggle_on, &lv_style_pretty_color);
+  toggle_on.body.radius = LV_RADIUS_CIRCLE;
+  toggle_on.body.shadow.width = 4;
+  toggle_on.body.shadow.type = LV_SHADOW_BOTTOM;
 }

@@ -112,7 +112,7 @@ void Screen::draw_screen(){
   m_screen = lv_cont_create(lv_scr_act(), NULL);
   lv_obj_align(m_screen, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
   lv_obj_set_size(m_screen, 480, 240);
-  lv_obj_set_style(m_screen, m_style);
+  lv_obj_set_style(m_screen, &defaultBackground);
 
   for(auto x : m_rectangle_vector)
     x->draw_rectangle(*this);

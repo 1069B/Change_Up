@@ -3,35 +3,37 @@
 #ifndef STYLES_H
 #define STYLES_H
 
-extern int color_Red;
-extern int color_Blue;
-extern int color_Green;
-extern int color_Defualt;
+namespace GUI_STYLES{
+  extern int color_red;
+  extern int color_blue;
+  extern int color_green;
+  extern int color_defualt;
 
-extern lv_style_t redBtnRel;
-extern lv_style_t redBtnPress;
-extern lv_style_t blueBtnRel;
-extern lv_style_t blueBtnPress;
-extern lv_style_t greenBtnRel;
-extern lv_style_t greenBtnPress;
-extern lv_style_t defaultBtnRel;
-extern lv_style_t defaultBtnPress;
+  extern lv_style_t red_button_released;
+  extern lv_style_t red_button_pressed;
+  extern lv_style_t blue_button_released;
+  extern lv_style_t blue_button_pressed;
+  extern lv_style_t green_button_released;
+  extern lv_style_t green_button_pressed;
+  extern lv_style_t default_button_released;
+  extern lv_style_t default_button_pressed;
 
-extern lv_style_t redText;
-extern lv_style_t blueText;
-extern lv_style_t greenText;
-extern lv_style_t blackText;
-extern lv_style_t whiteText;
+  extern lv_style_t red_text;
+  extern lv_style_t blue_text;
+  extern lv_style_t green_text;
+  extern lv_style_t black_text;
+  extern lv_style_t white_text;
 
-extern lv_style_t defaultBackground;
-extern lv_style_t popupBackground;
+  extern lv_style_t default_background;
+  extern lv_style_t popup_background;
 
-extern lv_style_t meterStyle;
+  extern lv_style_t default_meter;
 
-extern lv_style_t toggleBackground;
-extern lv_style_t toggleInactive;
-extern lv_style_t toggleOn;
-extern lv_style_t toggleOff;
+  extern lv_style_t toggle_background;
+  extern lv_style_t toggle_inactive;
+  extern lv_style_t toggle_on;
+  extern lv_style_t toggle_off;
+}
 
 void defineStyles(void);
 

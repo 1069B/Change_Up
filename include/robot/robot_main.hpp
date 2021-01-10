@@ -1,5 +1,6 @@
 #include "main.h"
 #include "robot/graphical_interface/styles.hpp"
+#include "robot/graphical_interface/alertClass.hpp"
 
 class Robot;
 
