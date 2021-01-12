@@ -20,6 +20,7 @@ Motor& Robot::add_motor(std::string const p_name, short const p_port, pros::moto
 
   Motor* l_new_motor{new Motor(*this, p_name, p_port, p_gearset, p_brake, p_reversed)};
   m_motor_list.push_back(l_new_motor);
+  l_new_motor->define_GUI();
   return *l_new_motor;
 }
 
@@ -72,15 +73,21 @@ void Robot::task(){
 }
 
 void Robot::defineGUI(){
+  GUI::Screen::initialize(*this);
 
   GUI::Screen& l_home = GUI::Screen::find_screen("Home");
-  l_home.create_label("Inital", 20, 20, whiteText, "Hello Corey");
-  l_home.create_rectanlge("Rect1", 20, 50, 460, 10, redBtnRel);
-  GUI::Button& btn1 = l_home.create_button("Btn1", "Settings", 100, 100, 100, 50, blueBtnPress, blueBtnRel);
-  btn1.add_connected_screen("Settings");
+  l_home.create_label(20, 20, GUI_STYLES::white_text, "Hello Corey");
+  l_home.create_rectanlge("Rect1", 20, 50, 460, 10, GUI_STYLES::red_button_released);
+  GUI::Button& btn1 = l_home.create_button("Btn1", "Motor 1", 100, 100, 100, 50, GUI_STYLES::blue_button_released, GUI_STYLES::blue_button_pressed);
+  btn1.add_connected_screen("Base_Front_Left");
+
+  GUI::Screen& l_disconnected = GUI::Screen::find_screen("Disconnected");
+  l_disconnected.create_label(20, 20, GUI_STYLES::white_text, "Device not Connected");
+  GUI::Button& btn2 = l_disconnected.create_button("Btn2", "Home", 100, 100, 100, 50, GUI_STYLES::blue_button_released, GUI_STYLES::blue_button_pressed);
+  btn2.add_connected_screen("Home");
 
   GUI::Screen& l_settings = GUI::Screen::create_screen("Settings");
-  l_settings.create_label("Inital", 20, 20, whiteText, "It Worked!");
+  l_settings.create_label(20, 20, GUI_STYLES::white_text, "It Worked!");
 
-  GUI::Screen::initialize(*this);
+
 }

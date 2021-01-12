@@ -87,6 +87,8 @@ public:
   /*  Action Functions */
   void reset_position(){ pros::c::motor_tare_position(m_port); }
 
+  void define_GUI();
+
 };
 
 #endif // MOTOR_CLASS_H

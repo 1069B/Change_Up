@@ -1,5 +1,6 @@
 #include "robot/devices/motor_class.hpp"
 #include "robot/robot_class.hpp"
+#include "robot/graphical_interface/button_class.hpp"
 
 Motor::Motor(Robot &p_robot, std::string const p_name, short const p_port, pros::motor_gearset_e_t const p_motor_gearset, pros::motor_brake_mode_e_t const p_motor_brake, bool const p_reversed):
 m_robot(p_robot),
@@ -58,4 +59,28 @@ void Motor::set_desired_voltage(int const p_desired_voltage){
   m_mode = MOTOR_VOLTAGE_DEPENDENT;
   m_desired_velocity = 0;
   pros::c::motor_move_voltage(m_port, m_desired_voltage);
+}
+
+void Motor::define_GUI(){
+  GUI::Screen& l_screen = GUI::Screen::create_screen(m_name);
+  l_screen.create_rectanlge("Rect1", 0, 0, 480, 40, GUI_STYLES::white_text);
+  l_screen.create_label(200, 10, GUI_STYLES::red_text, m_name);
+
+  l_screen.create_label(20, 50, GUI_STYLES::white_text, "Desired Velocity: %d", m_desired_velocity);
+  l_screen.create_label(20, 80, GUI_STYLES::white_text, "Actual Velocity: %d", (std::function<int()>)std::bind(&Motor::get_actual_velocity, this));
+  l_screen.create_label(20, 110, GUI_STYLES::white_text, "Position: %d Deg", (std::function<int()>)std::bind(&Motor::get_postion, this));
+  l_screen.create_label(20, 140, GUI_STYLES::white_text, "Reversed: %b", m_reversed);
+  //l_screen.create_label(m_name, 20, 170, GUI_STYLES::white_text, "Motor Gearset: %s", &m_motor_gearset);
+
+  l_screen.create_label(260, 50, GUI_STYLES::white_text, "Desired Voltage: %d", m_desired_voltage);
+  l_screen.create_label(260, 80, GUI_STYLES::white_text, "Actual Voltage: %d", (std::function<int()>)std::bind(&Motor::get_actual_voltage, this));
+  l_screen.create_label(260, 110, GUI_STYLES::white_text, "Tempature: %d C", (std::function<int()>)std::bind(&Motor::get_tempature, this));
+  //l_screen.create_label(m_name, 260, 140, GUI_STYLES::white_text, "Internal PID: %b", m_mode);
+  //l_screen.create_label(m_name, 260, 170, GUI_STYLES::white_text, "Brake Mode: %s", &m_brake_mode);
+
+  GUI::Button& btn1 = l_screen.create_button("Btn1", "Go Back", 160, 200, 150, 20);
+  btn1.add_connected_screen("Home");
+
+  l_screen.add_relationship((std::function<bool()>)std::bind(&Motor::get_connected, this), "Disconnected", false);
+
 }

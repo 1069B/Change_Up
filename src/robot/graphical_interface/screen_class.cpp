@@ -1,6 +1,5 @@
 #include "robot/graphical_interface/screen_class.hpp"
 #include "robot/graphical_interface/rectangle_class.hpp"
-#include "robot/graphical_interface/label_class.hpp"
 #include "robot/graphical_interface/list_class.hpp"
 #include "robot/graphical_interface/bar_class.hpp"
 #include "robot/graphical_interface/button_class.hpp"
@@ -39,24 +38,49 @@ GUI::Rectangle& Screen::create_rectanlge(std::string const p_name, short const p
   return *l_new_rectangle;
 }
 
-template <typename T>
-Label& Screen::create_label(std::string const p_name, short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, T p_value){
-  for(auto x : m_label_vector){
-    if(x->get_name() == p_name)
-      return *x;
-  }
-
-  Label* l_new_label{new Label(p_name, p_xOrigin, p_yOrigin, p_style, p_text, p_value)};
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text)};
   m_label_vector.push_back(l_new_label);
   return *l_new_label;
 }
-Label& Screen::create_label(std::string const p_name, short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text){
-  for(auto x : m_label_vector){
-    if(x->get_name() == p_name)
-      return *x;
-  }
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, int& p_int_value){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_int_value)};
+  m_label_vector.push_back(l_new_label);
+  return *l_new_label;
+}
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, double& p_double_value){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_double_value)};
+  m_label_vector.push_back(l_new_label);
+  return *l_new_label;
+}
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::string& p_string_value){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_string_value)};
+  m_label_vector.push_back(l_new_label);
+  return *l_new_label;
+}
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, bool& p_string_value){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_string_value)};
+  m_label_vector.push_back(l_new_label);
+  return *l_new_label;
+}
 
-  Label* l_new_label{new Label(p_name, p_xOrigin, p_yOrigin, p_style, p_text)};
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<int()> p_int_value){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_int_value)};
+  m_label_vector.push_back(l_new_label);
+  return *l_new_label;
+}
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<double()> p_double_value){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_double_value)};
+  m_label_vector.push_back(l_new_label);
+  return *l_new_label;
+}
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<std::string()> p_string_value){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_string_value)};
+  m_label_vector.push_back(l_new_label);
+  return *l_new_label;
+}
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<bool()> p_bool_value){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_bool_value)};
   m_label_vector.push_back(l_new_label);
   return *l_new_label;
 }
@@ -112,7 +136,7 @@ void Screen::draw_screen(){
   m_screen = lv_cont_create(lv_scr_act(), NULL);
   lv_obj_align(m_screen, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
   lv_obj_set_size(m_screen, 480, 240);
-  lv_obj_set_style(m_screen, &defaultBackground);
+  lv_obj_set_style(m_screen, &GUI_STYLES::default_background);
 
   for(auto x : m_rectangle_vector)
     x->draw_rectangle(*this);
@@ -170,7 +194,7 @@ void Screen::add_relationship(std::function<bool()> p_function, std::string cons
 /* Static Members */
 std::vector<Screen*> Screen::s_screen_vector{};
 
-std::string Screen::s_current_screen_name{};
+std::string Screen::s_current_screen_name{"Blank"};
 std::string Screen::s_previous_screen_name{};
 std::string Screen::s_next_screen_name{};
 
@@ -178,7 +202,6 @@ Screen& Screen::s_home_screen{ create_screen("Home") };
 Screen& Screen::s_disconnected_screen{ create_screen("Disconnected") };
 
 Screen* Screen::s_current_screen_pointer{ &s_home_screen };
-//Screen* Screen::s_next_screen_pointer{ &s_home_screen };
 
 Data_Storing Screen::s_settings{"Settings.xml", "GUI", "Main"};
 Timer Screen::s_timer{};
@@ -212,7 +235,7 @@ void Screen::initialize(Robot& p_robot){
   else{
     s_next_screen_name = "Home";
   }
-  draw_current_screen();
+  s_timer.set_flag_delay(0);
 }
 
 void Screen::draw_current_screen(){
@@ -236,11 +259,11 @@ void Screen::draw_current_screen(){
 }
 
 void Screen::task(){
-  s_current_screen_pointer->update_screen();
   if(s_current_screen_name != s_next_screen_name && s_timer.get_preform_action()){
     s_current_screen_pointer->delete_screen();
     s_previous_screen_name = s_current_screen_name;
 
     draw_current_screen();
   }
+  s_current_screen_pointer->update_screen();
 }

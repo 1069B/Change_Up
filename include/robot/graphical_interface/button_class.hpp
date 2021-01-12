@@ -42,6 +42,8 @@ namespace GUI{
     bool m_preform_function = false;
     std::function<int()> m_run_function;
 
+    /*Text Symbol*/
+
   public:
     /* Constructors */
     Button(std::string const p_name, std::string const p_text, short const p_yOrigin, short const p_xOrigin, short const p_width, short const p_height, lv_style_t& p_style_pressed, lv_style_t& p_style_released);

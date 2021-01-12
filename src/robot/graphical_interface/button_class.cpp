@@ -46,11 +46,13 @@ void Button::draw_button(Screen& p_screen){
 }
 
 void Button::update_button(Screen& p_screen){
-  m_current_state = lv_btn_get_state(m_button);
+  if(p_screen.m_displayed){
+    m_current_state = lv_btn_get_state(m_button);
+  }
   if(m_current_state == false && m_previous_state == true){
     if(m_change_screen){
       Screen::s_next_screen_name = m_change_screen_ID;
-      Screen::s_timer.set_flag_delay(250);
+      Screen::s_timer.set_flag_delay(100);
     }
 
     if(m_connected_double)
