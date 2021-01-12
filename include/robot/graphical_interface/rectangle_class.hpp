@@ -6,8 +6,6 @@
 namespace GUI{
   class Rectangle{
   private:
-    std::string m_name{};
-
     short m_xOrigin{};
     short m_yOrigin{};
     short m_length{};
@@ -17,10 +15,9 @@ namespace GUI{
     lv_style_t* m_style{};
   public:
     /*  Constuctors  */
-    Rectangle(std::string const p_name, short const p_xOrgin, short const p_yOrgin, short const p_length, short const p_width, lv_style_t& p_style);
+    Rectangle(short const p_xOrgin, short const p_yOrgin, short const p_length, short const p_width, lv_style_t& p_style);
 
     /*  Getting Function  */
-    std::string get_name(){ return m_name; }
 
     short get_xOrgin(){ return m_xOrigin; }
 

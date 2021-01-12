@@ -5,8 +5,7 @@
 using namespace GUI;
 
 /* Constructor */
-Button::Button(std::string const p_name, std::string const p_text, short const p_yOrigin, short const p_xOrigin, short const p_width, short const p_height, lv_style_t& p_style_pressed, lv_style_t& p_style_released){
-  m_name = p_name;
+Button::Button(std::string const p_text, short const p_yOrigin, short const p_xOrigin, short const p_width, short const p_height, lv_style_t& p_style_pressed, lv_style_t& p_style_released){
   m_text = p_text;
   m_xOrigin = p_xOrigin;
   m_yOrigin = p_yOrigin;

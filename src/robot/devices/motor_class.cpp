@@ -63,7 +63,7 @@ void Motor::set_desired_voltage(int const p_desired_voltage){
 
 void Motor::define_GUI(){
   GUI::Screen& l_screen = GUI::Screen::create_screen(m_name);
-  l_screen.create_rectanlge("Rect1", 0, 0, 480, 40, GUI_STYLES::white_text);
+  l_screen.create_rectanlge(0, 0, 480, 40, GUI_STYLES::white_text);
   l_screen.create_label(200, 10, GUI_STYLES::red_text, m_name);
 
   l_screen.create_label(20, 50, GUI_STYLES::white_text, "Desired Velocity: %d", m_desired_velocity);
@@ -78,9 +78,12 @@ void Motor::define_GUI(){
   //l_screen.create_label(m_name, 260, 140, GUI_STYLES::white_text, "Internal PID: %b", m_mode);
   //l_screen.create_label(m_name, 260, 170, GUI_STYLES::white_text, "Brake Mode: %s", &m_brake_mode);
 
-  GUI::Button& btn1 = l_screen.create_button("Btn1", "Go Back", 160, 200, 150, 20);
+  GUI::Button& btn1 = l_screen.create_button("Go Back", 160, 200, 150, 20);
   btn1.add_connected_screen("Home");
 
-  l_screen.add_relationship((std::function<bool()>)std::bind(&Motor::get_connected, this), "Disconnected", false);
+  GUI::Button& btn2 = l_screen.create_button("Go Back", 160, 200, 150, 20);
+  btn2.add_connected_screen("Home");
+
+  //l_screen.add_relationship((std::function<bool()>)std::bind(&Motor::get_connected, this), "Disconnected", true);
 
 }

@@ -59,7 +59,7 @@ namespace GUI{
     static Screen& find_screen(std::string const p_screen_name);
 
     /* Add Functions */
-    Rectangle& create_rectanlge(std::string const p_name, short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, lv_style_t& p_style);
+    Rectangle& create_rectanlge(short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, lv_style_t& p_style);
 
     Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text);
     Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, int& p_int_value);
@@ -72,14 +72,14 @@ namespace GUI{
     Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<std::string()> p_string_value);
     Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<bool()> p_bool_value);
 
-    List& create_list(std::string const p_name, short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, std::vector<std::string>& p_list_options,
+    List& create_list(short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, std::vector<std::string>& p_list_options,
       unsigned short p_state, lv_style_t* p_background_style, lv_style_t* p_selected_style, lv_style_t* p_scrollbar_style);
 
-    Bar& create_bar(std::string const p_name, short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, int const p_position, int const p_range_minimum, int const p_range_maximum, lv_style_t&  p_bar_style, lv_style_t&  p_indicator_style);
+    Bar& create_bar(short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, int const p_position, int const p_range_minimum, int const p_range_maximum, lv_style_t&  p_bar_style, lv_style_t&  p_indicator_style);
 
-    Button& create_button(std::string const p_name, std::string const p_text, short const p_yOrigin, short const p_xOrigin, short const p_width, short const p_height, lv_style_t& p_style_pressed = GUI_STYLES::default_button_pressed, lv_style_t& p_style_released  = GUI_STYLES::default_button_released);
+    Button& create_button(std::string const p_text, short const p_yOrigin, short const p_xOrigin, short const p_width, short const p_height, lv_style_t& p_style_pressed = GUI_STYLES::default_button_pressed, lv_style_t& p_style_released  = GUI_STYLES::default_button_released);
 
-    Switch& create_switch(std::string const p_name, short const p_xOrgin, short const p_yOrgin, int const p_state, lv_style_t& p_background_style,
+    Switch& create_switch(short const p_xOrgin, short const p_yOrgin, int const p_state, lv_style_t& p_background_style,
       lv_style_t& p_indicator_style, lv_style_t& p_true_style, lv_style_t& p_false_style);
 
     static Screen& create_screen(const std::string p_name);
