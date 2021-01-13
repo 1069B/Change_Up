@@ -29,10 +29,10 @@ namespace GUI_STYLES{
 
   extern lv_style_t default_meter;
 
-  extern lv_style_t toggle_background;
-  extern lv_style_t toggle_inactive;
-  extern lv_style_t toggle_on;
-  extern lv_style_t toggle_off;
+  extern lv_style_t switch_background;
+  extern lv_style_t switch_inactive;
+  extern lv_style_t switch_on;
+  extern lv_style_t switch_off;
 }
 
 void defineStyles(void);

@@ -25,10 +25,10 @@ lv_style_t GUI_STYLES::popup_background;
 
 lv_style_t GUI_STYLES::default_meter;
 
-lv_style_t GUI_STYLES::toggle_background;
-lv_style_t GUI_STYLES::toggle_inactive;
-lv_style_t GUI_STYLES::toggle_on;
-lv_style_t GUI_STYLES::toggle_off;
+lv_style_t GUI_STYLES::switch_background;
+lv_style_t GUI_STYLES::switch_inactive;
+lv_style_t GUI_STYLES::switch_on;
+lv_style_t GUI_STYLES::switch_off;
 
 void defineStyles(){
   using namespace GUI_STYLES;
@@ -119,23 +119,25 @@ void defineStyles(){
   default_meter.body.grad_color = LV_COLOR_RED;
 
   /* Toggle Styles*/
-  lv_style_copy(&toggle_background, &lv_style_pretty);
-  toggle_background.body.radius = LV_RADIUS_CIRCLE;
+  lv_style_copy(&switch_background, &lv_style_pretty);
+  switch_background.body.radius = LV_RADIUS_CIRCLE;
+  switch_background.body.padding.hor = 5;
+  switch_background.body.padding.ver = 5;
 
-  lv_style_copy(&toggle_inactive, &lv_style_pretty_color);
-  toggle_inactive.body.radius = LV_RADIUS_CIRCLE;
-  toggle_inactive.body.main_color = LV_COLOR_HEX(0x9fc8ef);
-  toggle_inactive.body.grad_color = LV_COLOR_HEX(0x9fc8ef);
-  toggle_inactive.body.padding.hor = 0;
-  toggle_inactive.body.padding.ver = 0;
+  lv_style_copy(&switch_inactive, &lv_style_pretty_color);
+  switch_inactive.body.radius = LV_RADIUS_CIRCLE;
+  switch_inactive.body.main_color = LV_COLOR_HEX(0x9fc8ef);
+  switch_inactive.body.grad_color = LV_COLOR_HEX(0x9fc8ef);
+  switch_inactive.body.padding.hor = 0;
+  switch_inactive.body.padding.ver = 0;
 
-  lv_style_copy(&toggle_off, &lv_style_pretty);
-  toggle_off.body.radius = LV_RADIUS_CIRCLE;
-  toggle_off.body.shadow.width = 4;
-  toggle_off.body.shadow.type = LV_SHADOW_BOTTOM;
+  lv_style_copy(&switch_off, &lv_style_pretty);
+  switch_off.body.radius = LV_RADIUS_CIRCLE;
+  switch_off.body.shadow.width = 4;
+  switch_off.body.shadow.type = LV_SHADOW_BOTTOM;
 
-  lv_style_copy(&toggle_on, &lv_style_pretty_color);
-  toggle_on.body.radius = LV_RADIUS_CIRCLE;
-  toggle_on.body.shadow.width = 4;
-  toggle_on.body.shadow.type = LV_SHADOW_BOTTOM;
+  lv_style_copy(&switch_on, &lv_style_pretty_color);
+  switch_on.body.radius = LV_RADIUS_CIRCLE;
+  switch_on.body.shadow.width = 4;
+  switch_on.body.shadow.type = LV_SHADOW_BOTTOM;
 }

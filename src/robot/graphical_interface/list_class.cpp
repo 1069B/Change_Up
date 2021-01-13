@@ -28,30 +28,32 @@ void List::set_state(const unsigned short p_state){
 void List::draw_list(Screen& p_screen){
   std::string l_list{};
 
-  for(std::string& x : m_list_options){
-    l_list += x + "\n";
+  for(int x = 0; x < m_list_options.size()-1; x++){
+    l_list += m_list_options.at(x) + "\n";
   }
+  l_list += m_list_options.at(m_list_options.size()-1);
 
-  m_list = lv_ddlist_create(p_screen.get_screen(), NULL);
-  lv_ddlist_set_options(m_list, l_list.c_str());
+
+  m_list = lv_roller_create(p_screen.get_screen(), NULL);
+  lv_roller_set_options(m_list, l_list.c_str());
 
   lv_obj_align(m_list, NULL, LV_ALIGN_IN_TOP_LEFT, m_xOrigin, m_yOrigin);
-  lv_ddlist_set_fix_height(m_list, m_width);
-  lv_ddlist_set_hor_fit(m_list, m_length);
+  lv_roller_set_hor_fit(m_list, false);
+  lv_obj_set_width(m_list, m_width);
 
-  lv_ddlist_set_style(m_list, LV_DDLIST_STYLE_BG, m_background_style);
-  lv_ddlist_set_style(m_list, LV_DDLIST_STYLE_SEL, m_selected_style);
-  lv_ddlist_set_style(m_list, LV_DDLIST_STYLE_SB, m_scrollbar_style);
+  // lv_ddlist_set_style(m_list, LV_DDLIST_STYLE_BG, m_background_style);
+  // lv_ddlist_set_style(m_list, LV_DDLIST_STYLE_SEL, m_selected_style);
+  // lv_ddlist_set_style(m_list, LV_DDLIST_STYLE_SB, m_scrollbar_style);
 
-  lv_ddlist_set_selected(m_list, m_state);
+  //lv_ddlist_set_selected(m_list, m_state);
 }
 
 void List::update_list(){
-  m_state = lv_ddlist_get_selected(m_list);
-
-  if(m_conected_int){
-    *m_connected_int_pointer = m_connected_int_values->at(m_state);
-  }
+  // m_state = lv_ddlist_get_selected(m_list);
+  //
+  // if(m_conected_int){
+  //   *m_connected_int_pointer = m_connected_int_values->at(m_state);
+  // }
 }
 
 void List::add_connected_int(int& p_connected_int_pointer, std::vector<int>& p_connected_int_values){

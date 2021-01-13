@@ -5,7 +5,7 @@
 using namespace GUI;
 
 /* Constructor */
-Button::Button(std::string const p_text, short const p_yOrigin, short const p_xOrigin, short const p_width, short const p_height, lv_style_t& p_style_pressed, lv_style_t& p_style_released){
+Button::Button(std::string const p_text, short const p_xOrigin, short const p_yOrigin, short const p_width, short const p_height, lv_style_t& p_style_pressed, lv_style_t& p_style_released){
   m_text = p_text;
   m_xOrigin = p_xOrigin;
   m_yOrigin = p_yOrigin;
@@ -38,8 +38,8 @@ void Button::draw_button(Screen& p_screen){
 
   lv_obj_align(m_button, p_screen.get_screen(), LV_ALIGN_IN_TOP_LEFT, m_xOrigin, m_yOrigin);
   lv_obj_set_size(m_button, m_width, m_height);
-  lv_btn_set_style(m_button, LV_BTN_STYLE_REL, m_style_pressed);
-  lv_btn_set_style(m_button, LV_BTN_STYLE_PR, m_style_released);
+  lv_btn_set_style(m_button, LV_BTN_STYLE_REL, m_style_released);
+  lv_btn_set_style(m_button, LV_BTN_STYLE_PR, m_style_pressed);
   lv_label_set_text(m_label, m_text.c_str());
   update_button(p_screen);
 }

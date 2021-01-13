@@ -25,6 +25,8 @@ namespace GUI{
     short m_xOrigin{};
     short m_yOrigin{};
 
+    lv_label_align_t m_alignment{LV_ALIGN_IN_TOP_LEFT};
+
     std::string m_text{};
 
     int* m_int_pointer;
@@ -44,17 +46,17 @@ namespace GUI{
 
   public:
     /*  Constuctors  */
-    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text);
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, lv_label_align_t const p_alignment);
 
-    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, int& p_int_value);
-    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, double& p_double_value);
-    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::string& p_string_value);
-    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, bool& p_bool_value);
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, int& p_int_value, lv_label_align_t const p_alignment);
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, double& p_double_value, lv_label_align_t const p_alignment);
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::string& p_string_value, lv_label_align_t const p_alignment);
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, bool& p_bool_value, lv_label_align_t const p_alignment);
 
-    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<int()> p_int_value);
-    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<double()> p_double_value);
-    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<std::string()> p_string_value);
-    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<bool()> p_bool_value);
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<int()> p_int_value, lv_label_align_t const p_alignment);
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<double()> p_double_value, lv_label_align_t const p_alignment);
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<std::string()> p_string_value, lv_label_align_t const p_alignment);
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<bool()> p_bool_value, lv_label_align_t const p_alignment);
 
     /*  Getting Function  */
     short get_xOrigin(){ return m_xOrigin; }
@@ -65,6 +67,8 @@ namespace GUI{
 
     lv_style_t* get_style(){ return m_style; }
 
+    lv_label_align_t get_alignment(){ return m_alignment; }
+
     /*  Setter Function  */
     void set_xOrgin(short const p_xOrigin){ m_xOrigin = p_xOrigin; }
 
@@ -73,6 +77,8 @@ namespace GUI{
     void set_text(std::string const p_text){ m_text = p_text; }
 
     void set_style(lv_style_t& p_style){ m_style = &p_style; }
+
+    void set_alignment(lv_label_align_t const p_alignment){m_alignment = p_alignment; }
 
     /*  Action Functions */
     void draw_label(Screen& p_screen);

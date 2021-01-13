@@ -61,16 +61,16 @@ namespace GUI{
     /* Add Functions */
     Rectangle& create_rectanlge(short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, lv_style_t& p_style);
 
-    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text);
-    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, int& p_int_value);
-    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, double& p_double_value);
-    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::string& p_string_value);
-    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, bool& p_bool_value);
+    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, lv_label_align_t const p_alignment = LV_ALIGN_IN_TOP_LEFT);
+    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, int& p_int_value, lv_label_align_t const p_alignment = LV_ALIGN_IN_TOP_LEFT);
+    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, double& p_double_value, lv_label_align_t const p_alignment = LV_ALIGN_IN_TOP_LEFT);
+    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::string& p_string_value, lv_label_align_t const p_alignment = LV_ALIGN_IN_TOP_LEFT);
+    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, bool& p_bool_value, lv_label_align_t const p_alignment = LV_ALIGN_IN_TOP_LEFT);
 
-    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<int()> p_int_value);
-    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<double()> p_double_value);
-    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<std::string()> p_string_value);
-    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<bool()> p_bool_value);
+    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<int()> p_int_value, lv_label_align_t const p_alignment = LV_ALIGN_IN_TOP_LEFT);
+    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<double()> p_double_value, lv_label_align_t const p_alignment = LV_ALIGN_IN_TOP_LEFT);
+    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<std::string()> p_string_value, lv_label_align_t const p_alignment = LV_ALIGN_IN_TOP_LEFT);
+    Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<bool()> p_bool_value, lv_label_align_t const p_alignment = LV_ALIGN_IN_TOP_LEFT);
 
     List& create_list(short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, std::vector<std::string>& p_list_options,
       unsigned short p_state, lv_style_t* p_background_style, lv_style_t* p_selected_style, lv_style_t* p_scrollbar_style);

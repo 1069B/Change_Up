@@ -12,7 +12,7 @@ Robot g_robot{};
 
 void initialize(){
 	g_robot.defineGUI();
-	g_robot.add_motor("Base_Front_Left", 1, pros::E_MOTOR_GEARSET_18, pros::E_MOTOR_BRAKE_COAST, false);
+	g_robot.add_motor("Front Left Base", 1, pros::E_MOTOR_GEARSET_18, pros::E_MOTOR_BRAKE_COAST, false);
 }
 
 /**

@@ -79,7 +79,7 @@ void Robot::defineGUI(){
   l_home.create_label(20, 20, GUI_STYLES::white_text, "Hello Corey");
   l_home.create_rectanlge(20, 50, 460, 10, GUI_STYLES::red_button_released);
   GUI::Button& btn1 = l_home.create_button("Motor 1", 100, 100, 100, 50, GUI_STYLES::blue_button_released, GUI_STYLES::blue_button_pressed);
-  btn1.add_connected_screen("Base_Front_Left");
+  btn1.add_connected_screen("Front Left Base");
 
   GUI::Screen& l_disconnected = GUI::Screen::find_screen("Disconnected");
   l_disconnected.create_label(20, 20, GUI_STYLES::white_text, "Device not Connected");

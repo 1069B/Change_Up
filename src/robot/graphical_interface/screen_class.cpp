@@ -33,49 +33,49 @@ GUI::Rectangle& Screen::create_rectanlge(short const p_xOrigin, short const p_yO
   return *l_new_rectangle;
 }
 
-Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text){
-  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text)};
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, lv_label_align_t const p_alignment){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_alignment)};
   m_label_vector.push_back(l_new_label);
   return *l_new_label;
 }
-Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, int& p_int_value){
-  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_int_value)};
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, int& p_int_value, lv_label_align_t const p_alignment){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_int_value, p_alignment)};
   m_label_vector.push_back(l_new_label);
   return *l_new_label;
 }
-Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, double& p_double_value){
-  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_double_value)};
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, double& p_double_value, lv_label_align_t const p_alignment){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_double_value, p_alignment)};
   m_label_vector.push_back(l_new_label);
   return *l_new_label;
 }
-Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::string& p_string_value){
-  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_string_value)};
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::string& p_string_value, lv_label_align_t const p_alignment){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_string_value, p_alignment)};
   m_label_vector.push_back(l_new_label);
   return *l_new_label;
 }
-Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, bool& p_string_value){
-  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_string_value)};
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, bool& p_string_value, lv_label_align_t const p_alignment){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_string_value, p_alignment)};
   m_label_vector.push_back(l_new_label);
   return *l_new_label;
 }
 
-Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<int()> p_int_value){
-  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_int_value)};
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<int()> p_int_value, lv_label_align_t const p_alignment){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_int_value, p_alignment)};
   m_label_vector.push_back(l_new_label);
   return *l_new_label;
 }
-Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<double()> p_double_value){
-  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_double_value)};
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<double()> p_double_value, lv_label_align_t const p_alignment){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_double_value, p_alignment)};
   m_label_vector.push_back(l_new_label);
   return *l_new_label;
 }
-Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<std::string()> p_string_value){
-  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_string_value)};
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<std::string()> p_string_value, lv_label_align_t const p_alignment){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_string_value, p_alignment)};
   m_label_vector.push_back(l_new_label);
   return *l_new_label;
 }
-Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<bool()> p_bool_value){
-  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_bool_value)};
+Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<bool()> p_bool_value, lv_label_align_t const p_alignment){
+  Label* l_new_label{new Label(p_xOrigin, p_yOrigin, p_style, p_text, p_bool_value, p_alignment)};
   m_label_vector.push_back(l_new_label);
   return *l_new_label;
 }
@@ -117,9 +117,6 @@ void Screen::draw_screen(){
   for(auto x : m_label_vector)
     x->draw_label(*this);
 
-  for(auto x : m_list_vector)
-    x->draw_list(*this);
-
   for(auto x : m_bar_vector)
     x->draw_bar(*this);
 
@@ -128,6 +125,9 @@ void Screen::draw_screen(){
 
   for(auto x : m_switch_vector)
     x->draw_switch(*this);
+
+  for(auto x : m_list_vector)
+    x->draw_list(*this);
 
   m_displayed = true;
 }

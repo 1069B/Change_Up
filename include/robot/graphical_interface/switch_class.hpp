@@ -63,9 +63,9 @@ namespace GUI {
     void set_state(bool const p_state);
 
     /*  Action Function */
-    void draw_switch(Screen& p_screen);// TODO: Add Screen& p_screen
+    void draw_switch(Screen& p_screen);
 
-    void update_switch();// TODO: Add Screen& p_screen
+    void update_switch();
 
     void add_connected_bool(bool& p_connected_bool_pointer);
 

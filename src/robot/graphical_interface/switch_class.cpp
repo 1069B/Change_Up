@@ -33,7 +33,10 @@ void Switch::draw_switch(Screen& p_screen){
   lv_sw_set_style(m_switch, LV_SW_STYLE_INDIC, m_indicator_style);
   lv_sw_set_style(m_switch, LV_SW_STYLE_KNOB_ON, m_true_style);
   lv_sw_set_style(m_switch, LV_SW_STYLE_KNOB_OFF, m_false_style);
+  lv_obj_set_width(m_switch, 65);
+  lv_obj_set_height(m_switch, 25);
   lv_obj_align(m_switch, p_screen.get_screen(), LV_ALIGN_IN_TOP_LEFT, m_xOrigin, m_yOrigin);
+
 
   set_state(m_state);
 }
@@ -44,14 +47,14 @@ void Switch::update_switch(){
   if(m_state){
     if(m_connected_bool)
       *m_connected_bool_pointer = true;
-    if(m_connected_int_pointer)
+    if(m_connected_int)
       *m_connected_int_pointer = m_connected_int_value_true;
   }
 
   else{
     if(m_connected_bool)
       *m_connected_bool_pointer = false;
-    if(m_connected_int_pointer)
+    if(m_connected_int)
       *m_connected_int_pointer = m_connected_int_value_false;
   }
 }
