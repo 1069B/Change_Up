@@ -1,6 +1,7 @@
 #include "robot/graphical_interface/screen_class.hpp"
+#include "robot/graphical_interface/label_class.hpp"
 #include "robot/graphical_interface/rectangle_class.hpp"
-#include "robot/graphical_interface/list_class.hpp"
+#include "robot/graphical_interface/roller_class.hpp"
 #include "robot/graphical_interface/bar_class.hpp"
 #include "robot/graphical_interface/button_class.hpp"
 #include "robot/graphical_interface/switch_class.hpp"
@@ -80,10 +81,10 @@ Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_sty
   return *l_new_label;
 }
 
-List& Screen::create_list(short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, std::vector<std::string>& p_list_options, unsigned short p_state, lv_style_t* p_background_style ,lv_style_t* p_selected_style, lv_style_t* p_scrollbar_style){
-    List* l_new_list{new List(p_xOrigin, p_yOrigin, p_length, p_width, p_list_options, p_state, p_background_style, p_selected_style, p_scrollbar_style)};
-    m_list_vector.push_back(l_new_list);
-    return *l_new_list;
+Roller& Screen::create_roller(short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, std::vector<std::string>& p_roller_options, unsigned short p_state, lv_style_t& p_background_style, lv_style_t& p_selected_style){
+    Roller* l_new_roller{new Roller(p_xOrigin, p_yOrigin, p_length, p_width, p_roller_options, p_state, p_background_style, p_selected_style)};
+    m_roller_vector.push_back(l_new_roller);
+    return *l_new_roller;
   }
 
 Bar& Screen::create_bar(short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, int const p_position, int const p_range_minimum, int const p_range_maximum, lv_style_t&  p_bar_style, lv_style_t&  p_indicator_style){
@@ -126,8 +127,8 @@ void Screen::draw_screen(){
   for(auto x : m_switch_vector)
     x->draw_switch(*this);
 
-  for(auto x : m_list_vector)
-    x->draw_list(*this);
+  for(auto x : m_roller_vector)
+    x->draw_roller(*this);
 
   m_displayed = true;
 }
@@ -138,8 +139,8 @@ void Screen::update_screen(){
   for(auto x : m_label_vector)
     x->update_label();
 
-  for(auto x : m_list_vector)
-    x->update_list();
+  for(auto x : m_roller_vector)
+    x->update_roller();
 
   for(auto x : m_bar_vector)
     x->update_bar();

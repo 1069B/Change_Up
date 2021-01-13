@@ -1,25 +1,24 @@
 #include "robot/robot_main.hpp"
 
-#ifndef LIST_CLASS_H
-#define LIST_CLASS_H
+#ifndef ROLLER_CLASS_H
+#define ROLLER_CLASS_H
 
 namespace GUI{
-  class List{
+  class Roller{
   private:
     short m_xOrigin{};
     short m_yOrigin{};
     short m_length{};
     short m_width{};
 
-    lv_obj_t* m_list{};
+    lv_obj_t* m_roller{};
 
     lv_style_t* m_background_style{};
     lv_style_t* m_selected_style{};
-    lv_style_t* m_scrollbar_style{};
 
     unsigned short m_state{};
 
-    std::vector<std::string>& m_list_options;
+    std::vector<std::string>& m_roller_options;
 
     /* Connected Int */
     bool m_conected_int{false};
@@ -28,8 +27,8 @@ namespace GUI{
 
   public:
     /*  Constuctors  */
-    List(short const p_xOrgin, short const p_yOrgin, short const p_length, short const p_width, std::vector<std::string>& p_list_options,
-      unsigned short p_state, lv_style_t* p_background_style ,lv_style_t* p_selected_style, lv_style_t* p_scrollbar_style);
+    Roller(short const p_xOrgin, short const p_yOrgin, short const p_length, short const p_width, std::vector<std::string>& p_list_options,
+      unsigned short p_state, lv_style_t& p_background_style ,lv_style_t& p_selected_style);
 
     /*  Getting Function  */
     short get_xOrgin(){ return m_xOrigin; }
@@ -44,11 +43,9 @@ namespace GUI{
 
     lv_style_t* get_selected_style(){ return m_selected_style; }
 
-    lv_style_t* get_scrollbar_style(){ return m_scrollbar_style; }
-
     unsigned short get_state(){ return m_state; }
 
-    std::vector<std::string>& get_list_options(){ return m_list_options; }
+    std::vector<std::string>& get_roller_options(){ return m_roller_options; }
 
     /*  Setter Function  */
     void set_xOrgin(short const p_xOrgin){ m_xOrigin = p_xOrgin; }
@@ -63,17 +60,15 @@ namespace GUI{
 
     void set_selected_style(lv_style_t& p_selected_style){ m_selected_style = &p_selected_style; }
 
-    void set_scrollbar_style(lv_style_t& p_scrollbar_style){ m_scrollbar_style = &p_scrollbar_style; }
-
     void set_state(unsigned short const p_state);
 
     /*  Action Function */
-    void draw_list(Screen& p_screen);
+    void draw_roller(Screen& p_screen);
 
-    void update_list();
+    void update_roller();
 
     void add_connected_int(int& p_connected_int_pointer, std::vector<int>& p_connected_int_values);
   };
 }
 
-#endif // LIST_CLASS_H
+#endif // ROLLER_CLASS_H

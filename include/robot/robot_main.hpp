@@ -10,10 +10,11 @@ namespace CONTROLLER{
   class Controller;
 }
 
+/* Graphical User Interface */
 namespace GUI{
   class Screen;
   class Rectangle;
-  class List;
+  class Roller;
   class Label;
   class Bar;
   class Button;
@@ -32,10 +33,6 @@ class Data_Logging;
 class Data_Storing;
 class Motor;
 class Timer;
-
-/* Graphical User Interface */
-class Rectangle;
-//class Label;
 
 
 /* Enum Varibles*/

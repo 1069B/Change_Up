@@ -95,7 +95,7 @@ void Motor::define_GUI(){
 
   std::vector<std::string>* l_string = new std::vector<std::string>{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
   l_settings.create_label(20, 50, GUI_STYLES::white_text, "Port:");
-  GUI::List& l_list1 = l_settings.create_list(200, 10, 100, 40, *l_string, 1, &GUI_STYLES::switch_background, &GUI_STYLES::red_button_released, &GUI_STYLES::red_text);
+  GUI::Roller& l_list1 = l_settings.create_roller(200, 10, 100, 40, *l_string, 1, GUI_STYLES::switch_background, GUI_STYLES::red_button_released);
 
   l_settings.create_label(20, 90, GUI_STYLES::white_text, "Reversed:");
   GUI::Switch& l_reversed = l_settings.create_switch(120, 88, m_reversed, GUI_STYLES::switch_background, GUI_STYLES::switch_inactive, GUI_STYLES::switch_on, GUI_STYLES::switch_off);
