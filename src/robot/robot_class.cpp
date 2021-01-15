@@ -4,10 +4,12 @@
 #include "robot/sensors/distance_class.hpp"
 #include "robot/sensors/optical_class.hpp"
 #include "robot/sensors/digital_class.hpp"
+#include "robot/graphical_interface/button_class.hpp"
 
 
 Robot::Robot(){
   m_recall_settings = m_settings.initialize_bool("Recall_Settings", false);
+  defineStyles();
 }
 
 Motor& Robot::add_motor(std::string const p_name, short const p_port, pros::motor_gearset_e_t const p_gearset, pros::motor_brake_mode_e_t const p_brake, bool const p_reversed){
@@ -18,6 +20,7 @@ Motor& Robot::add_motor(std::string const p_name, short const p_port, pros::moto
 
   Motor* l_new_motor{new Motor(*this, p_name, p_port, p_gearset, p_brake, p_reversed)};
   m_motor_list.push_back(l_new_motor);
+  l_new_motor->define_GUI();
   return *l_new_motor;
 }
 
@@ -63,4 +66,28 @@ SENSOR::Digital& Robot::add_digital(std::string const p_name, short const p_port
   SENSOR::Digital* l_new_digital{new SENSOR::Digital(*this, p_name, p_port)};
   m_digital_list.push_back(l_new_digital);
   return *l_new_digital;
+}
+
+void Robot::task(){
+  GUI::Screen::task();
+}
+
+void Robot::defineGUI(){
+  GUI::Screen::initialize(*this);
+
+  GUI::Screen& l_home = GUI::Screen::find_screen("Home");
+  l_home.create_label(20, 20, GUI_STYLES::white_text, "Hello Corey");
+  l_home.create_rectanlge(20, 50, 460, 10, GUI_STYLES::red_button_released);
+  GUI::Button& btn1 = l_home.create_button("Motor 1", 100, 100, 100, 50, GUI_STYLES::blue_button_released, GUI_STYLES::blue_button_pressed);
+  btn1.add_connected_screen("Front Left Base");
+
+  GUI::Screen& l_disconnected = GUI::Screen::find_screen("Disconnected");
+  l_disconnected.create_label(20, 20, GUI_STYLES::white_text, "Device not Connected");
+  GUI::Button& btn2 = l_disconnected.create_button("Home", 100, 100, 100, 50, GUI_STYLES::blue_button_released, GUI_STYLES::blue_button_pressed);
+  btn2.add_connected_screen("Home");
+
+  GUI::Screen& l_settings = GUI::Screen::create_screen("Settings");
+  l_settings.create_label(20, 20, GUI_STYLES::white_text, "It Worked!");
+
+
 }

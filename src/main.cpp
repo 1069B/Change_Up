@@ -1,6 +1,5 @@
 #include "main.h"
-#include "robot/graphical_interface/rectangle_class.hpp"
-#include "robot/graphical_interface/label_class.hpp"
+#include "robot/robot_class.hpp"
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -9,8 +8,11 @@
  * to keep execution time for this mode under a few seconds.
  */
 
-void initialize(){
+Robot g_robot{};
 
+void initialize(){
+	g_robot.defineGUI();
+	g_robot.add_motor("Front Left Base", 1, pros::E_MOTOR_GEARSET_18, pros::E_MOTOR_BRAKE_COAST, false);
 }
 
 /**
@@ -58,19 +60,8 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor left_mtr(1);
-	pros::Motor right_mtr(2);
-
 	while (true) {
-		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
-		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
-		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
-		int left = master.get_analog(ANALOG_LEFT_Y);
-		int right = master.get_analog(ANALOG_RIGHT_Y);
-
-		left_mtr = left;
-		right_mtr = right;
+		g_robot.task();
 		pros::delay(20);
 	}
 }

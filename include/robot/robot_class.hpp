@@ -1,4 +1,5 @@
 #include "robot/robot_main.hpp"
+#include "robot/graphical_interface/screen_class.hpp"
 #include "robot/devices/data_storage_class.hpp"
 
 
@@ -46,6 +47,9 @@ public:
   /* Finder Functions */
 
   /*  Action Functions */
+  void task();
+
+  void defineGUI();
 
 };
 

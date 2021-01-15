@@ -3,84 +3,90 @@
 #ifndef LABEL_CLASS_H
 #define LABEL_CLASS_H
 
-template <class T = std::string>
-class Label{
-private:
-  short m_xOrigin{};
-  short m_yOrigin{};
+namespace GUI{
 
-  std::string m_text{};
+  enum LABEL_TYPE{
+    INT_POINTER,
+    DOUBLE_POINTER,
+    BOOL_POINTER,
+    STRING_POINTER,
 
-  T m_dynamic_functionality;
+    INT_FUNCTION,
+    DOUBLE_FUNCTION,
+    BOOL_FUNCTION,
+    STRING_FUNCTION,
 
-  lv_obj_t* m_label{};
-  lv_style_t* m_style{};
+    DEFAULT
+  };
 
-  /*  Converstion Functions pointer -> std::string */
-  std::string evaluate_value(int* p_pointer){ return std::to_string(*p_pointer); }
+  class Label{
+  private:
+    std::string m_name{};
+    short m_xOrigin{};
+    short m_yOrigin{};
 
-  std::string evaluate_value(double* p_pointer){ return std::to_string(*p_pointer).substr(0, std::to_string(*p_pointer).find(".")+3); }
+    lv_label_align_t m_alignment{LV_ALIGN_IN_TOP_LEFT};
 
-  std::string evaluate_value(std::string* p_pointer){ return *p_pointer; }
+    std::string m_text{};
 
-  std::string evaluate_value(bool* p_pointer);
+    int* m_int_pointer;
+    double* m_double_pointer;
+    std::string* m_string_pointer;
+    bool* m_bool_pointer;
 
-  /*  Converstion Functions function -> std::string */
-  std::string evaluate_value(std::function<int()> p_function){ return std::to_string(p_function()); }
+    std::function<int()> m_int_function;
+    std::function<double()> m_double_function;
+    std::function<std::string()> m_string_function;
+    std::function<bool()> m_bool_function;
 
-  std::string evaluate_value(std::function<double()> p_function){ return std::to_string(p_function()).substr(0, std::to_string(p_function()).find(".")+3); }
+    LABEL_TYPE m_lable_type;
 
-  std::string evaluate_value(std::function<std::string()> p_function){ return p_function(); }
+    lv_obj_t* m_label{};
+    lv_style_t* m_style{};
 
-  std::string evaluate_value(std::function<bool()> p_function);
+  public:
+    /*  Constuctors  */
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, lv_label_align_t const p_alignment);
 
-  /*  No Dynamic Feature */
-  std::string evaluate_value(std::string p_pointer){ return "Error"; }
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, int& p_int_value, lv_label_align_t const p_alignment);
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, double& p_double_value, lv_label_align_t const p_alignment);
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::string& p_string_value, lv_label_align_t const p_alignment);
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, bool& p_bool_value, lv_label_align_t const p_alignment);
 
-public:
-  /*  Constuctors  */
-  Label<T>(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text);
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<int()> p_int_value, lv_label_align_t const p_alignment);
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<double()> p_double_value, lv_label_align_t const p_alignment);
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<std::string()> p_string_value, lv_label_align_t const p_alignment);
+    Label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, std::function<bool()> p_bool_value, lv_label_align_t const p_alignment);
 
-  Label<T>(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, T p_dynamic_functionality);
+    /*  Getting Function  */
+    short get_xOrigin(){ return m_xOrigin; }
 
-  /*  Getting Function  */
-  short get_xOrigin(){ return m_xOrigin; }
+    short get_yOrigin(){ return m_yOrigin; }
 
-  short get_yOrigin(){ return m_yOrigin; }
+    std::string get_text(){ return m_text; }
 
-  std::string get_text(){ return m_text; }
+    lv_style_t* get_style(){ return m_style; }
 
-  T get_dynamic_functionality(){ return m_dynamic_functionality; }
+    lv_label_align_t get_alignment(){ return m_alignment; }
 
-  lv_style_t* get_style(){ return m_style; }
+    /*  Setter Function  */
+    void set_xOrgin(short const p_xOrigin){ m_xOrigin = p_xOrigin; }
 
-  /*  Setter Function  */
-  void set_xOrgin(short const p_xOrigin){ m_xOrigin = p_xOrigin; }
+    void set_yOrgin(short const p_yOrigin){ m_yOrigin = p_yOrigin; }
 
-  void set_yOrgin(short const p_yOrigin){ m_yOrigin = p_yOrigin; }
+    void set_text(std::string const p_text){ m_text = p_text; }
 
-  void set_text(std::string const p_text){ m_text = p_text; }
+    void set_style(lv_style_t& p_style){ m_style = &p_style; }
 
-  void set_dynamic_functionality(T p_dynamic_functionality){ m_dynamic_functionality = p_dynamic_functionality; }
+    void set_alignment(lv_label_align_t const p_alignment){m_alignment = p_alignment; }
 
-  void set_style(lv_style_t& p_style){ m_style = &p_style; }
+    /*  Action Functions */
+    void draw_label(Screen& p_screen);
 
-  /*  Action Functions */
-  void draw_label();// TODO: Add Screen& p_screen
+    void update_label();
 
-  void update_label();// TODO: Add Screen& p_screen
-
-  std::string format_text();
-};
-
-template class Label<int*>;
-template class Label<double*>;
-template class Label<std::string*>;
-template class Label<bool*>;
-
-template class Label<std::function<int()>>;
-template class Label<std::function<double()>>;
-template class Label<std::function<std::string()>>;
-template class Label<std::function<bool()>>;
+    std::string format_text();
+  };
+}
 
 #endif // LABEL_CLASS_H
