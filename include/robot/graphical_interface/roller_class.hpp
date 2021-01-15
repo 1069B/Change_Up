@@ -9,7 +9,6 @@ namespace GUI{
     short m_xOrigin{};
     short m_yOrigin{};
     short m_length{};
-    short m_width{};
 
     lv_obj_t* m_roller{};
 
@@ -27,7 +26,7 @@ namespace GUI{
 
   public:
     /*  Constuctors  */
-    Roller(short const p_xOrgin, short const p_yOrgin, short const p_length, short const p_width, std::vector<std::string>& p_list_options,
+    Roller(short const p_xOrgin, short const p_yOrgin, short const p_length, std::vector<std::string>& p_list_options,
       unsigned short p_state, lv_style_t& p_background_style ,lv_style_t& p_selected_style);
 
     /*  Getting Function  */
@@ -36,8 +35,6 @@ namespace GUI{
     short get_yOrigin(){ return m_yOrigin; }
 
     short get_length(){ return m_length; }
-
-    short get_width(){ return m_width; }
 
     lv_style_t* get_background_style(){ return m_background_style; }
 
@@ -53,8 +50,6 @@ namespace GUI{
     void set_yOrgin(short const p_yOrgin){ m_yOrigin = p_yOrgin; }
 
     void set_legnth(short const p_length){ m_length = p_length; }
-
-    void set_width(short const p_width){ m_width = p_width; }
 
     void set_background_style(lv_style_t& p_background_style){ m_background_style = &p_background_style; }
 

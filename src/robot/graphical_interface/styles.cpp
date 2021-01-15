@@ -30,6 +30,9 @@ lv_style_t GUI_STYLES::switch_inactive;
 lv_style_t GUI_STYLES::switch_on;
 lv_style_t GUI_STYLES::switch_off;
 
+lv_style_t GUI_STYLES::roller_background;
+lv_style_t GUI_STYLES::roller_selected;
+
 void defineStyles(){
   using namespace GUI_STYLES;
   //Default relesed style
@@ -140,4 +143,18 @@ void defineStyles(){
   switch_on.body.radius = LV_RADIUS_CIRCLE;
   switch_on.body.shadow.width = 4;
   switch_on.body.shadow.type = LV_SHADOW_BOTTOM;
+
+
+  lv_style_copy(&roller_background, &lv_style_pretty);
+  roller_background.body.main_color = LV_COLOR_WHITE;
+  roller_background.body.grad_color = LV_COLOR_WHITE;
+  roller_background.body.border.width = 0;
+  roller_background.text.line_space = 10;
+  roller_background.text.opa = LV_OPA_40;
+  roller_background.body.radius = 20;
+
+  lv_style_copy(&roller_selected, &lv_style_pretty);
+  roller_selected.body.empty = 1;
+  roller_selected.body.radius = LV_RADIUS_CIRCLE;
+  roller_selected.text.color = LV_COLOR_MAROON;
 }

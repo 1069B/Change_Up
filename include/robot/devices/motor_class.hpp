@@ -15,10 +15,20 @@ private:
 
   /*Settings*/
   std::string m_name{};
-  short m_port{};
+  int m_port{};
   bool m_reversed{};
   pros::motor_brake_mode_e_t m_brake_mode{};
   pros::motor_gearset_e_t m_motor_gearset{};
+
+  int m_port_temp{};
+  bool m_reversed_temp{};
+
+  int m_brake_mode_temp{};
+  std::string m_brake_mode_string{};
+
+  int m_gearset_mode_temp{};
+  std::string m_gearset_mode_string{};
+
 
   Data_Storing m_settings;
 
@@ -26,14 +36,16 @@ private:
   int m_desired_velocity;
   int m_desired_voltage;
 
+  int update();
+
 public:
   /*  Constuctors  */
-  Motor(Robot &p_robot, std::string const p_name, short const p_port, pros::motor_gearset_e_t const p_motor_gearset, pros::motor_brake_mode_e_t const p_motor_brake, bool const p_reversed);
+  Motor(Robot &p_robot, std::string const p_name, int const p_port, pros::motor_gearset_e_t const p_motor_gearset, pros::motor_brake_mode_e_t const p_motor_brake, bool const p_reversed);
 
   /*  Getting Functions  */
   std::string get_name(){ return m_name; }
 
-  short get_port(){ return m_port; }
+  int get_port(){ return m_port; }
 
   bool get_reversed(){ return m_reversed; }
 
@@ -72,7 +84,7 @@ public:
   bool get_connected(){ return !(get_tempature() == 2147483647); }
 
   /*  Setter Function  */
-  void set_port(short const p_port);
+  void set_port(int const p_port);
 
   void set_reversed(bool const p_reversed);
 

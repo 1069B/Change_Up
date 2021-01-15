@@ -33,6 +33,9 @@ namespace GUI_STYLES{
   extern lv_style_t switch_inactive;
   extern lv_style_t switch_on;
   extern lv_style_t switch_off;
+
+  extern lv_style_t roller_background;
+  extern lv_style_t roller_selected;
 }
 
 void defineStyles(void);

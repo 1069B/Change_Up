@@ -81,8 +81,8 @@ Label& Screen::create_label(short const p_xOrigin, short const p_yOrigin, lv_sty
   return *l_new_label;
 }
 
-Roller& Screen::create_roller(short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, std::vector<std::string>& p_roller_options, unsigned short p_state, lv_style_t& p_background_style, lv_style_t& p_selected_style){
-    Roller* l_new_roller{new Roller(p_xOrigin, p_yOrigin, p_length, p_width, p_roller_options, p_state, p_background_style, p_selected_style)};
+Roller& Screen::create_roller(short const p_xOrigin, short const p_yOrigin, short const p_length, std::vector<std::string>& p_roller_options, unsigned short p_state, lv_style_t& p_background_style, lv_style_t& p_selected_style){
+    Roller* l_new_roller{new Roller(p_xOrigin, p_yOrigin, p_length, p_roller_options, p_state, p_background_style, p_selected_style)};
     m_roller_vector.push_back(l_new_roller);
     return *l_new_roller;
   }
