@@ -34,5 +34,7 @@ class Data_Storing;
 class Motor;
 class Timer;
 
+class Base;
+
 
 /* Enum Varibles*/

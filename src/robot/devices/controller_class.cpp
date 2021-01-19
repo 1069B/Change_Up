@@ -6,8 +6,9 @@ CONTROLLER::Button::Button(const pros::controller_id_e_t p_controller_type, cons
   m_button_type = p_button_type;
 }
 
-void CONTROLLER::Button::check_state(){
+bool CONTROLLER::Button::get_state(){
   m_state = pros::c::controller_get_digital(m_controller_type, m_button_type);
+  return m_state;
 }
 
 bool CONTROLLER::Button::check_callback(){
@@ -30,10 +31,10 @@ CONTROLLER::Joystick::Joystick(const pros::controller_id_e_t p_controller_type, 
   m_axis_type = p_axis_type;
 }
 
-void CONTROLLER::Joystick::check_percent(){
-  short l_joystick_raw_value = pros::c::controller_get_analog(m_controller_type, m_axis_type);
-  m_percent = (short)((l_joystick_raw_value/127.0)*100.0);
-
+double CONTROLLER::Joystick::get_percent(){
+  double l_joystick_raw_value = pros::c::controller_get_analog(m_controller_type, m_axis_type);
+  m_percent = ((l_joystick_raw_value/127.0));
+  return m_percent;
 }
 
 

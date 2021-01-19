@@ -45,7 +45,7 @@ public:
 
   SENSOR::Digital& add_digital(std::string const p_name, short const p_port);
   /* Finder Functions */
-
+  Motor& find_motor(std::string const p_name);
   /*  Action Functions */
   void task();
 

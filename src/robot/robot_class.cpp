@@ -68,6 +68,14 @@ SENSOR::Digital& Robot::add_digital(std::string const p_name, short const p_port
   return *l_new_digital;
 }
 
+Motor& Robot::find_motor(std::string const p_name){
+  for(auto x : m_motor_list){
+    if(x->get_name() == p_name)
+      return *x;
+  }
+  return *new Motor(*this, "Default", 1, pros::E_MOTOR_GEARSET_18, pros::E_MOTOR_BRAKE_COAST, false);
+}
+
 void Robot::task(){
   GUI::Screen::task();
 }

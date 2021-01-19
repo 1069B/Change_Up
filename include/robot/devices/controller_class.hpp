@@ -19,7 +19,7 @@ namespace CONTROLLER{
     Button( pros::controller_id_e_t const p_controller_type, pros::controller_digital_e_t const p_button_type);
 
     /*  Getting Function  */
-    bool get_state(){ return m_state; }
+    bool get_state();
 
     bool get_previous_state(){ return m_previous_state; }
 
@@ -50,13 +50,10 @@ namespace CONTROLLER{
     /*  Constuctors  */
     Joystick(pros::controller_id_e_t p_controller_type, pros::controller_analog_e_t p_axis_type);
     /*  Getting Function  */
-    short get_percent(){ return m_percent; }
+    double get_percent();
 
     /*  Setter Function  */
     void set_percent(short p_percent){ m_percent = p_percent; }
-
-    /*  Action Function */
-    void check_percent();
   };
 
   class Controller{
