@@ -1,6 +1,7 @@
 #include "robot/robot_main.hpp"
 #include "robot/graphical_interface/screen_class.hpp"
 #include "robot/devices/data_storage_class.hpp"
+#include "robot/subsystems/base_class.hpp"
 
 
 #ifndef ROBOT_CLASS_H
@@ -19,6 +20,8 @@ private:
   bool m_recall_settings{};
 
   RobotState m_robot_state{ROBOT_INTITIALIZATION};
+
+  Base m_base{*this};
 
   std::vector<Motor*> m_motor_list{};
   std::vector<SENSOR::Distance*> m_distance_list{};

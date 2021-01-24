@@ -45,7 +45,7 @@ namespace CONTROLLER{
     pros::controller_id_e_t m_controller_type;
     pros::controller_analog_e_t m_axis_type;
 
-    short m_percent{};
+    double m_percent{};
   public:
     /*  Constuctors  */
     Joystick(pros::controller_id_e_t p_controller_type, pros::controller_analog_e_t p_axis_type);

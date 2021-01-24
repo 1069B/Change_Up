@@ -33,7 +33,7 @@ CONTROLLER::Joystick::Joystick(const pros::controller_id_e_t p_controller_type, 
 
 double CONTROLLER::Joystick::get_percent(){
   double l_joystick_raw_value = pros::c::controller_get_analog(m_controller_type, m_axis_type);
-  m_percent = ((l_joystick_raw_value/127.0));
+  m_percent = l_joystick_raw_value/127.0;
   return m_percent;
 }
 

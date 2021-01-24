@@ -1,4 +1,4 @@
-#include "robot/robot_class.hpp"
+#include "robot/robot_main.hpp"
 
 #ifndef BASE_CLASS_H
 #define BASE_CLASS_H
@@ -50,7 +50,7 @@ private:
   pros::motor_brake_mode_e m_brakeMode = pros::E_MOTOR_BRAKE_COAST;
 
 public:
-  Base();
+  Base(Robot &p_robot);
 
   /* Getter Functions */
   //get
@@ -59,6 +59,9 @@ public:
   void set_trajectory(double h_heading, double h_velocity);
 
   /* Action Functions */
+  double speedUp(int p_controllerValue);
+
+  int task();
 
 };
 

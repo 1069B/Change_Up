@@ -7,6 +7,7 @@
 #include "robot/graphical_interface/button_class.hpp"
 
 
+
 Robot::Robot(){
   m_recall_settings = m_settings.initialize_bool("Recall_Settings", false);
   defineStyles();
@@ -78,6 +79,7 @@ Motor& Robot::find_motor(std::string const p_name){
 
 void Robot::task(){
   GUI::Screen::task();
+  //m_base.task();
 }
 
 void Robot::defineGUI(){
