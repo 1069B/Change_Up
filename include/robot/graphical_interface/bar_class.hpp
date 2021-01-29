@@ -19,7 +19,7 @@ namespace GUI{
     lv_style_t* m_bar_style{};
     lv_style_t* m_indicator_style{};
 
-    /*Required Variles for a Connected Int*/
+    /*Required Variables for a Connected Int*/
     bool m_connected_int = false;
     int* m_connected_int_pointer;
 

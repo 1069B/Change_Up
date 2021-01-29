@@ -11,9 +11,9 @@ private:
 public:
   Alert();
 
-  int draw(const std::string p_message);
+  void draw(std::string const p_message);
 
-  static lv_res_t alertResponse(lv_obj_t * btnm, const char *txt);
+  static lv_res_t resume_program(lv_obj_t* button_obj, const char *text);
 };
 
 extern Alert g_alert;
