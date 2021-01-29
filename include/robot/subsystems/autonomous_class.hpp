@@ -4,49 +4,75 @@
 #ifndef AUTONOMOUS_CLASS_H
 #define AUTONOMOUS_CLASS_H
 
+#define NO_DELAY 0
+
+enum AUTONOMOUS_BASE_STATUS{
+  BASE_TRANSLATE,
+  BASE_ORIENTATION,
+  BASE_TURN,
+  BASE_POSE,
+  BASE_ALIGN_GOAL
+};
+
+enum AUTONOMOUS_MANIPULATOR_STATUS{
+  INTAKE_PRESET_BALLS,
+  INTAKE_CONTROL_GOAL,
+  INTAKE_GRAB_BALL
+};
+
+struct Base_Event{
+public:
+  AUTONOMOUS_BASE_STATUS m_base_status;
+  double m_delay;
+  double m_x_position;
+  double m_y_position;
+  double m_orientation;
+
+  Base_Event(AUTONOMOUS_BASE_STATUS p_base_status, double p_delay, double p_x_position, double p_y_position, double p_orientation);
+};
+
+struct Manipulator_Event{
+public:
+  AUTONOMOUS_MANIPULATOR_STATUS m_manipulator_status;
+  double m_delay;
+
+  Manipulator_Event(AUTONOMOUS_MANIPULATOR_STATUS p_base_status, double p_delay);
+};
+
 class Autonomous{
 private:
   Robot& m_robot;
 
-  Motor& m_front_left_motor;
-	Motor& m_front_right_motor;
-	Motor& m_back_left_motor;
-	Motor& m_back_right_motor;
-
-	Motor& left_intake;
-	Motor& right_intake;
-
-	Motor& intial_roller;
-	Motor& second_roller;
-
-  double m_translational_velocity;
-  double m_orientation;
-  double m_turning_velocity;
-  double m_duration;
-
-  Timer m_base_timer;
-  Timer m_ball_timer;
+  std::vector<Base_Event> m_base_events;
+  std::vector<Manipulator_Event> m_manipulator_events;
 
 public:
-  Autonomous(Robot& p_robot);
+  Autonomous(Robot& m_robot);
 
-  void start_auton();
+  void start_autonomous();
 
-  void move_base(double p_start_time, double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration);
+  void end_autonomous();
 
-  void stop_base(double p_start_time);
+  /* Base Functions */
+  void base_translate_to(double p_x_position, double p_y_position, double p_delay = NO_DELAY);// Point to Point
 
-  void turn_intakes_on(double p_intake_speed);
+  void base_orientation_to(double p_orientation, double p_delay = NO_DELAY);// Point Rotation
 
-  void turn_intakes_off();
+  void base_turn_to(double p_x_position, double p_y_position, double p_delay = NO_DELAY);// Arc Turn
 
-  void turn_intial_roller_on(double p_intake_speed);
+  void base_pose_to(double p_x_position, double p_y_position, double p_orientation, double p_delay = NO_DELAY);// Point to Point with Orientation Change
 
-  void turn_intial_roller_off();
+  void base_align_to_goal(double p_delay = NO_DELAY);
 
-  void move_balls(double p_start_time, double p_intake_speed, double p_intial_roller_speed, double p_second_roller_speed, double p_duration);
+  /* Manipulator Functions */
+  void preset_balls(double p_delay = NO_DELAY);// Moves Reds to Top and descores all blue balls
+
+  void control_goal(double p_delay = NO_DELAY);// Scores top red and descores
+
+  void grab_ball(double p_delay = NO_DELAY);// Grabs ball off feild
+
+  /* Action Functions */
+  void task();
 };
-
-
 
 #endif // AUTONOMOUS_CLASS_H
