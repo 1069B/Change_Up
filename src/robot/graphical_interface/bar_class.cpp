@@ -40,7 +40,7 @@ void Bar::set_indicator_style(lv_style_t& p_indicator_style){
 
 /* Action Functions */
 void Bar::draw_bar(Screen& p_screen){
-  m_bar = lv_bar_create(p_screen.get_screen(), NULL);// TODO: Add Screen Refernece
+  m_bar = lv_bar_create(p_screen.get_screen(), NULL);
   lv_obj_set_size(m_bar, m_length, m_width);
   lv_obj_align(m_bar, NULL, LV_ALIGN_IN_TOP_LEFT, m_xOrigin, m_yOrigin);
   lv_bar_set_value(m_bar, m_position);

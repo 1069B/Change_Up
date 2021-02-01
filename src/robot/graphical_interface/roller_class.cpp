@@ -4,11 +4,11 @@
 
 using namespace GUI;
 
-Roller::Roller(short const p_xOrgin, short const p_yOrgin, short const p_length, std::vector<std::string>& p_roller_options,
+Roller::Roller(short const p_xOrigin, short const p_yOrigin, short const p_length, std::vector<std::string>& p_roller_options,
   unsigned short p_state, lv_style_t& p_background_style ,lv_style_t& p_selected_style):
   m_roller_options(p_roller_options){
-    m_xOrigin = p_xOrgin;
-    m_yOrigin = p_yOrgin;
+    m_xOrigin = p_xOrigin;
+    m_yOrigin = p_yOrigin;
     m_length = p_length;
     m_state = p_state;
     m_background_style = &p_background_style;
@@ -47,7 +47,7 @@ void Roller::draw_roller(Screen& p_screen){
 void Roller::update_roller(){
   m_state = lv_roller_get_selected(m_roller);
 
-  if(m_conected_int){
+  if(m_connected_int){
     *m_connected_int_pointer = m_connected_int_values->at(m_state);
   }
 }
@@ -55,5 +55,5 @@ void Roller::update_roller(){
 void Roller::add_connected_int(int& p_connected_int_pointer, std::vector<int>& p_connected_int_values){
   m_connected_int_pointer = &p_connected_int_pointer;
   m_connected_int_values = &p_connected_int_values;
-  m_conected_int = true;
+  m_connected_int = true;
 }

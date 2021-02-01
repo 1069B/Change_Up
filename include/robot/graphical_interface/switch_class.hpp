@@ -18,22 +18,22 @@ namespace GUI {
 
     bool m_state{false};
 
-    /*Required Variles for a Connected Bool*/
+    /*Required Varabiles for a Connected Bool*/
     bool m_connected_bool = false;
     bool* m_connected_bool_pointer;
 
-    /*Required Variles for a Connected Int*/
+    /*Required Varabiles for a Connected Int*/
     bool m_connected_int = false;
     int* m_connected_int_pointer;
     int m_connected_int_value_true;
     int m_connected_int_value_false;
   public:
     /*  Constuctors  */
-    Switch(short const p_xOrgin, short const p_yOrgin, int const p_state, lv_style_t& p_background_style,
+    Switch(short const p_xOrigin, short const p_yOrigin, int const p_state, lv_style_t& p_background_style,
       lv_style_t& p_indicator_style, lv_style_t& p_true_style, lv_style_t& p_false_style);// TODO: Add Default Values
 
     /*  Getter Function  */
-    short get_xOrgin(){ return m_xOrigin; }
+    short get_xOrigin(){ return m_xOrigin; }
 
     short get_yOrigin(){ return m_yOrigin; }
 
@@ -48,9 +48,9 @@ namespace GUI {
     bool get_state(){ return m_state; }
 
     /*  Setter Function  */
-    void set_xOrgin(short const p_xOrgin){ m_xOrigin = p_xOrgin; }
+    void set_xOrigin(short const p_xOrigin){ m_xOrigin = p_xOrigin; }
 
-    void set_yOrgin(short const p_yOrgin){ m_yOrigin = p_yOrgin; }
+    void set_yOrigin(short const p_yOrigin){ m_yOrigin = p_yOrigin; }
 
     void set_background_style(lv_style_t& p_background_style){ m_background_style = &p_background_style; }
 
@@ -73,4 +73,4 @@ namespace GUI {
   };
 }
 
-#endif // RECTAGNLE_CLASS_H
+#endif // SWITCH_CLASS_H

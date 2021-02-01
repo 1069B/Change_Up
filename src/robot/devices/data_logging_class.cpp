@@ -1,4 +1,4 @@
-#include "robot/devices/data_logging.hpp"
+#include "robot/devices/data_logging_class.hpp"
 
 Data_Logging::Data_Logging(std::string const p_address){
   m_address = "/usd/" + p_address;

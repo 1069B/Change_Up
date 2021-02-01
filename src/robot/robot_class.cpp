@@ -1,13 +1,24 @@
 #include "robot/robot_class.hpp"
+
+#include "robot/devices/data_storage_class.hpp"
 #include "robot/devices/motor_class.hpp"
+#include "robot/devices/controller_class.hpp"
+
 #include "robot/sensors/rotation_class.hpp"
 #include "robot/sensors/distance_class.hpp"
 #include "robot/sensors/optical_class.hpp"
 #include "robot/sensors/digital_class.hpp"
+
+#include "robot/graphical_interface/screen_class.hpp"
 #include "robot/graphical_interface/button_class.hpp"
-#include "robot/devices/controller_class.hpp"
+
+#include "robot/subsystems/holonomic_class.hpp"
+#include "robot/subsystems/manipulator.hpp"
 
 Robot::Robot():
+m_holonomic(*new Holonomic(*this)),
+m_manipulator(*new Manipulator(*this)),
+m_settings(*new Data_Storing("Settings.xml", "Robot", "1069B")),
 m_main_controller(*new CONTROLLER::Controller(pros::E_CONTROLLER_MASTER)),
 m_partner_controller(*new CONTROLLER::Controller(pros::E_CONTROLLER_PARTNER)){
   m_recall_settings = m_settings.initialize_bool("Recall_Settings", false);
@@ -80,7 +91,8 @@ Motor& Robot::find_motor(std::string const p_name){
 
 void Robot::task(){
   GUI::Screen::task();
-  m_base.task();
+  m_holonomic.task();
+  m_manipulator.task();
 }
 
 void Robot::defineGUI(){

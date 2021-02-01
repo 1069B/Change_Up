@@ -2,9 +2,9 @@
 #include "robot/graphical_interface/screen_class.hpp"
 
 /*  Constuctors  */
-GUI::Rectangle::Rectangle(short const p_xOrgin, short const p_yOrgin, short const p_length, short const p_width, lv_style_t& p_style){
-  m_xOrigin = p_xOrgin;
-  m_yOrigin = p_yOrgin;
+GUI::Rectangle::Rectangle(short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, lv_style_t& p_style){
+  m_xOrigin = p_xOrigin;
+  m_yOrigin = p_yOrigin;
   m_length = p_length;
   m_width = p_width;
   m_style = &p_style;

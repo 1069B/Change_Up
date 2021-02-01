@@ -1,7 +1,7 @@
 #include "robot/robot_main.hpp"
 
-#ifndef RECTAGNLE_CLASS_H
-#define RECTAGNLE_CLASS_H
+#ifndef RECTANGLE_CLASS_H
+#define RECTANGLE_CLASS_H
 
 namespace GUI{
   class Rectangle{
@@ -15,7 +15,7 @@ namespace GUI{
     lv_style_t* m_style{};
   public:
     /*  Constuctors  */
-    Rectangle(short const p_xOrgin, short const p_yOrgin, short const p_length, short const p_width, lv_style_t& p_style);
+    Rectangle(short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, lv_style_t& p_style);
 
     /*  Getting Function  */
 
@@ -30,9 +30,9 @@ namespace GUI{
     lv_style_t* get_style(){ return m_style; }
 
     /*  Setter Function  */
-    void set_xOrgin(short const p_xOrgin){ m_xOrigin = p_xOrgin; }
+    void set_xOrigin(short const p_xOrgin){ m_xOrigin = p_xOrgin; }
 
-    void set_yOrgin(short const p_yOrgin){ m_yOrigin = p_yOrgin; }
+    void set_yOrigin(short const p_yOrigin){ m_yOrigin = p_yOrigin; }
 
     void set_legnth(short const p_length){ m_length = p_length; }
 
@@ -47,4 +47,4 @@ namespace GUI{
   };
 }
 
-#endif // RECTAGNLE_CLASS_H
+#endif // RECTANGLE_CLASS_H

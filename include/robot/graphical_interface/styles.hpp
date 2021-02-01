@@ -4,11 +4,6 @@
 #define STYLES_H
 
 namespace GUI_STYLES{
-  extern int color_red;
-  extern int color_blue;
-  extern int color_green;
-  extern int color_defualt;
-
   extern lv_style_t red_button_released;
   extern lv_style_t red_button_pressed;
   extern lv_style_t blue_button_released;

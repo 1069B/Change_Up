@@ -1,5 +1,4 @@
 #include "robot/robot_main.hpp"
-#include "robot/devices/data_storage_class.hpp"
 
 #ifndef MOTOR_CLASS_H
 #define MOTOR_CLASS_H
@@ -30,7 +29,7 @@ private:
   std::string m_gearset_mode_string{};
 
 
-  Data_Storing m_settings;
+  Data_Storing& m_settings;
 
   Motor_Mode m_mode{MOTOR_VELOCITY_DEPENDENT};
   int m_desired_velocity;

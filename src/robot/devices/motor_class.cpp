@@ -1,12 +1,17 @@
 #include "robot/devices/motor_class.hpp"
+
 #include "robot/robot_class.hpp"
+
+#include "robot/devices/data_storage_class.hpp"
+
+#include "robot/graphical_interface/screen_class.hpp"
 #include "robot/graphical_interface/button_class.hpp"
 #include "robot/graphical_interface/switch_class.hpp"
 #include "robot/graphical_interface/roller_class.hpp"
 
 Motor::Motor(Robot &p_robot, std::string const p_name, int const p_port, pros::motor_gearset_e_t const p_motor_gearset, pros::motor_brake_mode_e_t const p_motor_brake, bool const p_reversed):
 m_robot(p_robot),
-m_settings("Settings.xml", "Motors", p_name){
+m_settings(*new Data_Storing("Settings.xml", "Motors", p_name)){
   if(m_robot.get_recall_settings()){
     m_name = p_name;
     m_port = m_settings.initialize_int("Port", p_port);

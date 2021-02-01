@@ -20,17 +20,17 @@ namespace GUI{
     std::vector<std::string>& m_roller_options;
 
     /* Connected Int */
-    bool m_conected_int{false};
+    bool m_connected_int{false};
     int* m_connected_int_pointer{};
     std::vector<int>* m_connected_int_values{};
 
   public:
     /*  Constuctors  */
-    Roller(short const p_xOrgin, short const p_yOrgin, short const p_length, std::vector<std::string>& p_list_options,
+    Roller(short const p_xOrigin, short const p_yOrigin, short const p_length, std::vector<std::string>& p_list_options,
       unsigned short p_state, lv_style_t& p_background_style ,lv_style_t& p_selected_style);
 
     /*  Getting Function  */
-    short get_xOrgin(){ return m_xOrigin; }
+    short get_xOrigin(){ return m_xOrigin; }
 
     short get_yOrigin(){ return m_yOrigin; }
 
@@ -45,9 +45,9 @@ namespace GUI{
     std::vector<std::string>& get_roller_options(){ return m_roller_options; }
 
     /*  Setter Function  */
-    void set_xOrgin(short const p_xOrgin){ m_xOrigin = p_xOrgin; }
+    void set_xOrigin(short const p_xOrigin){ m_xOrigin = p_xOrigin; }
 
-    void set_yOrgin(short const p_yOrgin){ m_yOrigin = p_yOrgin; }
+    void set_yOrigin(short const p_yOrigin){ m_yOrigin = p_yOrigin; }
 
     void set_legnth(short const p_length){ m_length = p_length; }
 

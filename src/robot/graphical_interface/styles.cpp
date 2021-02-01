@@ -1,10 +1,5 @@
 #include "robot/graphical_interface/styles.hpp"
 
-int GUI_STYLES::color_red;// TODO: How is this used
-int GUI_STYLES::color_blue;
-int GUI_STYLES::color_green;
-int GUI_STYLES::color_defualt;
-
 lv_style_t GUI_STYLES::red_button_released;
 lv_style_t GUI_STYLES::red_button_pressed;
 lv_style_t GUI_STYLES::blue_button_released;
@@ -35,14 +30,14 @@ lv_style_t GUI_STYLES::roller_selected;
 
 void defineStyles(){
   using namespace GUI_STYLES;
-  //Default relesed style
+  //Default released style
   lv_style_copy(&default_button_released, &lv_style_plain);
   default_button_released.body.radius = 8;
   default_button_released.body.main_color = LV_COLOR_WHITE;
   default_button_released.body.grad_color = LV_COLOR_WHITE;
   default_button_released.text.color = LV_COLOR_RED;
 
-  //Default relesed style
+  //Default released style
   lv_style_copy(&default_button_pressed, &default_button_released);
   default_button_pressed.body.main_color = LV_COLOR_SILVER;
   default_button_pressed.body.grad_color = LV_COLOR_SILVER;

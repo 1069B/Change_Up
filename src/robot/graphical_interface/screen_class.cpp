@@ -1,3 +1,8 @@
+#include "robot/robot_class.hpp"
+
+#include "robot/devices/timer_class.hpp"
+#include "robot/devices/data_storage_class.hpp"
+
 #include "robot/graphical_interface/screen_class.hpp"
 #include "robot/graphical_interface/label_class.hpp"
 #include "robot/graphical_interface/rectangle_class.hpp"
@@ -5,17 +10,16 @@
 #include "robot/graphical_interface/bar_class.hpp"
 #include "robot/graphical_interface/button_class.hpp"
 #include "robot/graphical_interface/switch_class.hpp"
-#include "robot/devices/timer_class.hpp"
-#include "robot/robot_class.hpp"
+
 
 using namespace GUI;
 /* Constructor */
 Screen::Screen(const std::string p_name){
   m_screen_name = p_name;
 }
-Screen::Screen(const std::string p_name, std::function<bool()> p_function, std::string const p_screen_name, bool const p_inversed){
+Screen::Screen(const std::string p_name, std::function<bool()> p_function, std::string const p_screen_name, bool const p_inverse){
   m_screen_name = p_name;
-  add_relationship(p_function, p_screen_name, p_inversed);
+  add_relationship(p_function, p_screen_name, p_inverse);
 }
 
 /* Getter Functions */
@@ -28,7 +32,7 @@ Screen& Screen::find_screen(std::string const p_screen_name){
 }
 
 /* Add Functions */
-GUI::Rectangle& Screen::create_rectanlge(short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, lv_style_t& p_style){
+GUI::Rectangle& Screen::create_rectangle(short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, lv_style_t& p_style){
   Rectangle* l_new_rectangle{new Rectangle(p_xOrigin, p_yOrigin, p_length, p_width, p_style)};
   m_rectangle_vector.push_back(l_new_rectangle);
   return *l_new_rectangle;
@@ -99,8 +103,8 @@ Button& Screen::create_button(std::string const p_text, short const p_yOrigin, s
   return *l_new_button;
 }
 
-Switch& Screen::create_switch(short const p_xOrgin, short const p_yOrgin, int const p_state, lv_style_t& p_background_style, lv_style_t& p_indicator_style, lv_style_t& p_true_style, lv_style_t& p_false_style){
-    Switch* l_new_switch{new Switch(p_xOrgin, p_yOrgin, p_state, p_background_style, p_indicator_style, p_true_style, p_false_style)};
+Switch& Screen::create_switch(short const p_xOrigin, short const p_yOrigin, int const p_state, lv_style_t& p_background_style, lv_style_t& p_indicator_style, lv_style_t& p_true_style, lv_style_t& p_false_style){
+    Switch* l_new_switch{new Switch(p_xOrigin, p_yOrigin, p_state, p_background_style, p_indicator_style, p_true_style, p_false_style)};
     m_switch_vector.push_back(l_new_switch);
     return *l_new_switch;
   }
@@ -159,10 +163,10 @@ void Screen::delete_screen(){
   }
 }
 
-void Screen::add_relationship(std::function<bool()> p_function, std::string const p_screen_name, bool const p_inversed){
+void Screen::add_relationship(std::function<bool()> p_function, std::string const p_screen_name, bool const p_inverse){
   m_related_function = p_function;
   m_error_screen_name = p_screen_name;
-  m_related_screen_inversed = p_inversed;
+  m_related_screen_inverse = p_inverse;
   m_screen_relation = true;
 }
 
@@ -191,13 +195,13 @@ Screen& Screen::create_screen(const std::string p_name){
   s_screen_vector.push_back(l_new_screen);
   return *l_new_screen;
 };
-Screen& Screen::create_screen(const std::string p_name, std::function<bool()> p_function, std::string const p_screen_name, bool const m_inversed){
+Screen& Screen::create_screen(const std::string p_name, std::function<bool()> p_function, std::string const p_screen_name, bool const m_inverse){
   for(auto x : s_screen_vector){
     if(x->get_screen_name() == p_name)
       return *x;
   }
 
-  Screen* l_new_screen{new Screen(p_name, p_function, p_screen_name, m_inversed)};
+  Screen* l_new_screen{new Screen(p_name, p_function, p_screen_name, m_inverse)};
   s_screen_vector.push_back(l_new_screen);
   return *l_new_screen;
 }
@@ -219,11 +223,11 @@ void Screen::draw_current_screen(){
   s_settings.store_string("Current_Screen_Name", s_current_screen_name);
 
   if(s_current_screen_pointer->m_screen_relation){// If there is a screen relation
-    if(s_current_screen_pointer->m_related_function() && !s_current_screen_pointer->m_related_screen_inversed){
+    if(s_current_screen_pointer->m_related_function() && !s_current_screen_pointer->m_related_screen_inverse){
       s_current_screen_name = s_current_screen_pointer->m_error_screen_name;
       s_current_screen_pointer = &find_screen(s_current_screen_name);
     }
-    else if(!s_current_screen_pointer->m_related_function() && s_current_screen_pointer->m_related_screen_inversed){
+    else if(!s_current_screen_pointer->m_related_function() && s_current_screen_pointer->m_related_screen_inverse){
       s_current_screen_name = s_current_screen_pointer->m_error_screen_name;
       s_current_screen_pointer = &find_screen(s_current_screen_name);
     }

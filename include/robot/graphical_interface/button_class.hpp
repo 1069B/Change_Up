@@ -22,31 +22,29 @@ namespace GUI{
     lv_style_t* m_style_pressed{};
     lv_style_t* m_style_released{};
 
-    /*Required Variles for Change Screen Action*/
+    /*Required Variables for Change Screen Action*/
     bool m_change_screen = false;
     std::string m_change_screen_ID;
 
-    /*Required Variles for Change Varible Value Action*/
+    /*Required Variables for Change Variables Value Action*/
     bool m_connected_double = false;
     double* m_connected_double_pointer;
     double m_connected_double_value;
 
-    /*Required Variles for Increment Varible Screen Action*/
+    /*Required Variables for Increment Variables Screen Action*/
     bool m_connected_increment = false;
     double* m_connected_increment_pointer;
     double m_connected_increment_value;
 
-    /*Required Varibles for Run Function*/
+    /*Required Variables for Run Function*/
     bool m_preform_function = false;
     std::function<int()> m_run_function;
-
-    /*Text Symbol*/
 
   public:
     /* Constructors */
     Button(std::string const p_text, short const p_xOrigin, short const p_yOrigin, short const p_width, short const p_height, lv_style_t& p_style_pressed, lv_style_t& p_style_released);
 
-    /* Getter Function */
+    /* Getter Functions */
     short get_xOrigin(){ return m_xOrigin; }
 
     short get_YOrigin(){ return m_yOrigin; }
@@ -63,7 +61,7 @@ namespace GUI{
 
     lv_style_t* get_style_released(){ return m_style_released; }
 
-    //setter function
+    /* Setter Functions */
     void set_text(std::string const p_text){ m_text = p_text; }
 
     void set_xOrigin(short const p_xOrigin){ m_xOrigin = p_xOrigin; }
@@ -78,7 +76,7 @@ namespace GUI{
 
     void set_style_released(lv_style_t& p_style_released);
 
-    // Action Functions
+    /* Action Functions */
     void draw_button(Screen& p_screen);
 
     void update_button(Screen& p_screen);

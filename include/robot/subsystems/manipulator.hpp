@@ -33,11 +33,18 @@ private:
     Intake_Status m_intake_status = INTAKE_STATIONARY;
     Lift_Status m_lift_status = LIFT_STATIONARY;
 
-public:
-    Manipulator(Robot& p_robot);
+    /* Robot State Functions */
+    void initialize();
+
+    void autonomous();
 
     void driver_control();
 
+public:
+    /* Constructors */
+    Manipulator(Robot& p_robot);
+
+    /* Action Functions */
     void task();
 };
 

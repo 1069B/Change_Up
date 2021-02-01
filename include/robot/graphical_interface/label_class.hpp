@@ -39,7 +39,7 @@ namespace GUI{
     std::function<std::string()> m_string_function;
     std::function<bool()> m_bool_function;
 
-    LABEL_TYPE m_lable_type;
+    LABEL_TYPE m_label_type;
 
     lv_obj_t* m_label{};
     lv_style_t* m_style{};
@@ -70,9 +70,9 @@ namespace GUI{
     lv_label_align_t get_alignment(){ return m_alignment; }
 
     /*  Setter Function  */
-    void set_xOrgin(short const p_xOrigin){ m_xOrigin = p_xOrigin; }
+    void set_xOrigin(short const p_xOrigin){ m_xOrigin = p_xOrigin; }
 
-    void set_yOrgin(short const p_yOrigin){ m_yOrigin = p_yOrigin; }
+    void set_yOrigin(short const p_yOrigin){ m_yOrigin = p_yOrigin; }
 
     void set_text(std::string const p_text){ m_text = p_text; }
 

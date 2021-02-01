@@ -23,7 +23,7 @@ namespace GUI{
     /* Screen Relationship */
     std::function<bool()> m_related_function;
     std::string m_error_screen_name;
-    bool m_related_screen_inversed {false};
+    bool m_related_screen_inverse {false};
     bool m_screen_relation {false};
 
     /* Static Members */
@@ -46,7 +46,7 @@ namespace GUI{
   public:
     /* Constructor */
     Screen(const std::string p_name);
-    Screen(const std::string p_name, std::function<bool()> p_function, std::string const p_screen_name, bool const p_inversed = false);
+    Screen(const std::string p_name, std::function<bool()> p_function, std::string const p_screen_name, bool const p_inverse = false);
 
     /* Getter Functions */
     std::string get_screen_name(){return m_screen_name; }
@@ -58,7 +58,7 @@ namespace GUI{
     static Screen& find_screen(std::string const p_screen_name);
 
     /* Add Functions */
-    Rectangle& create_rectanlge(short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, lv_style_t& p_style);
+    Rectangle& create_rectangle(short const p_xOrigin, short const p_yOrigin, short const p_length, short const p_width, lv_style_t& p_style);
 
     Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, lv_label_align_t const p_alignment = LV_ALIGN_IN_TOP_LEFT);
     Label& create_label(short const p_xOrigin, short const p_yOrigin, lv_style_t& p_style, std::string const p_text, int& p_int_value, lv_label_align_t const p_alignment = LV_ALIGN_IN_TOP_LEFT);
@@ -77,11 +77,11 @@ namespace GUI{
 
     Button& create_button(std::string const p_text, short const p_yOrigin, short const p_xOrigin, short const p_width, short const p_height, lv_style_t& p_style_pressed = GUI_STYLES::default_button_pressed, lv_style_t& p_style_released  = GUI_STYLES::default_button_released);
 
-    Switch& create_switch(short const p_xOrgin, short const p_yOrgin, int const p_state, lv_style_t& p_background_style,
+    Switch& create_switch(short const p_xOrigin, short const p_yOrigin, int const p_state, lv_style_t& p_background_style,
       lv_style_t& p_indicator_style, lv_style_t& p_true_style, lv_style_t& p_false_style);
 
     static Screen& create_screen(const std::string p_name);
-    static Screen& create_screen(const std::string p_name, std::function<bool()> p_function, std::string const p_screen_name, bool const m_inversed = false);
+    static Screen& create_screen(const std::string p_name, std::function<bool()> p_function, std::string const p_screen_name, bool const m_inverse = false);
 
     /* Action */
     void draw_screen();
@@ -90,7 +90,7 @@ namespace GUI{
 
     void delete_screen();
 
-    void add_relationship(std::function<bool()> p_function, std::string const p_screen_name, bool const p_inversed = false);
+    void add_relationship(std::function<bool()> p_function, std::string const p_screen_name, bool const p_inverse = false);
 
     static void initialize(Robot& p_robot);
 

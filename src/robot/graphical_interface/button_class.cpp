@@ -15,12 +15,12 @@ Button::Button(std::string const p_text, short const p_xOrigin, short const p_yO
   m_style_released = &p_style_released;
 }
 
-/* Getter Fucntions */
+/* Getter Functions */
 bool Button::get_state(){
   return lv_btn_get_state(m_button);
 }
 
-/* Setter Fucntions */
+/* Setter Functions */
 void Button::set_style_pressed(lv_style_t& p_style_pressed){
   m_style_pressed = &p_style_pressed;
   lv_btn_set_style(m_button, LV_BTN_STYLE_PR, m_style_released);
@@ -31,7 +31,7 @@ void Button::set_style_released(lv_style_t& p_style_released){
   lv_btn_set_style(m_button, LV_BTN_STYLE_REL, m_style_pressed);
 }
 
-/* Action Fucntions */
+/* Action Functions */
 void Button::draw_button(Screen& p_screen){
   m_button = lv_btn_create(p_screen.get_screen(), NULL);
   m_label = lv_label_create(m_button, NULL);

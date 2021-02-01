@@ -1,8 +1,4 @@
 #include "robot/robot_main.hpp"
-#include "robot/devices/data_storage_class.hpp"
-#include "robot/subsystems/base_class.hpp"
-#include "robot/graphical_interface/screen_class.hpp"
-
 
 #ifndef ROBOT_CLASS_H
 #define ROBOT_CLASS_H
@@ -15,7 +11,8 @@ private:
   CONTROLLER::Controller& m_main_controller;
 	CONTROLLER::Controller& m_partner_controller;
 
-  Holonomic m_base{*this};
+  Holonomic& m_holonomic;
+  Manipulator& m_manipulator;
 
   std::vector<Motor*> m_motor_list{};
   std::vector<SENSOR::Distance*> m_distance_list{};
@@ -23,7 +20,7 @@ private:
   std::vector<SENSOR::Optical*> m_optical_list{};
   std::vector<SENSOR::Digital*> m_digital_list{};
 
-  Data_Storing m_settings{"Settings.xml", "Robot", "1069B"};
+  Data_Storing& m_settings;
 public:
   /*  Constuctors  */
   Robot();
@@ -56,7 +53,6 @@ public:
   void task();
 
   void defineGUI();
-
 };
 
 #endif // ROBOT_CLASS_H

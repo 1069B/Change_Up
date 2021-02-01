@@ -4,10 +4,10 @@
 using namespace GUI;
 
 /*  Constuctors  */
-Switch::Switch(short const p_xOrgin, short const p_yOrgin, int const p_state, lv_style_t& p_background_style,
+Switch::Switch(short const p_xOrigin, short const p_yOrigin, int const p_state, lv_style_t& p_background_style,
   lv_style_t& p_indicator_style, lv_style_t& p_true_style, lv_style_t& p_false_style){
-  m_xOrigin = p_xOrgin;
-  m_yOrigin = p_yOrgin;
+  m_xOrigin = p_xOrigin;
+  m_yOrigin = p_yOrigin;
   m_state = p_state;
 
   m_background_style = &p_background_style;
