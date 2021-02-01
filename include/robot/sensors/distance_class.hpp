@@ -1,9 +1,7 @@
 #include "robot/robot_main.hpp"
-#include "robot/devices/data_storage_class.hpp"
 
 #ifndef DISTANCE_CLASS_H
 #define DISTANCE_CLASS_H
-
 namespace SENSOR{
   class Distance{
   private:
@@ -13,7 +11,7 @@ namespace SENSOR{
     std::string m_name{};
     short m_port{};
 
-    Data_Storing m_settings;
+    Data_Storing& m_settings;
   public:
     /*  Constuctors  */
     Distance(Robot &p_robot, std::string const p_name, short const p_port);

@@ -1,5 +1,4 @@
 #include "robot/robot_main.hpp"
-#include "robot/devices/data_storage_class.hpp"
 
 #ifndef DIGITAL_CLASS_H
 #define DIGITAL_CLASS_H
@@ -13,7 +12,7 @@ namespace SENSOR{
     std::string m_name{};
     short m_port{};
 
-    Data_Storing m_settings;
+    Data_Storing& m_settings;
   public:
     /*  Constuctors  */
     Digital(Robot &p_robot, std::string const p_name, short const p_port);

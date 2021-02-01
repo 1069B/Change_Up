@@ -1,5 +1,4 @@
 #include "robot/robot_main.hpp"
-#include "robot/devices/data_storage_class.hpp"
 
 #ifndef OPTICAL_CLASS_H
 #define OPTICAL_CLASS_H
@@ -13,7 +12,7 @@ namespace SENSOR{
     short m_port{};
     short m_pwm_value{};
 
-    Data_Storing m_settings;
+    Data_Storing& m_settings;
 
   public:
     //Constructor

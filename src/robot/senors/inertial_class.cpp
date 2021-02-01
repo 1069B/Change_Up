@@ -1,5 +1,7 @@
-#include "robot/sensors/inertial_class.hpp"
 #include "robot/robot_class.hpp"
+#include "robot/sensors/inertial_class.hpp"
+#include "robot/devices/data_storage_class.hpp"
+
 
 using namespace SENSOR;
 
@@ -24,7 +26,7 @@ double Inertial::store_running_value(double const p_value, std::vector<double>& 
 
 Inertial::Inertial(Robot &p_robot, std::string const p_name, short const p_port):
 m_robot(p_robot),
-m_settings("Settings.xml", "Inertial", p_name),
+m_settings(*new Data_Storing("Settings.xml", "Inertial", p_name)),
 m_average_pitch_vector(10,0),
 m_average_roll_vector(10,0),
 m_average_yaw_vector(10,0),
@@ -42,9 +44,7 @@ m_average_yaw_acceleration_vector(10,0)
   }
 }
 
-/*  Getting Functions  */
-
-
+/*  Getter Functions  */
 double Inertial::get_pitch_rate(){
   pros::c::imu_gyro_s_t l_gyro = pros::c::imu_get_gyro_rate(m_port);
   return l_gyro.y;

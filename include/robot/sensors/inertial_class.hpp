@@ -1,5 +1,4 @@
 #include "robot/robot_main.hpp"
-#include "robot/devices/data_storage_class.hpp"
 
 #ifndef INERTIAL_CLASS_H
 #define INERTIAL_CLASS_H
@@ -25,7 +24,7 @@ namespace SENSOR{
     std::vector<double> m_average_roll_acceleration_vector;
     std::vector<double> m_average_yaw_acceleration_vector;
 
-    Data_Storing m_settings;
+    Data_Storing& m_settings;
 
     double running_average(std::vector<double>& p_vector);
     double store_running_value(double const p_value, std::vector<double>& p_vector);

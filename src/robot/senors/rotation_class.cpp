@@ -1,11 +1,12 @@
-#include "robot/sensors/rotation_class.hpp"
 #include "robot/robot_class.hpp"
+#include "robot/sensors/rotation_class.hpp"
+#include "robot/devices/data_storage_class.hpp"
 
 using namespace SENSOR;
 
 Rotation::Rotation(Robot& p_robot, std::string const p_name, short const p_port, bool const p_reversed, int const p_position_offset):
 m_robot(p_robot),
-m_settings("Settings.xml", "Sensors", p_name),
+m_settings(*new Data_Storing("Settings.xml", "Sensors", p_name)),
 m_average_velocity_vector(10,0){
   if(m_robot.get_recall_settings()){
     m_name = p_name;
@@ -19,9 +20,9 @@ m_average_velocity_vector(10,0){
     m_reversed = p_reversed;
     m_position_offset = p_position_offset;
   }
-
 }
-// Getter Fucntions
+
+/* Getter Functions */
 double Rotation::get_velocity(){
   double l_velocity = (double)pros::c::rotation_get_velocity(m_port)/36000.0;
 
@@ -42,7 +43,7 @@ double Rotation::get_running_average_velocity(){
   return l_sum/(double)m_average_velocity_vector.size();
 }
 
-// Setter Functions
+/* Setter Functions */
 void Rotation::set_position_offset(int const p_position_offset){
   m_position_offset = p_position_offset;
   m_settings.store_int("Position_Offset", p_position_offset);

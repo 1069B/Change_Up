@@ -62,7 +62,7 @@ public:
 
   int get_efficiency(){ return pros::c::motor_get_efficiency(m_port); }
 
-  int get_tempature(){ return pros::c::motor_get_temperature(m_port) ;}
+  int get_temperature(){ return pros::c::motor_get_temperature(m_port) ;}
 
   int get_direction(){ return pros::c::motor_get_direction(m_port); }// TODO: Does this return 0 when not moving
 
@@ -80,7 +80,7 @@ public:
 
   int get_desired_voltage(){ return m_desired_voltage; }
 
-  bool get_connected(){ return !(get_tempature() == 2147483647); }
+  bool get_connected(){ return !(get_temperature() == 2147483647); }
 
   /*  Setter Function  */
   void set_port(int const p_port);

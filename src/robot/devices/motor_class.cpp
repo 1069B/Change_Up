@@ -116,7 +116,7 @@ int Motor::update(){
 
 void Motor::define_GUI(){
   GUI::Screen& l_main = GUI::Screen::create_screen(m_name);
-  l_main.create_rectanlge(0, 0, 480, 40, GUI_STYLES::white_text);
+  l_main.create_rectangle(0, 0, 480, 40, GUI_STYLES::white_text);
   l_main.create_label(200, 10, GUI_STYLES::red_text, m_name);
 
   l_main.create_label(20, 50, GUI_STYLES::white_text, "Desired Velocity: %d", m_desired_velocity);
@@ -125,7 +125,7 @@ void Motor::define_GUI(){
 
   l_main.create_label(260, 50, GUI_STYLES::white_text, "Desired Voltage: %d", m_desired_voltage);
   l_main.create_label(260, 80, GUI_STYLES::white_text, "Actual Voltage: %d", (std::function<int()>)std::bind(&Motor::get_actual_voltage, this));
-  l_main.create_label(260, 110, GUI_STYLES::white_text, "Tempature: %d C", (std::function<int()>)std::bind(&Motor::get_tempature, this));
+  l_main.create_label(260, 110, GUI_STYLES::white_text, "Temperature: %d C", (std::function<int()>)std::bind(&Motor::get_temperature, this));
 
   GUI::Button& btn1 = l_main.create_button("Go Back", 160, 200, 150, 20);
   btn1.add_connected_screen("Home");
@@ -137,7 +137,7 @@ void Motor::define_GUI(){
 
 
   GUI::Screen& l_settings = GUI::Screen::create_screen(m_name + " Settings");
-  l_settings.create_rectanlge(0, 0, 480, 40, GUI_STYLES::white_text);
+  l_settings.create_rectangle(0, 0, 480, 40, GUI_STYLES::white_text);
   l_settings.create_label(0, 10, GUI_STYLES::red_text, m_name + " Settings", LV_ALIGN_IN_TOP_MID);
 
 
