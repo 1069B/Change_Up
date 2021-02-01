@@ -16,9 +16,9 @@ private:
   /* Internal Functions */
   void check_node(pugi::xml_node p_node, std::string const p_node_name);
 
-  pugi::xml_attribute retreive_attribute(std::string const p_varible_name, std::string const p_varible_type);
+  pugi::xml_attribute retreive_attribute(std::string const p_variable_name, std::string const p_variable_type);
 
-  bool check_attribute(std::string const p_varible_name, std::string const p_varible_type);
+  bool check_attribute(std::string const p_variable_name, std::string const p_variable_type);
 public:
   /*  Constructors  */
   Data_Storing(std::string const p_address, std::string const p_class_name, std::string const p_instance_name);
@@ -33,31 +33,31 @@ public:
   static bool get_sd_card_connected(){ return pros::c::usd_is_installed(); };
 
   /*  File Write Functions  */
-  void store_int(std::string const p_varible_name, int const p_value);
+  void store_int(std::string const p_variable_name, int const p_value);
 
-  void store_double(std::string const p_varible_name, double const p_value);
+  void store_double(std::string const p_variable_name, double const p_value);
 
-  void store_bool(std::string const p_varible_name, bool const p_value);
+  void store_bool(std::string const p_variable_name, bool const p_value);
 
-  void store_string(std::string const p_varible_name, std::string const p_value);
+  void store_string(std::string const p_variable_name, std::string const p_value);
 
-  /*  File Read Fucntions  */
-  int read_int(std::string const p_varible_name);
+  /*  File Read Functions  */
+  int read_int(std::string const p_variable_name);
 
-  double read_double(std::string const p_varible_name);
+  double read_double(std::string const p_variable_name);
 
-  bool read_bool(std::string const p_varible_name);
+  bool read_bool(std::string const p_variable_name);
 
-  std::string read_string(std::string const p_varible_name);
+  std::string read_string(std::string const p_variable_name);
 
-  /* Varible Intitialize Functions*/
-  int initialize_int(std::string const p_varible_name, int const p_value);
+  /* variable Initialize Functions*/
+  int initialize_int(std::string const p_variable_name, int const p_value);
 
-  double initialize_double(std::string const p_varible_name, double const p_value);
+  double initialize_double(std::string const p_variable_name, double const p_value);
 
-  bool initialize_bool(std::string const p_varible_name, bool const p_value);
+  bool initialize_bool(std::string const p_variable_name, bool const p_value);
 
-  std::string initialize_string(std::string const p_varible_name, std::string const p_value);
+  std::string initialize_string(std::string const p_variable_name, std::string const p_value);
 
 };
 
