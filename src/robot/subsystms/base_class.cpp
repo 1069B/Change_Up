@@ -29,7 +29,7 @@ double Holonomic::speed_up(int p_controllerValue){
 int Holonomic::task(){
   CONTROLLER::Controller& l_main_controller = m_robot.get_main_controller();
 	CONTROLLER::Controller& l_partner_controller = m_robot.get_partner_controller();
-  g_alert.draw("In Base Task: " + std::to_string(l_main_controller.Axis3.get_percent()));
+  
   if(m_robot.get_robot_state() == ROBOT_DRIVER_CONTROL){
     m_front_left_motor.set_desired_velocity((int)speed_up(200*l_main_controller.Axis3.get_percent()+200*l_main_controller.Axis4.get_percent()+(200*l_main_controller.Axis1.get_percent()/1.1)));
 	  m_front_right_motor.set_desired_velocity((int)speed_up(200*l_main_controller.Axis3.get_percent()-200*l_main_controller.Axis4.get_percent()-(200*l_main_controller.Axis1.get_percent()/1.1)));
@@ -45,16 +45,5 @@ int Holonomic::task(){
   else{
 
   }
-
-
-
-
-
-
-
-  
-  
-
-
   return 0;
 }

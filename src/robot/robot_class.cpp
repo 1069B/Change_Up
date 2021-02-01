@@ -5,10 +5,11 @@
 #include "robot/sensors/optical_class.hpp"
 #include "robot/sensors/digital_class.hpp"
 #include "robot/graphical_interface/button_class.hpp"
+#include "robot/devices/controller_class.hpp"
 
-
-
-Robot::Robot(){
+Robot::Robot():
+m_main_controller(*new CONTROLLER::Controller(pros::E_CONTROLLER_MASTER)),
+m_partner_controller(*new CONTROLLER::Controller(pros::E_CONTROLLER_PARTNER)){
   m_recall_settings = m_settings.initialize_bool("Recall_Settings", false);
   defineStyles();
 }
@@ -79,7 +80,7 @@ Motor& Robot::find_motor(std::string const p_name){
 
 void Robot::task(){
   GUI::Screen::task();
-  //m_base.task();
+  m_base.task();
 }
 
 void Robot::defineGUI(){

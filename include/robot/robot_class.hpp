@@ -1,8 +1,8 @@
 #include "robot/robot_main.hpp"
-#include "robot/graphical_interface/screen_class.hpp"
 #include "robot/devices/data_storage_class.hpp"
 #include "robot/subsystems/base_class.hpp"
-#include "robot/devices/controller_class.hpp"
+#include "robot/graphical_interface/screen_class.hpp"
+
 
 #ifndef ROBOT_CLASS_H
 #define ROBOT_CLASS_H
@@ -12,8 +12,8 @@ private:
 
   Robot_State m_robot_state;
 
-  CONTROLLER::Controller m_main_controller{pros::E_CONTROLLER_MASTER};
-	CONTROLLER::Controller m_partner_controller{pros::E_CONTROLLER_PARTNER};
+  CONTROLLER::Controller& m_main_controller;
+	CONTROLLER::Controller& m_partner_controller;
 
   Holonomic m_base{*this};
 

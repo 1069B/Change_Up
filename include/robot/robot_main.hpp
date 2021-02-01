@@ -38,6 +38,7 @@ class Motor;
 class Timer;
 
 class Holonomic;
+class Manipulator;
 
 
 /* Enum Variables*/
@@ -48,5 +49,7 @@ enum Robot_State{
   ROBOT_AUTONOMOUS,
   ROBOT_DISABLED
 };
+
+
 
 #endif // MAIN_HEADER

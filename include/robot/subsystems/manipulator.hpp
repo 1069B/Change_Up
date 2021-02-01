@@ -1,0 +1,44 @@
+#include "robot/robot_main.hpp"
+
+#ifndef MANIPULATOR_CLASS_H
+#define MANIPULATOR_CLASS_H
+
+enum Intake_Status{
+    INTAKE_INTAKING,
+    INTAKE_OPENING,
+    INTAKE_STATIONARY,
+    INTAKE_USER_BASED
+};
+
+enum Lift_Status{
+    LIFT_INTAKING,
+    LIFT_SCORING,
+    LIFT_EJECTING,
+    LIFT_STATIONARY,
+    LIFT_USER_BASED
+};
+
+class Manipulator{
+private:
+    Robot& m_robot;
+
+    Motor& m_left_intake;
+    Motor& m_right_intake;
+
+    Motor& m_initial_roller;
+    Motor& m_secondary_roller;
+
+    Timer& m_timer;
+
+    Intake_Status m_intake_status = INTAKE_STATIONARY;
+    Lift_Status m_lift_status = LIFT_STATIONARY;
+
+public:
+    Manipulator(Robot& p_robot);
+
+    void driver_control();
+
+    void task();
+};
+
+#endif // MANIPULATOR_CLASS_H
