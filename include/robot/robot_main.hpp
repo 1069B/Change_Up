@@ -2,6 +2,9 @@
 #include "robot/graphical_interface/styles.hpp"
 #include "robot/graphical_interface/alertClass.hpp"
 
+#ifndef MAIN_HEADER
+#define MAIN_HEADER
+
 class Robot;
 
 namespace CONTROLLER{
@@ -34,7 +37,16 @@ class Data_Storing;
 class Motor;
 class Timer;
 
-class Base;
+class Holonomic;
 
 
-/* Enum Varibles*/
+/* Enum Variables*/
+
+enum Robot_State{
+  ROBOT_INITIALIZATION,
+  ROBOT_DRIVER_CONTROL,
+  ROBOT_AUTONOMOUS,
+  ROBOT_DISABLED
+};
+
+#endif // MAIN_HEADER

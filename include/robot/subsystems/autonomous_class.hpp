@@ -11,13 +11,15 @@ enum AUTONOMOUS_BASE_STATUS{
   BASE_ORIENTATION,
   BASE_TURN,
   BASE_POSE,
-  BASE_ALIGN_GOAL
+  BASE_ALIGN_GOAL,
+  BASE_STATIONARY
 };
 
 enum AUTONOMOUS_MANIPULATOR_STATUS{
   INTAKE_PRESET_BALLS,
   INTAKE_CONTROL_GOAL,
-  INTAKE_GRAB_BALL
+  INTAKE_GRAB_BALL,
+  INTAKE_STATIONARY
 };
 
 struct Base_Event{
@@ -56,7 +58,7 @@ public:
   /* Base Functions */
   void base_translate_to(double p_x_position, double p_y_position, double p_delay = NO_DELAY);// Point to Point
 
-  void base_orientation_to(double p_orientation, double p_delay = NO_DELAY);// Point Rotation
+  void base_orientate_to(double p_orientation, double p_delay = NO_DELAY);// Point Rotation
 
   void base_turn_to(double p_x_position, double p_y_position, double p_delay = NO_DELAY);// Arc Turn
 

@@ -1,7 +1,6 @@
 #include "main.h"
 #include "robot/robot_class.hpp"
 #include "robot/devices/motor_class.hpp"
-#include "robot/devices/controller_class.hpp"
 #include "robot/subsystems/autonomous_class.hpp"
 
 /**
@@ -64,7 +63,48 @@ void competition_initialize() {
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
+enum Intake_Status{
+	INTAKE,
+	BACKING_UP,
+	STATIC,
+
+};
+
 void autonomous(){
+	Intake_Status l_state;
+	l_state = STATIC;
+	Timer l_timer;
+	Motor& left_intake = g_robot.find_motor("Left Intake");
+	Motor& right_intake = g_robot.find_motor("Right Intake");
+	Motor& initial_roller = g_robot.find_motor("Intial Rollers");
+
+	while(true){
+		g_robot.task();
+		int l_rgb = pros::c::optical_get_hue(20);
+		//g_alert.draw("running: " + std::to_string(l_rgb));
+		if(l_state == STATIC && !(l_rgb > 80 && l_rgb < 100)){
+			left_intake.set_desired_velocity(600);
+			right_intake.set_desired_velocity(600);
+			initial_roller.set_desired_velocity(200);
+			l_state = INTAKE;
+		}
+		else if(l_state == INTAKE && (l_rgb > 80 && l_rgb < 100)){
+			left_intake.set_desired_velocity(-300);
+			right_intake.set_desired_velocity(-300);
+			initial_roller.set_desired_velocity(200);
+			l_state = BACKING_UP;
+			l_timer.set_flag_delay(750);
+		}
+		else if(l_state == BACKING_UP && l_timer.get_preform_action()){
+			left_intake.set_desired_velocity(0);
+			right_intake.set_desired_velocity(0);
+			initial_roller.set_desired_velocity(0);
+			l_state = STATIC;
+		}
+
+
+		pros::delay(20);
+	}
 }
 
 /**
@@ -80,7 +120,7 @@ void autonomous(){
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
- double speedUp(int p_controllerValue){
+ double speed_up(int p_controllerValue){
    double l_a = 201;
  	double l_b = 5;
  	double l_c = 0.05;
@@ -113,22 +153,69 @@ void opcontrol(){
 	Motor& intial_roller = g_robot.find_motor("Intial Rollers");
 	Motor& second_roller = g_robot.find_motor("Second Rollers");
 
+	Intake_Status l_state;
+	l_state = STATIC;
+	Timer l_timer;
 
 	while (true) {
 		g_robot.task();
-		if(partner_controller.ButtonL1.get_state()){
+
+		m_front_left_motor.set_desired_velocity((int)speed_up(200*main_controller.Axis3.get_percent()+200*main_controller.Axis4.get_percent()+(200*main_controller.Axis1.get_percent()/1.1)));
+		m_front_right_motor.set_desired_velocity((int)speed_up(200*main_controller.Axis3.get_percent()-200*main_controller.Axis4.get_percent()-(200*main_controller.Axis1.get_percent()/1.1)));
+		m_back_left_motor.set_desired_velocity((int)speed_up(200*main_controller.Axis3.get_percent()-200*main_controller.Axis4.get_percent()+(200*main_controller.Axis1.get_percent()/1.1)));
+		m_back_right_motor.set_desired_velocity((int)speed_up(200*main_controller.Axis3.get_percent()+200*main_controller.Axis4.get_percent()-(200*main_controller.Axis1.get_percent()/1.1)));
+
+
+		int l_rgb = pros::c::optical_get_hue(20);
+		//g_alert.draw("running: " + std::to_string(l_rgb));
+		if(l_state == STATIC && !(l_rgb > 80 && l_rgb < 100)){
 			left_intake.set_desired_velocity(600);
 			right_intake.set_desired_velocity(600);
+			intial_roller.set_desired_velocity(600);
+			l_state = INTAKE;
 		}
-		else if(partner_controller.ButtonL2.get_state()){
-			left_intake.set_desired_velocity(-200);
-			right_intake.set_desired_velocity(-200);
+		else if(l_state == INTAKE && (l_rgb > 80 && l_rgb < 100)){
+			left_intake.set_desired_velocity(-300);
+			right_intake.set_desired_velocity(-300);
+			intial_roller.set_desired_velocity(600);
+			l_state = BACKING_UP;
+			l_timer.set_flag_delay(500);
 		}
-		else{
-			left_intake.set_desired_velocity(partner_controller.Axis3.get_percent() * 600);
-			right_intake.set_desired_velocity(partner_controller.Axis3.get_percent() * 600);
-			intial_roller.set_desired_velocity(fabs(partner_controller.Axis3.get_percent() * 600.0));
+		else if(l_state == BACKING_UP && l_timer.get_preform_action()){
+			left_intake.set_desired_velocity(0);
+			right_intake.set_desired_velocity(0);
+			intial_roller.set_desired_velocity(0);
+			l_state = STATIC;
 		}
+		else if(l_state == STATIC){
+			if(partner_controller.ButtonL1.get_state()){
+				left_intake.set_desired_velocity(600);
+				right_intake.set_desired_velocity(600);
+			}
+			else if(partner_controller.ButtonL2.get_state()){
+				left_intake.set_desired_velocity(-200);
+				right_intake.set_desired_velocity(-200);
+			}
+			else{
+				left_intake.set_desired_velocity(partner_controller.Axis3.get_percent() * 600);
+				right_intake.set_desired_velocity(partner_controller.Axis3.get_percent() * 600);
+				intial_roller.set_desired_velocity(fabs(partner_controller.Axis3.get_percent() * 600.0));
+			}
+		}
+
+		// if(partner_controller.ButtonL1.get_state()){
+		// 	left_intake.set_desired_velocity(600);
+		// 	right_intake.set_desired_velocity(600);
+		// }
+		// else if(partner_controller.ButtonL2.get_state()){
+		// 	left_intake.set_desired_velocity(-200);
+		// 	right_intake.set_desired_velocity(-200);
+		// }
+		// else{
+		// 	left_intake.set_desired_velocity(partner_controller.Axis3.get_percent() * 600);
+		// 	right_intake.set_desired_velocity(partner_controller.Axis3.get_percent() * 600);
+		// 	intial_roller.set_desired_velocity(fabs(partner_controller.Axis3.get_percent() * 600.0));
+		// }
 
 
 		if(partner_controller.ButtonR1.get_state()){
@@ -143,10 +230,7 @@ void opcontrol(){
 			second_roller.set_desired_velocity(partner_controller.Axis2.get_percent() * 600.0);
 		}
 
-	  m_front_left_motor.set_desired_velocity((int)speedUp(200*main_controller.Axis3.get_percent()+200*main_controller.Axis4.get_percent()+(200*main_controller.Axis1.get_percent()/1.1)));
-	  m_front_right_motor.set_desired_velocity((int)speedUp(200*main_controller.Axis3.get_percent()-200*main_controller.Axis4.get_percent()-(200*main_controller.Axis1.get_percent()/1.1)));
-	  m_back_left_motor.set_desired_velocity((int)speedUp(200*main_controller.Axis3.get_percent()-200*main_controller.Axis4.get_percent()+(200*main_controller.Axis1.get_percent()/1.1)));
-	  m_back_right_motor.set_desired_velocity((int)speedUp(200*main_controller.Axis3.get_percent()+200*main_controller.Axis4.get_percent()-(200*main_controller.Axis1.get_percent()/1.1)));
+	  
 		pros::delay(20);
 	}
 }

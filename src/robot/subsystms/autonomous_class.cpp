@@ -36,7 +36,7 @@ void Autonomous::base_translate_to(double p_x_position, double p_y_position, dou
   m_base_events.push_back(Base_Event(BASE_TRANSLATE, p_delay, p_x_position, p_y_position, INT_MIN));
 }
 
-void Autonomous::base_orientation_to(double p_orientation, double p_delay){// Point Rotation
+void Autonomous::base_orientate_to(double p_orientation, double p_delay){
   m_base_events.push_back(Base_Event(BASE_ORIENTATION, p_delay, INT_MIN, INT_MIN, p_orientation));
 }
 
