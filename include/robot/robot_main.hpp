@@ -50,6 +50,10 @@ enum Robot_State{
   ROBOT_DISABLED
 };
 
-
+enum Robot_Alliance{
+  ROBOT_BLUE,
+  ROBOT_RED,
+  ROBOT_SKILLS
+};
 
 #endif // MAIN_HEADER

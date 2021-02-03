@@ -5,6 +5,8 @@
 
 enum Intake_Status{
     INTAKE_INTAKING,
+    INTAKE_AUTO_INTAKE,
+    INTAKE_AUTO_OPEN,
     INTAKE_OPENING,
     INTAKE_STATIONARY,
     INTAKE_USER_BASED
@@ -46,6 +48,8 @@ public:
 
     /* Action Functions */
     void task();
+
+    void define_GUI();
 };
 
 #endif // MANIPULATOR_CLASS_H

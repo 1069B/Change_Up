@@ -2,6 +2,7 @@
 
 #ifndef ROBOT_CLASS_H
 #define ROBOT_CLASS_H
+
 class Robot{
 private:
   bool m_recall_settings{};
@@ -21,6 +22,8 @@ private:
   std::vector<SENSOR::Digital*> m_digital_list{};
 
   Data_Storing& m_settings;
+
+  Robot_Alliance m_alliance = ROBOT_SKILLS;// TODO: ADD GUI SETTING
 public:
   /*  Constuctors  */
   Robot();
@@ -32,6 +35,8 @@ public:
   CONTROLLER::Controller& get_main_controller(){ return m_main_controller; } 
 
   CONTROLLER::Controller& get_partner_controller(){ return m_partner_controller; }
+
+  Robot_Alliance get_alliance(){ return m_alliance; }
 
   /*  Setter Function  */
   void set_robot_state(Robot_State p_state){ m_robot_state = p_state; }
