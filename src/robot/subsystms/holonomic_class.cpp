@@ -12,6 +12,43 @@ m_back_right_motor(m_robot.add_motor("Back Right Base", 6, pros::E_MOTOR_GEARSET
 {
 }
 
+void Holonomic::autonomous(){
+  /*
+Functions /  States 
+
+1 - Translation: Defined X, Defined Y, Constant Ori
+2 - ORIENTATION: Constant X, Constatnt Y, Defined Ori
+3 - Turn: Defined X, Defined Y, Defined Ori
+
+4 - Pose
+
+5 - Align to Goal
+
+*/
+//PID: X
+
+  //PID: Y
+
+  //PID Ori
+
+  // PIDS calculate the different speeds
+
+      
+
+  int l_x_vel;
+  int l_y_vel;
+  int l_ori_vel;
+
+  m_desired_trajectory.m_orientation_velocity;
+  m_desired_trajectory.m_translation_velocity = sqrtf(powf(l_x_vel,2) + powf(l_y_vel,2));
+  m_desired_trajectory.m_translation_angle = atanf(l_y_vel/l_x_vel);
+
+  m_desired_velocities.m_front_left = (sin(m_desired_trajectory.m_translation_angle+(M_PI/4.0)) * m_desired_trajectory.m_translation_velocity) - m_desired_trajectory.m_orientation_velocity;
+  m_desired_velocities.m_front_right = (-cos(m_desired_trajectory.m_translation_angle+(M_PI/4.0)) * m_desired_trajectory.m_translation_velocity) + m_desired_trajectory.m_orientation_velocity;
+  m_desired_velocities.m_back_left = (-cos(m_desired_trajectory.m_translation_angle+(M_PI/4.0)) * m_desired_trajectory.m_translation_velocity) - m_desired_trajectory.m_orientation_velocity;
+  m_desired_velocities.m_back_right = (sin(m_desired_trajectory.m_translation_angle+(M_PI/4.0)) * m_desired_trajectory.m_translation_velocity) + m_desired_trajectory.m_orientation_velocity;
+}
+
 double Holonomic::speed_up(int p_controllerValue){
   double l_a = m_acceleration_coefficients.m_coefficient_A;
 	double l_b = m_acceleration_coefficients.m_coefficient_B;

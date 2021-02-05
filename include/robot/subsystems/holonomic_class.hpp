@@ -5,8 +5,17 @@
 
 struct Trajectory{
 public:
-  double m_orientation;
-  double m_velocity;
+  double m_orientation_velocity;
+  double m_translation_velocity;
+  double m_translation_angle;
+};
+
+struct Holonomic_Motors{
+public:
+  double m_front_left;
+  double m_front_right;
+  double m_back_left;
+  double m_back_right;
 };
 
 struct Acceleration{
@@ -27,13 +36,16 @@ private:
   Motor& m_back_left_motor;
   Motor& m_back_right_motor;
 
+  Holonomic_Motors m_desired_velocities;
+  Trajectory m_desired_trajectory;
   // Trajectory m_desired_trajectory{};
-  // Trajectory m_actual_trajectory{};
+  // 
 
   Acceleration m_acceleration_coefficients{};
 
   // pros::motor_brake_mode_e m_brakeMode = pros::E_MOTOR_BRAKE_COAST;
 
+  void autonomous();
 public:
   Holonomic(Robot &p_robot);
 
