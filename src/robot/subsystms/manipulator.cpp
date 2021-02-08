@@ -42,20 +42,19 @@ void Manipulator::initialize(){
     }
 }
 
+void feild_grabing(){
+
+}
+
+void goal_controlling(){
+
+}
+
 void Manipulator::autonomous(){
-    // if(m_intake_status != INTAKE_INTAKING && ((12 < l_rgb && l_rgb < 32) || (190 < l_rgb && l_rgb < 210))){
-    //     m_intake_status = INTAKE_INTAKING;
-    // }
-    // else if(m_intake_status == INTAKE_INTAKING && !((12 < l_rgb && l_rgb < 32) || (190 < l_rgb && l_rgb < 210))){
-    //     m_intake_status = INTAKE_OPENING;
-    //     m_timer.set_flag_delay(500);
-    // }
-    // else if(m_intake_status == INTAKE_OPENING && m_timer.get_preform_action()){
-    //     m_intake_status = INTAKE_STATIONARY;
-    // }
-    // else{
-    //     m_intake_status = INTAKE_STATIONARY;
-    // }
+
+
+
+
 }
 
 void Manipulator::driver_control(){

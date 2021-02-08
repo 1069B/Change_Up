@@ -18,6 +18,12 @@ enum Lift_Status{
     LIFT_NO_RESTRICTIONS
 };
 
+enum Intake_Position{
+    INTAKE_FULLY_EXTENDED,
+    INTAKE_OPEN,
+    INTAKE_STORED
+};
+
 class Manipulator{
 private:
     Robot& m_robot;

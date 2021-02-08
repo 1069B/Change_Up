@@ -4,6 +4,13 @@
 #define OPTICAL_CLASS_H
 
 namespace SENSOR{
+  struct Optical_Signature{
+  public:
+    double m_hue_upper_bound;
+    double m_hue_lower_bound;
+    double m_saturation_upper_bound;
+    double m_saturation_lower_bound;
+  };
   class Optical{
   private:
     Robot& m_robot;
@@ -11,12 +18,14 @@ namespace SENSOR{
     std::string m_name;
     short m_port{};
     short m_pwm_value{};
-    int m_hue_upper_bound{};
-    int m_hue_lower_bound{};
-    int m_saturation_upper_bound{};
-    int m_saturation_lower_bound{};
+    
+    Optical_Signature m_signature_1;
+    Optical_Signature m_signature_2;
+    Optical_Signature m_signature_3;
 
     Data_Storing& m_settings;
+
+    bool is_signature(Optical_Signature& p_signature);
 
   public:
     //Constructor
@@ -45,23 +54,33 @@ namespace SENSOR{
 
     pros::c::optical_gesture_s_t get_gesture_raw(){ return pros::c::optical_get_gesture_raw(m_port); }
 
-    int get_hue_upper_bound(){ return m_hue_upper_bound; }
-    
-    int get_hue_lower_bound(){ return m_hue_lower_bound; }
+    Optical_Signature& get_signature_1(){ return m_signature_1; }
+
+    Optical_Signature& get_signature_2(){ return m_signature_2; }
+
+    Optical_Signature& get_signature_3(){ return m_signature_3; }
 
     //Setter Functions
     void set_led_pwm(short const p_pwm_value);
 
     void set_port(short const p_port);
 
-    void set_hue_bounds(int const p_hue_lower_bound, int const p_hue_upper_bound);
+    void set_signature_1(double const p_hue_lower_bound, double const p_hue_upper_bound, double const p_saturation_lower_bound = 0.00, double const p_saturation_upper_bound = 1.0);
+
+    void set_signature_2(double const p_hue_lower_bound, double const p_hue_upper_bound, double const p_saturation_lower_bound = 0.00, double const p_saturation_upper_bound = 1.0);
+
+    void set_signature_3(double const p_hue_lower_bound, double const p_hue_upper_bound, double const p_saturation_lower_bound = 0.00, double const p_saturation_upper_bound = 1.0);
 
     //Action Functions
     void enable_gesture(){ pros::c::optical_enable_gesture(m_port); }
 
     void disable_gesture(){ pros::c::optical_disable_gesture(m_port); }
 
-    bool is_object();
+    bool is_signature_1(){ return is_signature(m_signature_1); }
+
+    bool is_signature_2(){ return is_signature(m_signature_2); }
+
+    bool is_signature_3(){ return is_signature(m_signature_3); }
   };
 }
 
