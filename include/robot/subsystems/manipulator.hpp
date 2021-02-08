@@ -13,11 +13,9 @@ enum Intake_Status{
 };
 
 enum Lift_Status{
-    LIFT_INTAKING,
-    LIFT_SCORING,
-    LIFT_EJECTING,
-    LIFT_STATIONARY,
-    LIFT_USER_BASED
+    LIFT_TOP_CONTROLLED,
+    LIFT_BOTH_CONTROLLED,
+    LIFT_NO_RESTRICTIONS
 };
 
 class Manipulator{
@@ -30,10 +28,17 @@ private:
     Motor& m_initial_roller;
     Motor& m_secondary_roller;
 
+    SENSOR::Optical& m_intake_sensor;
+    SENSOR::Optical& m_sorting_score;
+    SENSOR::Optical& m_sorting_eject;
+
+    SENSOR::Digital& m_scoring_left_sensor;
+    SENSOR::Digital& m_scoring_right_sensor;
+
     Timer& m_timer;
 
     Intake_Status m_intake_status = INTAKE_STATIONARY;
-    Lift_Status m_lift_status = LIFT_STATIONARY;
+    Lift_Status m_lift_status = LIFT_NO_RESTRICTIONS;
 
     /* Robot State Functions */
     void initialize();

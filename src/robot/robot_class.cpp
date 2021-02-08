@@ -89,6 +89,12 @@ Motor& Robot::find_motor(std::string const p_name){
   return *new Motor(*this, "Default", 1, pros::E_MOTOR_GEARSET_18, pros::E_MOTOR_BRAKE_COAST, false);
 }
 
+void Robot::initialize(){
+  defineGUI();
+  m_manipulator.task();
+  m_holonomic.task();
+}
+
 void Robot::task(){
   GUI::Screen::task();
   m_holonomic.task();

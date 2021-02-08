@@ -11,6 +11,10 @@ namespace SENSOR{
     std::string m_name;
     short m_port{};
     short m_pwm_value{};
+    int m_hue_upper_bound{};
+    int m_hue_lower_bound{};
+    int m_saturation_upper_bound{};
+    int m_saturation_lower_bound{};
 
     Data_Storing& m_settings;
 
@@ -41,15 +45,23 @@ namespace SENSOR{
 
     pros::c::optical_gesture_s_t get_gesture_raw(){ return pros::c::optical_get_gesture_raw(m_port); }
 
+    int get_hue_upper_bound(){ return m_hue_upper_bound; }
+    
+    int get_hue_lower_bound(){ return m_hue_lower_bound; }
+
     //Setter Functions
     void set_led_pwm(short const p_pwm_value);
 
     void set_port(short const p_port);
 
+    void set_hue_bounds(int const p_hue_lower_bound, int const p_hue_upper_bound);
+
     //Action Functions
     void enable_gesture(){ pros::c::optical_enable_gesture(m_port); }
 
     void disable_gesture(){ pros::c::optical_disable_gesture(m_port); }
+
+    bool is_object();
   };
 }
 

@@ -5,7 +5,7 @@ Robot g_robot{};
 
 void initialize(){
 	g_robot.set_robot_state(ROBOT_INITIALIZATION);
-	g_robot.defineGUI();
+	g_robot.initialize();
 }
 
 void disabled(){
@@ -13,6 +13,7 @@ void disabled(){
 }
 
 void competition_initialize() {
+	g_robot.initialize();
 	g_robot.set_robot_state(ROBOT_INITIALIZATION);
 }
 

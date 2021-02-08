@@ -2,9 +2,11 @@
 #include "robot/devices/motor_class.hpp"
 #include "robot/devices/controller_class.hpp"
 #include "robot/devices/timer_class.hpp"
-#include "robot/subsystems/manipulator.hpp"
-#include "robot/robot_class.hpp"
 
+#include "robot/subsystems/manipulator.hpp"
+
+#include "robot/sensors/optical_class.hpp"
+#include "robot/sensors/digital_class.hpp"
 
 #include "robot/graphical_interface/screen_class.hpp"
 #include "robot/graphical_interface/button_class.hpp"
@@ -17,97 +19,138 @@ m_timer(*new Timer()),
 m_left_intake(m_robot.add_motor("Left Intake", 12, pros::E_MOTOR_GEARSET_06, pros::E_MOTOR_BRAKE_COAST, false)),
 m_right_intake(m_robot.add_motor("Right Intake", 19, pros::E_MOTOR_GEARSET_06, pros::E_MOTOR_BRAKE_COAST, true)),
 m_initial_roller(m_robot.add_motor("Initial Rollers", 9, pros::E_MOTOR_GEARSET_18, pros::E_MOTOR_BRAKE_BRAKE, true)),
-m_secondary_roller(m_robot.add_motor("Second Rollers", 10, pros::E_MOTOR_GEARSET_06, pros::E_MOTOR_BRAKE_COAST, true)){
+m_secondary_roller(m_robot.add_motor("Second Rollers", 10, pros::E_MOTOR_GEARSET_06, pros::E_MOTOR_BRAKE_COAST, true)),
+m_intake_sensor(m_robot.add_optical("Intake Sensor", 20)),
+m_sorting_score(m_robot.add_optical("Sorting Sensor Score", 2)),
+m_sorting_eject(m_robot.add_optical("Sorting Sensor Eject", 2)),
+m_scoring_left_sensor(m_robot.add_digital("Scoring Left", 2)),
+m_scoring_right_sensor(m_robot.add_digital("Scoring Right", 1))
+{
     	
 }
 
 void Manipulator::initialize(){
-
+    if(m_robot.get_alliance() == ROBOT_SKILLS || m_robot.get_alliance() == ROBOT_RED){
+        m_intake_sensor.set_hue_bounds(12, 78);
+        m_sorting_score.set_hue_bounds(0, 20);
+        m_sorting_eject.set_hue_bounds(206, 226);
+    }
+    else if(m_robot.get_alliance() == ROBOT_BLUE){
+        m_intake_sensor.set_hue_bounds(190, 210);
+         m_sorting_score.set_hue_bounds(206, 226);
+        m_sorting_eject.set_hue_bounds(0, 20);
+    }
 }
 
 void Manipulator::autonomous(){
-    int l_rgb = pros::c::optical_get_hue(20);
-
-    if(m_intake_status != INTAKE_INTAKING && ((12 < l_rgb && l_rgb < 32) || (190 < l_rgb && l_rgb < 210))){
-        m_intake_status = INTAKE_INTAKING;
-    }
-    else if(m_intake_status == INTAKE_INTAKING && !((12 < l_rgb && l_rgb < 32) || (190 < l_rgb && l_rgb < 210))){
-        m_intake_status = INTAKE_OPENING;
-        m_timer.set_flag_delay(500);
-    }
-    else if(m_intake_status == INTAKE_OPENING && m_timer.get_preform_action()){
-        m_intake_status = INTAKE_STATIONARY;
-    }
-    else{
-        m_intake_status = INTAKE_STATIONARY;
-    }
+    // if(m_intake_status != INTAKE_INTAKING && ((12 < l_rgb && l_rgb < 32) || (190 < l_rgb && l_rgb < 210))){
+    //     m_intake_status = INTAKE_INTAKING;
+    // }
+    // else if(m_intake_status == INTAKE_INTAKING && !((12 < l_rgb && l_rgb < 32) || (190 < l_rgb && l_rgb < 210))){
+    //     m_intake_status = INTAKE_OPENING;
+    //     m_timer.set_flag_delay(500);
+    // }
+    // else if(m_intake_status == INTAKE_OPENING && m_timer.get_preform_action()){
+    //     m_intake_status = INTAKE_STATIONARY;
+    // }
+    // else{
+    //     m_intake_status = INTAKE_STATIONARY;
+    // }
 }
 
 void Manipulator::driver_control(){
-    int l_rgb = pros::c::optical_get_hue(20);
-    int l_lower_detection;
-    int l_upper_detection;
-
-    if(m_robot.get_alliance() == ROBOT_SKILLS){
-        l_lower_detection = 12;
-        l_upper_detection = 78;
+    if(m_robot.get_partner_controller().ButtonR1.get_state()){
+        m_initial_roller.set_desired_velocity(0);
+		m_secondary_roller.set_desired_velocity(600);
+        m_lift_status = LIFT_NO_RESTRICTIONS;
     }
-    else if(m_robot.get_alliance() == ROBOT_RED){
-        l_lower_detection = 12;
-        l_upper_detection = 78;
+    else if(m_sorting_eject.is_object()){
+        if(m_scoring_left_sensor.get_value() && m_scoring_right_sensor.get_value()){
+            m_initial_roller.set_desired_velocity(200);
+			m_secondary_roller.set_desired_velocity(0);//TODO: Add positive spin so rollers don't move
+            m_lift_status = LIFT_TOP_CONTROLLED;
+        }
+        else{
+            m_initial_roller.set_desired_velocity(200);
+			m_secondary_roller.set_desired_velocity(-600);
+            m_lift_status = LIFT_TOP_CONTROLLED;
+        }
     }
-    else if(m_robot.get_alliance() == ROBOT_BLUE){
-        l_lower_detection = 190;
-        l_upper_detection = 210;
+    else if(m_sorting_score.is_object()){
+        if(m_scoring_left_sensor.get_value() && m_scoring_right_sensor.get_value()){
+            m_initial_roller.set_desired_velocity(0);
+			m_secondary_roller.set_desired_velocity(0);
+            m_lift_status = LIFT_BOTH_CONTROLLED;
+        }
+        else{
+            m_initial_roller.set_desired_velocity(200);
+			m_secondary_roller.set_desired_velocity(600);
+            m_lift_status = LIFT_NO_RESTRICTIONS;
+        }
     }
-
-
-    if(m_robot.get_partner_controller().Axis2.get_percent() < -0.10 || 0.10 < m_robot.get_partner_controller().Axis2.get_percent()){
-        m_lift_status = LIFT_USER_BASED;
+    else if(m_scoring_left_sensor.get_value() && m_scoring_right_sensor.get_value() && (m_robot.get_partner_controller().Axis2.get_percent() < -0.10 || 0.10 < m_robot.get_partner_controller().Axis2.get_percent())){
+        m_initial_roller.set_desired_velocity(m_robot.get_partner_controller().Axis2.get_percent()*200);
+		m_secondary_roller.set_desired_velocity(0);
+        m_lift_status = LIFT_TOP_CONTROLLED;
     }
-    else if(m_robot.get_partner_controller().ButtonR1.get_state()){
-        m_lift_status = LIFT_SCORING;
-    }
-    else if(m_robot.get_partner_controller().ButtonR2.get_state()){
-        m_lift_status = LIFT_EJECTING;
+    else if(m_robot.get_partner_controller().Axis2.get_percent() < -0.10 || 0.10 < m_robot.get_partner_controller().Axis2.get_percent()){
+        m_initial_roller.set_desired_velocity(m_robot.get_partner_controller().Axis2.get_percent() * 200);
+		m_secondary_roller.set_desired_velocity(m_robot.get_partner_controller().Axis2.get_percent() * 600);
+        m_lift_status = LIFT_NO_RESTRICTIONS;
     }
     else{
-        m_lift_status = LIFT_STATIONARY;
+        m_initial_roller.set_desired_velocity(0);
+        m_secondary_roller.set_desired_velocity(0);
+        m_lift_status = LIFT_NO_RESTRICTIONS;
     }
 
     if(m_robot.get_partner_controller().Axis3.get_percent() < -0.10 || 0.10 < m_robot.get_partner_controller().Axis3.get_percent()){
         m_intake_status = INTAKE_USER_BASED;
+        m_left_intake.set_desired_velocity(m_robot.get_partner_controller().Axis3.get_percent() * 600);
+        m_right_intake.set_desired_velocity(m_robot.get_partner_controller().Axis3.get_percent() * 600);
+
+        if(m_lift_status == LIFT_NO_RESTRICTIONS || m_lift_status == LIFT_TOP_CONTROLLED)
+            m_initial_roller.set_desired_velocity(200);
     }
     else if(m_robot.get_partner_controller().ButtonL1.get_state()){
         m_intake_status = INTAKE_INTAKING;
-        if(!(m_lift_status == LIFT_SCORING || m_lift_status == LIFT_EJECTING)){
-            m_lift_status = LIFT_INTAKING;
-        }
+        m_left_intake.set_desired_velocity(600);
+        m_right_intake.set_desired_velocity(600);
+        
+        if(m_lift_status == LIFT_NO_RESTRICTIONS || m_lift_status == LIFT_TOP_CONTROLLED)
+            m_initial_roller.set_desired_velocity(200);
     }
     else if(m_robot.get_partner_controller().ButtonL2.get_state()){
         m_intake_status = INTAKE_OPENING;
+        m_left_intake.set_desired_velocity(-300);
+        m_right_intake.set_desired_velocity(-300);
     }
-    else if(l_lower_detection < l_rgb && l_rgb < l_upper_detection){
+    else if(m_intake_sensor.is_object()){
         m_intake_status = INTAKE_AUTO_INTAKE;
+        m_left_intake.set_desired_velocity(600);
+        m_right_intake.set_desired_velocity(600);
 
-        if(!(m_lift_status == LIFT_SCORING || m_lift_status == LIFT_EJECTING)){
-            m_lift_status = LIFT_INTAKING;
-        }
+        if(m_lift_status == LIFT_NO_RESTRICTIONS || m_lift_status == LIFT_TOP_CONTROLLED)
+            m_initial_roller.set_desired_velocity(200);
     }
-    else if(m_intake_status == INTAKE_AUTO_INTAKE && !(l_lower_detection < l_rgb && l_rgb < l_upper_detection)){
+    else if(m_intake_status == INTAKE_AUTO_INTAKE && !m_intake_sensor.is_object()){
         m_intake_status = INTAKE_AUTO_OPEN;
+        m_left_intake.set_desired_velocity(-300);
+        m_right_intake.set_desired_velocity(-300);
+
         m_timer.set_flag_delay(500);
     }
     else if(m_intake_status == INTAKE_AUTO_OPEN && m_timer.get_preform_action()){
-        m_intake_status = INTAKE_STATIONARY;
+        m_left_intake.set_desired_velocity(0);
+        m_right_intake.set_desired_velocity(0);
     }
     else if(m_intake_status == INTAKE_AUTO_OPEN){
-        if(!(m_lift_status == LIFT_SCORING || m_lift_status == LIFT_EJECTING)){
-            m_lift_status = LIFT_INTAKING;
-        }
+        if(m_lift_status == LIFT_NO_RESTRICTIONS || m_lift_status == LIFT_TOP_CONTROLLED)
+            m_initial_roller.set_desired_velocity(200);
     }
     else if(m_intake_status != INTAKE_AUTO_OPEN){
-        m_intake_status = INTAKE_STATIONARY;
+        m_left_intake.set_desired_velocity(0);
+        m_right_intake.set_desired_velocity(0);
     }
 }
 
@@ -120,64 +163,6 @@ void Manipulator::task(){
     }
     else if(m_robot.get_robot_state() == ROBOT_INITIALIZATION){
         initialize();
-    }
-
-    switch(m_intake_status){
-        case INTAKE_INTAKING: 
-            m_left_intake.set_desired_velocity(600);
-            m_right_intake.set_desired_velocity(600);
-            break;
-
-        case INTAKE_AUTO_INTAKE: 
-            m_left_intake.set_desired_velocity(600);
-            m_right_intake.set_desired_velocity(600);
-            break;
-
-        case INTAKE_OPENING: 
-            m_left_intake.set_desired_velocity(-300);
-            m_right_intake.set_desired_velocity(-300);
-            break;
-
-        case INTAKE_AUTO_OPEN: 
-            m_left_intake.set_desired_velocity(-300);
-            m_right_intake.set_desired_velocity(-300);
-            break;
-
-        case INTAKE_STATIONARY: 
-            m_left_intake.set_desired_velocity(0);
-            m_right_intake.set_desired_velocity(0);
-            break;
-
-        case INTAKE_USER_BASED: 
-            m_left_intake.set_desired_velocity(m_robot.get_partner_controller().Axis3.get_percent() * 600);
-            m_right_intake.set_desired_velocity(m_robot.get_partner_controller().Axis3.get_percent() * 600);
-            break;
-    }
-
-    switch(m_lift_status){
-        case LIFT_INTAKING:
-            m_initial_roller.set_desired_velocity(200);
-			m_secondary_roller.set_desired_velocity(0);
-            break;
-        case LIFT_SCORING: 
-            m_initial_roller.set_desired_velocity(600);
-			m_secondary_roller.set_desired_velocity(600);
-            break;
-
-        case LIFT_EJECTING: 
-            m_initial_roller.set_desired_velocity(200);
-			m_secondary_roller.set_desired_velocity(-600);// TODO: Change automatic sorting
-            break;
-
-        case LIFT_STATIONARY: 
-            m_initial_roller.set_desired_velocity(0);
-			m_secondary_roller.set_desired_velocity(0);
-            break;
-
-        case LIFT_USER_BASED: 
-            m_initial_roller.set_desired_velocity(fabs(m_robot.get_partner_controller().Axis2.get_percent() * 600));
-			m_secondary_roller.set_desired_velocity(m_robot.get_partner_controller().Axis2.get_percent() * 600);
-            break;
     }
 }
 

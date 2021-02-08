@@ -48,13 +48,15 @@ public:
 
   SENSOR::Rotation& add_rotation(std::string const p_name, short const p_port, bool const p_reversed, int const p_position_offset = 0);
 
-  SENSOR::Optical& add_optical(std::string const p_name, short const p_port, short const p_pwm_value);
+  SENSOR::Optical& add_optical(std::string const p_name, short const p_port, short const p_pwm_value = 0);
 
   SENSOR::Digital& add_digital(std::string const p_name, short const p_port);
   /* Finder Functions */
   Motor& find_motor(std::string const p_name);
 
   /*  Action Functions */
+  void initialize();
+
   void task();
 
   void defineGUI();

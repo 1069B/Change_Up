@@ -16,7 +16,7 @@ Optical::Optical(Robot &p_robot, std::string const p_name, short const p_port, s
     else{
       m_name = p_name;
       m_port = p_port;
-      m_pwm_value  = p_pwm_value;
+      m_pwm_value = p_pwm_value;
     }
 }
 
@@ -29,4 +29,16 @@ void Optical::set_led_pwm(short const p_pwm_value){
 void Optical::set_port(short const p_port){
   m_port = p_port;
   m_settings.store_int("Port", p_port);
+}
+
+void Optical::set_hue_bounds(int const p_hue_lower_bound, int const p_hue_upper_bound){
+  m_hue_lower_bound = p_hue_lower_bound;
+  m_hue_upper_bound = p_hue_upper_bound;
+}
+
+/* Action Functions */
+bool Optical::is_object(){
+  if(m_hue_lower_bound < get_hue() && get_hue() < m_hue_upper_bound)
+    return true;
+  return false;
 }
