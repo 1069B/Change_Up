@@ -16,13 +16,14 @@
 Manipulator::Manipulator(Robot& p_robot):
 m_robot(p_robot),
 m_timer(*new Timer()),
+m_intake_timer(*new Timer()),
+m_lift_timer(*new Timer()),
 m_left_intake(m_robot.add_motor("Left Intake", 12, pros::E_MOTOR_GEARSET_06, pros::E_MOTOR_BRAKE_COAST, false)),
 m_right_intake(m_robot.add_motor("Right Intake", 19, pros::E_MOTOR_GEARSET_06, pros::E_MOTOR_BRAKE_COAST, true)),
 m_initial_roller(m_robot.add_motor("Initial Rollers", 9, pros::E_MOTOR_GEARSET_18, pros::E_MOTOR_BRAKE_BRAKE, true)),
 m_secondary_roller(m_robot.add_motor("Second Rollers", 10, pros::E_MOTOR_GEARSET_06, pros::E_MOTOR_BRAKE_COAST, true)),
 m_intake_sensor(m_robot.add_optical("Intake Sensor", 20)),
-m_sorting_score(m_robot.add_optical("Sorting Sensor Score", 2)),
-m_sorting_eject(m_robot.add_optical("Sorting Sensor Eject", 2)),
+m_sorting_sensor(m_robot.add_optical("Sorting Sensor Score", 2)),
 m_scoring_left_sensor(m_robot.add_digital("Scoring Left", 2)),
 m_scoring_right_sensor(m_robot.add_digital("Scoring Right", 1))
 {
@@ -31,22 +32,115 @@ m_scoring_right_sensor(m_robot.add_digital("Scoring Right", 1))
 
 void Manipulator::initialize(){
     if(m_robot.get_alliance() == ROBOT_SKILLS || m_robot.get_alliance() == ROBOT_RED){
-        m_intake_sensor.set_hue_bounds(12, 78);
-        m_sorting_score.set_hue_bounds(0, 20);
-        m_sorting_eject.set_hue_bounds(206, 226);
+        m_intake_sensor.set_signature_1(12, 78);
+        m_intake_sensor.set_signature_2(190, 210);
+        m_intake_sensor.set_signature_3(0, 360, 0, 10);
+
+        m_sorting_sensor.set_signature_1(0, 20);// Scoring
+        m_sorting_sensor.set_signature_2(206, 226);// Eject
     }
     else if(m_robot.get_alliance() == ROBOT_BLUE){
-        m_intake_sensor.set_hue_bounds(190, 210);
-         m_sorting_score.set_hue_bounds(206, 226);
-        m_sorting_eject.set_hue_bounds(0, 20);
+        m_intake_sensor.set_signature_1(190, 210);
+
+        m_sorting_sensor.set_signature_1(206, 226);// Scoring
+        m_sorting_sensor.set_signature_2(0, 20);// Eject
     }
 }
 
-void feild_grabing(){
+void Manipulator::feild_grabing(){
+    /* Detects Current Ball Position */
+    bool l_ball_at_top = m_scoring_left_sensor.get_value() && m_scoring_right_sensor.get_value();
+    if(l_ball_at_top)
+        m_ball_positions.m_scoreing = BALL_DESIRED;
+    else
+        m_ball_positions.m_scoreing = BALL_NONE;
+
+    if(m_sorting_sensor.is_signature_1())
+        m_ball_positions.m_sorting = BALL_DESIRED;
+    else if(m_sorting_sensor.is_signature_2())
+        m_ball_positions.m_sorting = BALL_OPPOSING;
+    else
+        m_ball_positions.m_sorting = BALL_NONE;
+
+    if(m_intake_sensor.is_signature_1())
+        m_ball_positions.m_sorting = BALL_DESIRED;
+    else if(m_intake_sensor.is_signature_2())
+        m_ball_positions.m_sorting = BALL_OPPOSING;
+    else if(m_intake_sensor.is_signature_3()){
+        g_alert.draw("Goal Detected");
+        m_ball_positions.m_sorting = BALL_GOAL;
+    }
+    else
+        m_ball_positions.m_sorting = BALL_NONE;
+
+    if(!(m_ball_positions.m_scoreing == BALL_DESIRED && m_ball_positions.m_sorting == BALL_DESIRED)){
+        if(m_ball_positions.m_intakes == BALL_DESIRED){
+            m_left_intake.set_desired_velocity(600);
+            m_right_intake.set_desired_velocity(600);
+
+            m_intake_position = INTAKE_FULLY_EXTENDED;
+            m_intake_status = INTAKE_AUTO_INTAKE;
+
+            if(m_ball_positions.m_sorting == BALL_NONE){
+                m_initial_roller.set_desired_velocity(200);
+                m_lift_status = LIFT_INTAKING;
+            }
+            else
+                m_lift_status = LIFT_SENSORS;
+        }
+    }
+    else if(m_intake_status == INTAKE_AUTO_INTAKE && m_ball_positions.m_intakes == BALL_NONE){
+        m_intake_status = INTAKE_AUTO_OPEN;
+        m_intake_position = INTAKE_FULLY_EXTENDED;
+
+        m_left_intake.set_desired_velocity(-300);
+        m_right_intake.set_desired_velocity(-300);
+
+        if(m_ball_positions.m_sorting == BALL_NONE){
+            m_initial_roller.set_desired_velocity(200);
+            m_lift_status = LIFT_INTAKING;
+        }
+        else
+            m_lift_status = LIFT_SENSORS;
+
+        m_intake_timer.set_flag_delay(500);
+    }
+    else if(m_intake_status == INTAKE_AUTO_OPEN && m_intake_timer.get_preform_action()){
+        m_left_intake.set_desired_velocity(0);
+        m_right_intake.set_desired_velocity(0);
+
+        m_intake_status = INTAKE_STATIONARY;
+        m_intake_position = INTAKE_OPEN;
+    }
+
+    if(m_ball_positions.m_scoreing == BALL_DESIRED){
+        m_secondary_roller.set_desired_velocity(0);
+        if(m_ball_positions.m_sorting == BALL_OPPOSING){
+            m_initial_roller.set_desired_velocity(200);
+            m_secondary_roller.set_desired_velocity(20);
+        }
+    }
+    else{
+        if(m_ball_positions.m_sorting == BALL_DESIRED){
+            m_initial_roller.set_desired_velocity(200);
+            m_secondary_roller.set_desired_velocity(600);
+        } 
+        else if(m_ball_positions.m_sorting == BALL_OPPOSING){
+            m_initial_roller.set_desired_velocity(200);
+            m_secondary_roller.set_desired_velocity(-600);
+        }
+        else{
+            if(m_lift_status == LIFT_SENSORS)
+                m_initial_roller.set_desired_velocity(0);
+            m_secondary_roller.set_desired_velocity(0);
+        }
+    }
+
+    
 
 }
 
-void goal_controlling(){
+void Manipulator::goal_controlling(){
 
 }
 
@@ -63,8 +157,8 @@ void Manipulator::driver_control(){
 		m_secondary_roller.set_desired_velocity(600);
         m_lift_status = LIFT_NO_RESTRICTIONS;
     }
-    else if(m_sorting_eject.is_object()){
-        if(m_scoring_left_sensor.get_value() && m_scoring_right_sensor.get_value()){
+    else if(m_sorting_sensor.is_signature_2()){
+        if(m_scoring_left_sensor.get_value() || m_scoring_right_sensor.get_value()){
             m_initial_roller.set_desired_velocity(200);
 			m_secondary_roller.set_desired_velocity(0);//TODO: Add positive spin so rollers don't move
             m_lift_status = LIFT_TOP_CONTROLLED;
@@ -75,7 +169,7 @@ void Manipulator::driver_control(){
             m_lift_status = LIFT_TOP_CONTROLLED;
         }
     }
-    else if(m_sorting_score.is_object()){
+    else if(m_sorting_sensor.is_signature_1()){
         if(m_scoring_left_sensor.get_value() && m_scoring_right_sensor.get_value()){
             m_initial_roller.set_desired_velocity(0);
 			m_secondary_roller.set_desired_velocity(0);
@@ -112,7 +206,7 @@ void Manipulator::driver_control(){
             m_initial_roller.set_desired_velocity(200);
     }
     else if(m_robot.get_partner_controller().ButtonL1.get_state()){
-        m_intake_status = INTAKE_INTAKING;
+        m_intake_status = INTAKE_USER_BASED;
         m_left_intake.set_desired_velocity(600);
         m_right_intake.set_desired_velocity(600);
         
@@ -120,11 +214,11 @@ void Manipulator::driver_control(){
             m_initial_roller.set_desired_velocity(200);
     }
     else if(m_robot.get_partner_controller().ButtonL2.get_state()){
-        m_intake_status = INTAKE_OPENING;
+        m_intake_status = INTAKE_USER_BASED;
         m_left_intake.set_desired_velocity(-300);
         m_right_intake.set_desired_velocity(-300);
     }
-    else if(m_intake_sensor.is_object()){
+    else if(m_intake_sensor.is_signature_1()){
         m_intake_status = INTAKE_AUTO_INTAKE;
         m_left_intake.set_desired_velocity(600);
         m_right_intake.set_desired_velocity(600);
@@ -132,7 +226,7 @@ void Manipulator::driver_control(){
         if(m_lift_status == LIFT_NO_RESTRICTIONS || m_lift_status == LIFT_TOP_CONTROLLED)
             m_initial_roller.set_desired_velocity(200);
     }
-    else if(m_intake_status == INTAKE_AUTO_INTAKE && !m_intake_sensor.is_object()){
+    else if(m_intake_status == INTAKE_AUTO_INTAKE && !m_intake_sensor.is_signature_1()){
         m_intake_status = INTAKE_AUTO_OPEN;
         m_left_intake.set_desired_velocity(-300);
         m_right_intake.set_desired_velocity(-300);
@@ -142,14 +236,16 @@ void Manipulator::driver_control(){
     else if(m_intake_status == INTAKE_AUTO_OPEN && m_timer.get_preform_action()){
         m_left_intake.set_desired_velocity(0);
         m_right_intake.set_desired_velocity(0);
+        m_intake_status = INTAKE_STATIONARY;
     }
     else if(m_intake_status == INTAKE_AUTO_OPEN){
         if(m_lift_status == LIFT_NO_RESTRICTIONS || m_lift_status == LIFT_TOP_CONTROLLED)
             m_initial_roller.set_desired_velocity(200);
     }
-    else if(m_intake_status != INTAKE_AUTO_OPEN){
+    else{
         m_left_intake.set_desired_velocity(0);
         m_right_intake.set_desired_velocity(0);
+        m_intake_status = INTAKE_STATIONARY;
     }
 }
 

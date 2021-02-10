@@ -15,13 +15,29 @@ enum Intake_Status{
 enum Lift_Status{
     LIFT_TOP_CONTROLLED,
     LIFT_BOTH_CONTROLLED,
-    LIFT_NO_RESTRICTIONS
+    LIFT_NO_RESTRICTIONS,
+    LIFT_INTAKING,
+    LIFT_SENSORS
 };
 
 enum Intake_Position{
     INTAKE_FULLY_EXTENDED,
     INTAKE_OPEN,
     INTAKE_STORED
+};
+
+enum Ball{
+    BALL_DESIRED,
+    BALL_OPPOSING,
+    BALL_GOAL,
+    BALL_NONE
+};
+
+struct Ball_Position{
+public:
+    Ball m_intakes = BALL_NONE;
+    Ball m_sorting = BALL_NONE;
+    Ball m_scoreing = BALL_NONE;
 };
 
 class Manipulator{
@@ -35,8 +51,7 @@ private:
     Motor& m_secondary_roller;
 
     SENSOR::Optical& m_intake_sensor;
-    SENSOR::Optical& m_sorting_score;
-    SENSOR::Optical& m_sorting_eject;
+    SENSOR::Optical& m_sorting_sensor;
 
     SENSOR::Digital& m_scoring_left_sensor;
     SENSOR::Digital& m_scoring_right_sensor;
@@ -46,12 +61,22 @@ private:
     Intake_Status m_intake_status = INTAKE_STATIONARY;
     Lift_Status m_lift_status = LIFT_NO_RESTRICTIONS;
 
+    Ball_Position m_ball_positions;
+    Intake_Position m_intake_position;
+
+    Timer& m_intake_timer;
+    Timer& m_lift_timer;
+
     /* Robot State Functions */
     void initialize();
 
     void autonomous();
 
     void driver_control();
+
+    void feild_grabing();
+
+    void goal_controlling();
 
 public:
     /* Constructors */

@@ -68,10 +68,10 @@ int Holonomic::task(){
 	CONTROLLER::Controller& l_partner_controller = m_robot.get_partner_controller();
   
   if(m_robot.get_robot_state() == ROBOT_DRIVER_CONTROL){
-    m_front_left_motor.set_desired_velocity((int)speed_up(200*l_main_controller.Axis3.get_percent()+200*l_main_controller.Axis4.get_percent()+(200*l_main_controller.Axis1.get_percent()/1.1)));
-	  m_front_right_motor.set_desired_velocity((int)speed_up(200*l_main_controller.Axis3.get_percent()-200*l_main_controller.Axis4.get_percent()-(200*l_main_controller.Axis1.get_percent()/1.1)));
-	  m_back_left_motor.set_desired_velocity((int)speed_up(200*l_main_controller.Axis3.get_percent()-200*l_main_controller.Axis4.get_percent()+(200*l_main_controller.Axis1.get_percent()/1.1)));
-	  m_back_right_motor.set_desired_velocity((int)speed_up(200*l_main_controller.Axis3.get_percent()+200*l_main_controller.Axis4.get_percent()-(200*l_main_controller.Axis1.get_percent()/1.1)));
+    m_front_left_motor.set_desired_velocity((int)speed_up(200*l_main_controller.Axis3.get_percent()+200*l_main_controller.Axis4.get_percent()+(200*l_main_controller.Axis1.get_percent()/2.0)));
+	  m_front_right_motor.set_desired_velocity((int)speed_up(200*l_main_controller.Axis3.get_percent()-200*l_main_controller.Axis4.get_percent()-(200*l_main_controller.Axis1.get_percent()/2.0)));
+	  m_back_left_motor.set_desired_velocity((int)speed_up(200*l_main_controller.Axis3.get_percent()-200*l_main_controller.Axis4.get_percent()+(200*l_main_controller.Axis1.get_percent()/2.0)));
+	  m_back_right_motor.set_desired_velocity((int)speed_up(200*l_main_controller.Axis3.get_percent()+200*l_main_controller.Axis4.get_percent()-(200*l_main_controller.Axis1.get_percent()/2.0)));
   }
   else if(m_robot.get_robot_state() == ROBOT_AUTONOMOUS){
 
