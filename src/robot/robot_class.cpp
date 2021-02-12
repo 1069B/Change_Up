@@ -14,13 +14,15 @@
 
 #include "robot/subsystems/holonomic_class.hpp"
 #include "robot/subsystems/manipulator.hpp"
+#include "robot/subsystems/autonomous_class.hpp"
 
 Robot::Robot():
 m_holonomic(*new Holonomic(*this)),
 m_manipulator(*new Manipulator(*this)),
 m_settings(*new Data_Storing("Settings.xml", "Robot", "1069B")),
 m_main_controller(*new CONTROLLER::Controller(pros::E_CONTROLLER_MASTER)),
-m_partner_controller(*new CONTROLLER::Controller(pros::E_CONTROLLER_PARTNER)){
+m_partner_controller(*new CONTROLLER::Controller(pros::E_CONTROLLER_PARTNER)),
+m_autonomous(*new Autonomous(*this)){
   m_recall_settings = m_settings.initialize_bool("Recall_Settings", false);
   defineStyles();
 }
@@ -97,8 +99,19 @@ void Robot::initialize(){
 
 void Robot::task(){
   GUI::Screen::task();
-  m_holonomic.task();
-  m_manipulator.task();
+
+  if(m_robot_state == ROBOT_DRIVER_CONTROL){
+    m_holonomic.task();
+    m_manipulator.task();
+  }
+  else if(m_robot_state == ROBOT_AUTONOMOUS){
+    autonomous();
+  }
+
+
+
+  
+  
 }
 
 void Robot::defineGUI(){

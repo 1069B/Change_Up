@@ -63,6 +63,13 @@ double Holonomic::speed_up(int p_controllerValue){
   return 0;
 }
 
+void Holonomic::base_set_vector(double p_translational_velocity, double p_orientation, double p_turning_velocity){
+  m_front_left_motor.set_desired_velocity(cos((p_orientation/180.0*M_PI) + (M_PI/4.0)) * p_translational_velocity - p_turning_velocity);
+  m_front_right_motor.set_desired_velocity(sin((p_orientation/180.0*M_PI) + (M_PI/4.0)) * p_translational_velocity + p_turning_velocity);
+  m_back_left_motor.set_desired_velocity(sin((p_orientation/180.0*M_PI) + (M_PI/4.0)) * p_translational_velocity - p_turning_velocity);
+  m_back_right_motor.set_desired_velocity(cos((p_orientation/180.0*M_PI) + (M_PI/4.0)) * p_translational_velocity + p_turning_velocity);
+}
+
 int Holonomic::task(){
   CONTROLLER::Controller& l_main_controller = m_robot.get_main_controller();
 	CONTROLLER::Controller& l_partner_controller = m_robot.get_partner_controller();

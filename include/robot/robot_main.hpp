@@ -39,6 +39,7 @@ class Timer;
 
 class Holonomic;
 class Manipulator;
+class Autonomous;
 
 
 /* Enum Variables*/
@@ -54,6 +55,44 @@ enum Robot_Alliance{
   ROBOT_BLUE,
   ROBOT_RED,
   ROBOT_SKILLS
+};
+
+enum Intake_Status{
+    INTAKE_INTAKING,
+    INTAKE_AUTO_INTAKE,
+    INTAKE_AUTO_OPEN,
+    INTAKE_OPENING,
+    INTAKE_STATIONARY,
+    INTAKE_USER_BASED
+};
+
+enum Lift_Status{
+    LIFT_TOP_CONTROLLED,
+    LIFT_BOTH_CONTROLLED,
+    LIFT_NO_RESTRICTIONS,
+    LIFT_INTAKING,
+    LIFT_SENSORS, 
+    LIFT_SCORING,
+    LIFT_WAITING
+};
+
+enum Intake_Position{
+    INTAKE_FULLY_EXTENDED,
+    INTAKE_OPEN,
+    INTAKE_STORED
+};
+
+enum Ball{
+    BALL_DESIRED,
+    BALL_OPPOSING,
+    BALL_GOAL,
+    BALL_NONE
+};
+
+enum Manipulator_Mode{
+    MANIPULATOR_FEILD,
+    MANIPULATOR_GOAL_SCORE,
+    MANIPULATOR_GOAL_REMOVE
 };
 
 #endif // MAIN_HEADER

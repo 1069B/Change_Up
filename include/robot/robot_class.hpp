@@ -24,6 +24,8 @@ private:
   Data_Storing& m_settings;
 
   Robot_Alliance m_alliance = ROBOT_SKILLS;// TODO: ADD GUI SETTING
+
+  Autonomous& m_autonomous;
 public:
   /*  Constuctors  */
   Robot();
@@ -37,6 +39,10 @@ public:
   CONTROLLER::Controller& get_partner_controller(){ return m_partner_controller; }
 
   Robot_Alliance get_alliance(){ return m_alliance; }
+
+  Holonomic& get_holonomic(){ return m_holonomic; }
+
+  Manipulator& get_manipulator(){ return m_manipulator; }
 
   /*  Setter Function  */
   void set_robot_state(Robot_State p_state){ m_robot_state = p_state; }
@@ -56,6 +62,8 @@ public:
 
   /*  Action Functions */
   void initialize();
+
+  void autonomous();
 
   void task();
 

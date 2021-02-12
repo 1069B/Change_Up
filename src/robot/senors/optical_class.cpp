@@ -54,7 +54,7 @@ void Optical::set_signature_3(double const p_hue_lower_bound, double const p_hue
 
 /* Action Functions */
 bool Optical::is_signature(Optical_Signature& p_signature){
-  if((p_signature.m_hue_lower_bound < get_hue() && get_hue() < p_signature.m_hue_upper_bound))// && (p_signature.m_saturation_lower_bound < get_saturation() && get_saturation() < p_signature.m_saturation_upper_bound)
+  if((p_signature.m_hue_lower_bound < get_hue() && get_hue() < p_signature.m_hue_upper_bound) && (p_signature.m_saturation_lower_bound < get_saturation() && get_saturation() < p_signature.m_saturation_upper_bound))
     return true;
   return false;
 }

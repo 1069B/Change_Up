@@ -15,10 +15,10 @@ enum AUTONOMOUS_BASE_STATUS{
 };
 
 enum AUTONOMOUS_MANIPULATOR_STATUS{
-  INTAKE_PRESET_BALLS,
-  INTAKE_CONTROL_GOAL,
-  INTAKE_GRAB_BALL,
-  INTAKE_STATIONARY
+  AUTONOMOUS_INTAKE_PRESET_BALLS,
+  AUTONOMOUS_INTAKE_CONTROL_GOAL,
+  AUTONOMOUS_INTAKE_GRAB_BALL,
+  AUTONOMOUS_INTAKE_STATIONARY
 };
 
 struct Base_Event{
@@ -47,6 +47,8 @@ private:
   std::vector<Base_Event> m_base_events;
   std::vector<Manipulator_Event> m_manipulator_events;
 
+  Timer& m_base_timer;
+
 public:
   Autonomous(Robot& m_robot);
 
@@ -66,14 +68,19 @@ public:
   void base_align_to_goal(double p_delay = NO_DELAY);
 
   /* Manipulator Functions */
-  void preset_balls(double p_delay = NO_DELAY);// Moves Reds to Top and descores all blue balls
+  void manipulator_feild(double p_delay = NO_DELAY);// Picks balls up off feild
 
-  void control_goal(double p_delay = NO_DELAY);// Scores top red and descores
+  void manipulator_score_goal(double p_delay = NO_DELAY);// Scores top red
 
-  void grab_ball(double p_delay = NO_DELAY);// Grabs ball off feild
+  void manipulator_control_goal(double p_delay = NO_DELAY);// Scores top red and descores
 
   /* Action Functions */
   void task();
+
+  /*Old Functions*/
+  void move_base(double p_start_time, double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration);
+
+  void delay(double p_delay);
 };
 
 #endif // AUTONOMOUS_CLASS_H

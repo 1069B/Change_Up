@@ -57,6 +57,8 @@ public:
   /* Action Functions */
   double speed_up(int p_controllerValue);
 
+  void base_set_vector(double p_translational_velocity, double p_orientation, double p_turning_velocity);
+
   int task();
 
 };
