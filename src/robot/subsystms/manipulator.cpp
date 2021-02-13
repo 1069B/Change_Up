@@ -380,6 +380,9 @@ void Manipulator::define_GUI(){
   l_main.create_rectangle(0, 0, 480, 40, GUI_STYLES::white_text);
   l_main.create_label(200, 10, GUI_STYLES::red_text, "Manipulator");
 
+  //l_main.create_label(20, 20, GUI_STYLES::white_text, "Intake Sensor Hue %d", (std::function<int()>)std::bind(&Optical::get_hue, this));
+  //l_main.create_label(20, 20, GUI_STYLES::white_text, "Intake Sensor Hue %d", (std::function<int()>)std::bind(&Optical::get_actual_velocity, this));
+
 //   l_main.create_label(20, 50, GUI_STYLES::white_text, "Desired Velocity: %d", m_desired_velocity);
 //   l_main.create_label(20, 80, GUI_STYLES::white_text, "Actual Velocity: %d", (std::function<int()>)std::bind(&Motor::get_actual_velocity, this));
 //   l_main.create_label(20, 110, GUI_STYLES::white_text, "Position: %d Deg", (std::function<int()>)std::bind(&Motor::get_postion, this));

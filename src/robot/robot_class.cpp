@@ -117,7 +117,14 @@ void Robot::task(){
 void Robot::defineGUI(){
   GUI::Screen::initialize(*this);
 
+
   GUI::Screen& l_home = GUI::Screen::find_screen("Home");
+  // l_home.create_label(20, 20, GUI_STYLES::white_text, "Intake Sensor Hue %d", );
+  // l_home.create_label(20, 20, GUI_STYLES::white_text, "Intake Sensor Hue %d", );
+  // l_home.create_label(20, 20, GUI_STYLES::white_text, "Hello Corey");
+  // l_home.create_label(20, 20, GUI_STYLES::white_text, "Hello Corey");
+
+
   l_home.create_label(20, 20, GUI_STYLES::white_text, "Hello Corey");
   l_home.create_rectangle(20, 50, 460, 10, GUI_STYLES::red_button_released);
   GUI::Button& btn1 = l_home.create_button("Motor 1", 100, 100, 100, 50, GUI_STYLES::blue_button_released, GUI_STYLES::blue_button_pressed);

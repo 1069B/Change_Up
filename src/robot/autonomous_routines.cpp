@@ -12,11 +12,20 @@ void Robot::autonomous(){
 	m_autonomous.move_base(0, 25, 0, 0, 600);// Move Base forward towards goal
 	m_autonomous.delay(1000);//Wait for the robot to score the center
 
-	/* Center Goal */
+	/* Middle Right Goal */
 	m_autonomous.manipulator_feild();// Pick Up Ball in front of robot
-	m_autonomous.move_base(0, 75, 180, -9, 4900);// Move back from Lower Right Goal
-	m_autonomous.move_base(0, 0, 0, -41, 2200);// Turn to face center goal
-	m_autonomous.move_base(0, 75, 180, 0, 1000);// Move Towards Center Goal
+	m_autonomous.move_base(0, 100, 180, 0, 1000);// Back away from the lower right goal
+	m_autonomous.move_base(0, 0, 0, 50, 1000);// Rotate towards the center right ball
+	m_autonomous.manipulator_score_goal();// Transistion into Goal mode
+	m_autonomous.move_base(0, 100, 90, 0, 2000);// Move towards the center right ball
+	m_autonomous.move_base(0, 75, 0, 0, 3000);// Move towards the Middle Right Goal
+	m_autonomous.delay(1000);//Wait for the robot to score the center
+
+	/* Center Goal */
+	m_autonomous.move_base(0, 75, 180, 0, 300);// Move back from Middle Right Goal
+	m_autonomous.manipulator_feild();// Pick Up Ball in front of robot
+	m_autonomous.move_base(0, 0, 0, 40, 4000);// Turn to face center goal
+	m_autonomous.move_base(0, 75, 0, 0, 1000);// Move Towards Center Goal
 	m_autonomous.manipulator_control_goal();// Score one red and remove all of the blue
 	m_autonomous.delay(2000);//Wait for the robot to score the center
 
