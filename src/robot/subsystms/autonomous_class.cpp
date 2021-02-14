@@ -60,16 +60,12 @@ void Autonomous::base_align_to_goal(double p_delay){
 }
 
 /* Manipulator Functions */
-void Autonomous::manipulator_feild(double p_delay){// Moves Reds to Top and descores all blue balls
-  m_robot.get_manipulator().set_mode(MANIPULATOR_FEILD);
+void Autonomous::manipulator_feild(Manipulator_Intake_Mode p_intake_mode, double p_delay){// Moves Reds to Top and descores all blue balls
+  m_robot.get_manipulator().set_mode(MANIPULATOR_FEILD, p_intake_mode);
 }
 
-void Autonomous::manipulator_score_goal(double p_delay){// Scores top red and descores
-  m_robot.get_manipulator().set_mode(MANIPULATOR_GOAL_SCORE);
-}
-
-void Autonomous::manipulator_control_goal(double p_delay){// Grabs ball off feild
-  m_robot.get_manipulator().set_mode(MANIPULATOR_GOAL_REMOVE);
+void Autonomous::manipulator_score(Manipulator_Intake_Mode p_intake_mode, double p_delay){// Scores top red and descores
+  m_robot.get_manipulator().set_mode(MANIPULATOR_SCORE, p_intake_mode);
 }
 
 /* Action Functions */

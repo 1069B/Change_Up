@@ -68,11 +68,9 @@ public:
   void base_align_to_goal(double p_delay = NO_DELAY);
 
   /* Manipulator Functions */
-  void manipulator_feild(double p_delay = NO_DELAY);// Picks balls up off feild
+  void manipulator_feild(Manipulator_Intake_Mode p_intake_mode, double p_delay = NO_DELAY);// Picks balls up off feild
 
-  void manipulator_score_goal(double p_delay = NO_DELAY);// Scores top red
-
-  void manipulator_control_goal(double p_delay = NO_DELAY);// Scores top red and descores
+  void manipulator_score(Manipulator_Intake_Mode p_intake_mode,double p_delay = NO_DELAY);// Scores top red
 
   /* Action Functions */
   void task();

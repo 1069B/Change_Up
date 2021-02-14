@@ -107,11 +107,6 @@ void Robot::task(){
   else if(m_robot_state == ROBOT_AUTONOMOUS){
     autonomous();
   }
-
-
-
-  
-  
 }
 
 void Robot::defineGUI(){

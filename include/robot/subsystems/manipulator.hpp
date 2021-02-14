@@ -6,6 +6,7 @@
 struct Ball_Position{
 public:
     Ball m_intakes = BALL_NONE;
+    Ball m_tongue = BALL_NONE;
     Ball m_sorting = BALL_NONE;
     Ball m_scoreing = BALL_NONE;
 };
@@ -23,8 +24,11 @@ private:
     SENSOR::Optical& m_intake_sensor;
     SENSOR::Optical& m_sorting_sensor;
 
-    SENSOR::Digital& m_scoring_left_sensor;
-    SENSOR::Digital& m_scoring_right_sensor;
+    SENSOR::Distance& m_scoring_sensor;
+
+    SENSOR::Digital& m_left_intake_sensor;
+    SENSOR::Digital& m_right_intake_sensor;
+
 
     Intake_Status m_intake_status = INTAKE_STATIONARY;
     Lift_Status m_lift_status = LIFT_NO_RESTRICTIONS;
@@ -33,6 +37,7 @@ private:
     Ball_Position m_ball_positions;
     Intake_Position m_intake_position = INTAKE_STORED;
     Manipulator_Mode m_mode = MANIPULATOR_FEILD;
+    Manipulator_Intake_Mode m_intake_auto_mode = MANIPULATOR_INTAKE_SENSOR;
 
     Timer& m_intake_timer;
     Timer& m_lift_timer;
@@ -46,16 +51,18 @@ private:
 
     void autonomous_feild();
 
-    void autonomous_goal_score();
+    void autonomous_store_arms();
 
-    void autonomous_goal_remove();
+    void autonomous_deploy_arms();
+
+    void autonomous_score();
 
 public:
     /* Constructors */
     Manipulator(Robot& p_robot);
 
     /* Setter Functions */
-    void set_mode(Manipulator_Mode p_mode);
+    void set_mode(Manipulator_Mode p_manipulator_mode, Manipulator_Intake_Mode p_intake_mode);
 
     /* Action Functions */
     void task();

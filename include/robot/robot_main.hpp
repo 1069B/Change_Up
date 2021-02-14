@@ -1,6 +1,6 @@
 #include "main.h"
 #include "robot/graphical_interface/styles.hpp"
-#include "robot/graphical_interface/alertClass.hpp"
+//#include "robot/graphical_interface/alertClass.hpp"
 
 #ifndef MAIN_HEADER
 #define MAIN_HEADER
@@ -73,7 +73,9 @@ enum Lift_Status{
     LIFT_INTAKING,
     LIFT_SENSORS, 
     LIFT_SCORING,
-    LIFT_WAITING
+    LIFT_WAITING,
+    LIFT_STATIONARY,
+    LIFT_COMPLETE
 };
 
 enum Intake_Position{
@@ -85,14 +87,18 @@ enum Intake_Position{
 enum Ball{
     BALL_DESIRED,
     BALL_OPPOSING,
-    BALL_GOAL,
     BALL_NONE
 };
 
 enum Manipulator_Mode{
     MANIPULATOR_FEILD,
-    MANIPULATOR_GOAL_SCORE,
-    MANIPULATOR_GOAL_REMOVE
+    MANIPULATOR_SCORE
+};
+
+enum Manipulator_Intake_Mode{
+    MANIPULATOR_INTAKE_SENSOR,
+    MANIPULATOR_INTAKE_DEPLOY,
+    MANIPULATOR_INTAKE_STORE
 };
 
 #endif // MAIN_HEADER

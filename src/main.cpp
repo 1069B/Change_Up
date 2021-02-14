@@ -1,4 +1,5 @@
 #include "robot/robot_class.hpp"
+#include "robot/subsystems/manipulator.hpp"
 
 
 Robot g_robot{};
@@ -19,7 +20,7 @@ void competition_initialize() {
 
 void autonomous(){
 	g_robot.set_robot_state(ROBOT_AUTONOMOUS);
-	g_robot.autonomous();
+	g_robot.task();
 }
 
 void opcontrol(){
