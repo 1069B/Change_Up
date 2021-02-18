@@ -21,8 +21,7 @@ m_holonomic(*new Holonomic(*this)),
 m_manipulator(*new Manipulator(*this)),
 m_settings(*new Data_Storing("Settings.xml", "Robot", "1069B")),
 m_main_controller(*new CONTROLLER::Controller(pros::E_CONTROLLER_MASTER)),
-m_partner_controller(*new CONTROLLER::Controller(pros::E_CONTROLLER_PARTNER)),
-m_autonomous(*new Autonomous(*this)){
+m_partner_controller(*new CONTROLLER::Controller(pros::E_CONTROLLER_PARTNER)){
   m_recall_settings = m_settings.initialize_bool("Recall_Settings", false);
   defineStyles();
 }

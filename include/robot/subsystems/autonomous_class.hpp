@@ -5,7 +5,7 @@
 
 #define NO_DELAY 0
 
-enum AUTONOMOUS_BASE_STATUS{
+enum Autonomous_Base_Status{
   BASE_TRANSLATE,
   BASE_ORIENTATION,
   BASE_TURN,
@@ -14,71 +14,109 @@ enum AUTONOMOUS_BASE_STATUS{
   BASE_STATIONARY
 };
 
-enum AUTONOMOUS_MANIPULATOR_STATUS{
-  AUTONOMOUS_INTAKE_PRESET_BALLS,
-  AUTONOMOUS_INTAKE_CONTROL_GOAL,
-  AUTONOMOUS_INTAKE_GRAB_BALL,
+enum Autonomous_Intake_Status{
+  AUTONOMOUS_INTAKE_GRAB,
+  AUTONOMOUS_INTAKE_GOAL,
+  AUTONOMOUS_INTAKE_STORE,
   AUTONOMOUS_INTAKE_STATIONARY
 };
 
+enum Autonomous_Lift_Status{
+  AUTONOMOUS_LIFT_SORT,
+  AUTONOMOUS_LIFT_SCORE,
+  AUTONOMOUS_LIFT_STATIONARY
+};
+
 struct Base_Event{
-public:
-  AUTONOMOUS_BASE_STATUS m_base_status;
+private:
+  Autonomous_Base_Status m_base_status;
   double m_delay;
   double m_x_position;
   double m_y_position;
   double m_orientation;
 
-  Base_Event(AUTONOMOUS_BASE_STATUS p_base_status, double p_delay, double p_x_position, double p_y_position, double p_orientation);
-};
+  friend class Autonomous_Routine;
 
-struct Manipulator_Event{
+  Base_Event(Autonomous_Base_Status p_base_status, double p_delay, double p_x_position, double p_y_position, double p_orientation);
 public:
-  AUTONOMOUS_MANIPULATOR_STATUS m_manipulator_status;
+  static Base_Event base_translate_to(double p_x_position, double p_y_position, double p_delay = NO_DELAY);// Point to Point
+
+  static Base_Event base_orientate_to(double p_orientation, double p_delay = NO_DELAY);// Point Rotation
+
+  static Base_Event base_turn_to(double p_x_position, double p_y_position, double p_delay = NO_DELAY);// Arc Turn
+
+  static Base_Event base_pose_to(double p_x_position, double p_y_position, double p_orientation, double p_delay = NO_DELAY);// Point to Point with Orientation Change
+
+  static Base_Event base_align_to_goal(double p_delay = NO_DELAY);
+
+  static Base_Event base_stationary(double p_duration);
+};
+struct Intake_Event{
+private:
+  Autonomous_Intake_Status m_intake_status;
   double m_delay;
 
-  Manipulator_Event(AUTONOMOUS_MANIPULATOR_STATUS p_base_status, double p_delay);
+  friend class Autonomous_Routine;
+
+  Intake_Event(Autonomous_Intake_Status p_intake_status, double p_delay);
+  
+public:
+  static Intake_Event intake_store(double p_delay = NO_DELAY);
+
+  static Intake_Event intake_goal(double p_delay = NO_DELAY);
+
+  static Intake_Event intake_grab(double p_delay = NO_DELAY);
+
+  static Intake_Event intake_stationary(double p_delay = NO_DELAY);
+};
+struct Lift_Event{
+private:
+  Autonomous_Lift_Status m_lift_status;
+  double m_delay;
+
+  friend class Autonomous_Routine;
+
+  Lift_Event(Autonomous_Lift_Status p_lift_status, double p_delay);
+public:
+  static Lift_Event lift_score(double p_delay = NO_DELAY);
+
+  static Lift_Event lift_sort(double p_delay = NO_DELAY);
+
+  static Lift_Event lift_stationary(double p_delay = NO_DELAY);
 };
 
-class Autonomous{
+struct Robot_Event{
+  Base_Event m_base_event;
+  Intake_Event m_intake_event;
+  Lift_Event m_lift_event;
+
+  Robot_Event(Base_Event p_base_event, Intake_Event p_intake_event, Lift_Event p_lift_event);
+};
+
+class Autonomous_Routine{
 private:
   Robot& m_robot;
 
-  std::vector<Base_Event> m_base_events;
-  std::vector<Manipulator_Event> m_manipulator_events;
+  std::vector<Robot_Event> m_autonomous_events;
 
   Timer& m_base_timer;
+  Timer& m_lift_timer;
+  Timer& m_intake_timer;
+
+  static std::vector<Autonomous_Routine*> m_routines;
+  static Autonomous_Routine* m_selected_routine;
 
 public:
-  Autonomous(Robot& m_robot);
+  Autonomous_Routine(Robot& m_robot);
 
   void start_autonomous();
 
   void end_autonomous();
 
-  /* Base Functions */
-  void base_translate_to(double p_x_position, double p_y_position, double p_delay = NO_DELAY);// Point to Point
+  /*Robot Functions*/
+  void add_robot_event(Base_Event p_base_event, Intake_Event p_intake_event, Lift_Event p_lift_event);
 
-  void base_orientate_to(double p_orientation, double p_delay = NO_DELAY);// Point Rotation
-
-  void base_turn_to(double p_x_position, double p_y_position, double p_delay = NO_DELAY);// Arc Turn
-
-  void base_pose_to(double p_x_position, double p_y_position, double p_orientation, double p_delay = NO_DELAY);// Point to Point with Orientation Change
-
-  void base_align_to_goal(double p_delay = NO_DELAY);
-
-  /* Manipulator Functions */
-  void manipulator_feild(Manipulator_Intake_Mode p_intake_mode, double p_delay = NO_DELAY);// Picks balls up off feild
-
-  void manipulator_score(Manipulator_Intake_Mode p_intake_mode,double p_delay = NO_DELAY);// Scores top red
-
-  /* Action Functions */
-  void task();
-
-  /*Old Functions*/
-  void move_base(double p_start_time, double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration);
-
-  void delay(double p_delay);
+  static void task();
 };
 
 #endif // AUTONOMOUS_CLASS_H

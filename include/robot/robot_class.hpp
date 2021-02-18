@@ -25,7 +25,7 @@ private:
 
   Robot_Alliance m_alliance = ROBOT_SKILLS;// TODO: ADD GUI SETTING
 
-  Autonomous& m_autonomous;
+  //Autonomous& m_autonomous;
 public:
   /*  Constuctors  */
   Robot();

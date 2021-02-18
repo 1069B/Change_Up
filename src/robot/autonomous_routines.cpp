@@ -2,35 +2,35 @@
 #include "robot/subsystems/autonomous_class.hpp"
 
 void Robot::autonomous(){
-	m_autonomous.start_autonomous();
+	// m_autonomous.start_autonomous();
 
-	/* Lower Right Goal */
-	m_autonomous.manipulator_feild(MANIPULATOR_INTAKE_SENSOR);// Pick Up Ball in front of robot
-	m_autonomous.delay(1700);// Delay for Arms to grab the ball
-	m_autonomous.manipulator_feild(MANIPULATOR_INTAKE_STORE);// Transistion into score a ball
-	m_autonomous.move_base(0, 50, 0, 48, 2800);// Turn Base towards goal
-	m_autonomous.move_base(0, 25, 0, 0, 600);// Move Base forward towards goal
-	m_autonomous.manipulator_score(MANIPULATOR_INTAKE_STORE);
-	m_autonomous.delay(2000);//Wait for the robot to score the center
+	// /* Lower Right Goal */
+	// m_autonomous.manipulator_feild(MANIPULATOR_INTAKE_SENSOR);// Pick Up Ball in front of robot
+	// m_autonomous.delay(1700);// Delay for Arms to grab the ball
+	// m_autonomous.manipulator_feild(MANIPULATOR_INTAKE_STORE);// Transistion into score a ball
+	// m_autonomous.move_base(0, 50, 0, 48, 2800);// Turn Base towards goal
+	// m_autonomous.move_base(0, 25, 0, 0, 600);// Move Base forward towards goal
+	// m_autonomous.manipulator_score(MANIPULATOR_INTAKE_STORE);
+	// m_autonomous.delay(2000);//Wait for the robot to score the center
 
-	/* Middle Right Goal */
-	m_autonomous.move_base(0, 100, 180, 0, 700);// Back away from the lower right goal
-	m_autonomous.move_base(0, 0, 0, 50, 870);// Rotate towards the center right ball
-	m_autonomous.manipulator_feild(MANIPULATOR_INTAKE_STORE);
-	m_autonomous.move_base(0, 100, 90, 0, 3000);// Move towards the center right ball
-	m_autonomous.manipulator_score(MANIPULATOR_INTAKE_STORE);
-	m_autonomous.delay(2000);//Wait for the robot to score the center
+	// /* Middle Right Goal */
+	// m_autonomous.move_base(0, 100, 180, 0, 700);// Back away from the lower right goal
+	// m_autonomous.move_base(0, 0, 0, 50, 870);// Rotate towards the center right ball
+	// m_autonomous.manipulator_feild(MANIPULATOR_INTAKE_STORE);
+	// m_autonomous.move_base(0, 100, 90, 0, 3000);// Move towards the center right ball
+	// m_autonomous.manipulator_score(MANIPULATOR_INTAKE_STORE);
+	// m_autonomous.delay(2000);//Wait for the robot to score the center
 
-	/* Center Goal */
-	m_autonomous.move_base(0, 75, 180, 0, 300);// Move back from Middle Right Goal
-	m_autonomous.manipulator_feild(MANIPULATOR_INTAKE_SENSOR);// Pick Up Ball in front of robot
-	m_autonomous.move_base(0, 0, 0, 50, 3500);// Turn to face center goal
-	m_autonomous.move_base(0, 75, 0, 0, 1000);// Move Towards Center Goal
-	m_autonomous.move_base(0, 0, 0, 50, 1000);
-	m_autonomous.move_base(0, 100, 270, 0, 1500);
-	m_autonomous.manipulator_feild(MANIPULATOR_INTAKE_DEPLOY);
-	m_autonomous.move_base(0, 75, 0, 0, 1000);
-	m_autonomous.manipulator_score(MANIPULATOR_INTAKE_DEPLOY);// Score one red and remove all of the blue
+	// /* Center Goal */
+	// m_autonomous.move_base(0, 75, 180, 0, 300);// Move back from Middle Right Goal
+	// m_autonomous.manipulator_feild(MANIPULATOR_INTAKE_SENSOR);// Pick Up Ball in front of robot
+	// m_autonomous.move_base(0, 0, 0, 50, 3500);// Turn to face center goal
+	// m_autonomous.move_base(0, 75, 0, 0, 1000);// Move Towards Center Goal
+	// m_autonomous.move_base(0, 0, 0, 50, 1000);
+	// m_autonomous.move_base(0, 100, 270, 0, 1500);
+	// m_autonomous.manipulator_feild(MANIPULATOR_INTAKE_DEPLOY);
+	// m_autonomous.move_base(0, 75, 0, 0, 1000);
+	// m_autonomous.manipulator_score(MANIPULATOR_INTAKE_DEPLOY);// Score one red and remove all of the blue
 	//m_autonomous.delay(3000);//Wait for the robot to score the center
 
 	// /* Upper Left Goal */

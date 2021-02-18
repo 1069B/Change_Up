@@ -58,47 +58,30 @@ enum Robot_Alliance{
 };
 
 enum Intake_Status{
-    INTAKE_INTAKING,
-    INTAKE_AUTO_INTAKE,
-    INTAKE_AUTO_OPEN,
-    INTAKE_OPENING,
-    INTAKE_STATIONARY,
-    INTAKE_USER_BASED
+  INTAKE_AUTO_INTAKE,
+  INTAKE_AUTO_OPEN,
+  INTAKE_STATIONARY
 };
 
 enum Lift_Status{
-    LIFT_TOP_CONTROLLED,
-    LIFT_BOTH_CONTROLLED,
-    LIFT_NO_RESTRICTIONS,
-    LIFT_INTAKING,
-    LIFT_SENSORS, 
-    LIFT_SCORING,
-    LIFT_WAITING,
-    LIFT_STATIONARY,
-    LIFT_COMPLETE
-};
-
-enum Intake_Position{
-    INTAKE_FULLY_EXTENDED,
-    INTAKE_OPEN,
-    INTAKE_STORED
+  LIFT_SCORING,
+  LIFT_WAITING,
+  LIFT_STATIONARY
 };
 
 enum Ball{
-    BALL_DESIRED,
-    BALL_OPPOSING,
-    BALL_NONE
+  BALL_DESIRED,
+  BALL_OPPOSING,
+  BALL_NONE
+};
+struct Ball_Position{
+public:
+  Ball m_intakes = BALL_NONE;
+  Ball m_tongue = BALL_NONE;
+  Ball m_sorting = BALL_NONE;
+  Ball m_scoreing = BALL_NONE;
 };
 
-enum Manipulator_Mode{
-    MANIPULATOR_FEILD,
-    MANIPULATOR_SCORE
-};
-
-enum Manipulator_Intake_Mode{
-    MANIPULATOR_INTAKE_SENSOR,
-    MANIPULATOR_INTAKE_DEPLOY,
-    MANIPULATOR_INTAKE_STORE
-};
+extern bool outside_range(double const p_value, double const p_range);
 
 #endif // MAIN_HEADER

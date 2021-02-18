@@ -80,6 +80,12 @@
 			"typeinfo": "cpp",
 			"valarray": "cpp",
 			"variant": "cpp"
-		}
+		},
+		"cSpell.words": [
+			
+		],
+		"cSpell.dictionaryDefinitions": [
+		
+		]
 	}
 }
