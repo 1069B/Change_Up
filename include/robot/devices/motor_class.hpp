@@ -95,6 +95,9 @@ public:
 
   void set_desired_voltage(int p_voltage);
 
+  void operator=(int p_velocity);
+  void operator=(double p_velocity);
+
   /*  Action Functions */
   void reset_position(){ pros::c::motor_tare_position(m_port); }
 

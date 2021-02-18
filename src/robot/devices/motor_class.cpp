@@ -73,6 +73,13 @@ void Motor::set_desired_voltage(int const p_desired_voltage){
   pros::c::motor_move_voltage(m_port, m_desired_voltage);
 }
 
+void Motor::operator=(int p_velocity){
+  set_desired_velocity(p_velocity);
+}
+void Motor::operator=(double p_velocity){
+  set_desired_velocity((int)p_velocity);
+}
+
 int Motor::update(){
   m_brake_mode = (pros::motor_brake_mode_e_t)m_brake_mode_temp;
   m_motor_gearset = (pros::motor_gearset_e_t)m_gearset_mode_temp;
