@@ -41,25 +41,25 @@ Base_Event Base_Event::base_stationary(double p_duration){
 }
 
 /* Intake Functions */
-Intake_Event::Intake_Event(Autonomous_Intake_Status p_intake_status, double p_delay){
+Intake_Event::Intake_Event(Autonomous_Intake_Status p_intake_status, Intake_Retract_Mode p_intake_retract, double p_delay){
   m_intake_status = p_intake_status;
   m_delay = p_delay;
 }
   
 Intake_Event Intake_Event::intake_store(double p_delay){
-  return Intake_Event(AUTONOMOUS_INTAKE_STORE, p_delay);
+  return Intake_Event(AUTONOMOUS_INTAKE_STORE, INTAKE_RETRACT_NONE, p_delay);
 }
 
 Intake_Event Intake_Event::intake_goal(double p_delay){
-  return Intake_Event(AUTONOMOUS_INTAKE_GOAL, p_delay);
+  return Intake_Event(AUTONOMOUS_INTAKE_GOAL, INTAKE_RETRACT_NONE, p_delay);
 }
 
-Intake_Event Intake_Event::intake_grab(double p_delay){
-  return Intake_Event(AUTONOMOUS_INTAKE_GRAB, p_delay);
+Intake_Event Intake_Event::intake_grab(Intake_Retract_Mode p_intake_retract, double p_delay){
+  return Intake_Event(AUTONOMOUS_INTAKE_GRAB, p_intake_retract, p_delay);
 }
 
 Intake_Event Intake_Event::intake_stationary(double p_delay){
-  return Intake_Event(AUTONOMOUS_INTAKE_STATIONARY, p_delay);
+  return Intake_Event(AUTONOMOUS_INTAKE_STATIONARY, INTAKE_RETRACT_NONE, p_delay);
 }
 
 /* Lift Functions */
@@ -81,21 +81,30 @@ Lift_Event Lift_Event::lift_stationary(double p_delay){
 }
 
 
-Autonomous_Routine::Autonomous_Routine(Robot& p_robot):
+Autonomous_Routine::Autonomous_Routine(Robot& p_robot, std::string p_routine_name, Robot_Alliance p_routine_alliance):
 m_robot(p_robot),
 m_base_timer(*new Timer()),
 m_intake_timer(*new Timer()),
 m_lift_timer(*new Timer()){
-
+  m_routine_name = p_routine_name;
+  m_routine_alliance = p_routine_alliance;
 }
 
 void Autonomous_Routine::start_autonomous(){
   m_base_timer.reset_timer();
-  //m_ball_timer.reset_timer();
+  m_lift_timer.reset_timer();
+  m_base_timer.reset_timer();
 }
 
 void Autonomous_Routine::end_autonomous(){
 
+}
+
+void Autonomous_Routine::set_selected_routine(std::string p_routine_name){
+  for(auto x : m_routines){
+    if(x->get_name() == p_routine_name)
+      m_selected_routine = x;
+  }
 }
 
 void Autonomous_Routine::task(){

@@ -21,11 +21,13 @@ private:
   std::vector<SENSOR::Optical*> m_optical_list{};
   std::vector<SENSOR::Digital*> m_digital_list{};
 
+  std::vector<Autonomous_Routine*> m_autonomous_routines{};
+
   Data_Storing& m_settings;
 
   Robot_Alliance m_alliance = ROBOT_SKILLS;// TODO: ADD GUI SETTING
 
-  //Autonomous& m_autonomous;
+  void define_autonomous_routines();
 public:
   /*  Constuctors  */
   Robot();
@@ -57,13 +59,13 @@ public:
   SENSOR::Optical& add_optical(std::string const p_name, short const p_port, short const p_pwm_value = 0);
 
   SENSOR::Digital& add_digital(std::string const p_name, short const p_port);
+
+  Autonomous_Routine& add_autonomous_routine(std::string p_routine_name, Robot_Alliance p_routine_alliance);
   /* Finder Functions */
   Motor& find_motor(std::string const p_name);
 
   /*  Action Functions */
   void initialize();
-
-  void autonomous();
 
   void task();
 

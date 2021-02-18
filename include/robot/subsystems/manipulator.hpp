@@ -2,7 +2,6 @@
 
 #ifndef MANIPULATOR_CLASS_H
 #define MANIPULATOR_CLASS_H
-
 class Manipulator{
 private:
     Robot& m_robot;
@@ -23,6 +22,8 @@ private:
 
 
     Intake_Status m_intake_status = INTAKE_STATIONARY;
+    Intake_Retract_Mode m_intake_retract = INTAKE_RETRACT_OPEN;
+
     Lift_Status m_shooting_status = LIFT_STATIONARY;
     Ball_Position m_ball_positions;
 
@@ -51,6 +52,7 @@ public:
     Manipulator(Robot& p_robot);
 
     /* Setter Functions */
+    void set_intake_retract(Intake_Retract_Mode p_intake_retract){ m_intake_retract = p_intake_retract; };
 
     /* Action Functions */
     void task();

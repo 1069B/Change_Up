@@ -54,18 +54,19 @@ public:
 struct Intake_Event{
 private:
   Autonomous_Intake_Status m_intake_status;
+  Intake_Retract_Mode m_intake_retract;
   double m_delay;
 
   friend class Autonomous_Routine;
 
-  Intake_Event(Autonomous_Intake_Status p_intake_status, double p_delay);
+  Intake_Event(Autonomous_Intake_Status p_intake_status, Intake_Retract_Mode p_intake_retract, double p_delay);
   
 public:
   static Intake_Event intake_store(double p_delay = NO_DELAY);
 
   static Intake_Event intake_goal(double p_delay = NO_DELAY);
 
-  static Intake_Event intake_grab(double p_delay = NO_DELAY);
+  static Intake_Event intake_grab(Intake_Retract_Mode p_intake_retract, double p_delay = NO_DELAY);
 
   static Intake_Event intake_stationary(double p_delay = NO_DELAY);
 };
@@ -97,6 +98,9 @@ class Autonomous_Routine{
 private:
   Robot& m_robot;
 
+  std::string m_routine_name;
+  Robot_Alliance m_routine_alliance;
+
   std::vector<Robot_Event> m_autonomous_events;
 
   Timer& m_base_timer;
@@ -107,7 +111,11 @@ private:
   static Autonomous_Routine* m_selected_routine;
 
 public:
-  Autonomous_Routine(Robot& m_robot);
+  /* Constrotors */
+  Autonomous_Routine(Robot& p_robot, std::string p_routine_name, Robot_Alliance p_routine_alliance);
+
+  /*Getter Functions*/
+  std::string get_name(){ return m_routine_name; }
 
   void start_autonomous();
 
@@ -115,6 +123,8 @@ public:
 
   /*Robot Functions*/
   void add_robot_event(Base_Event p_base_event, Intake_Event p_intake_event, Lift_Event p_lift_event);
+
+  static void set_selected_routine(std::string p_routine_name);
 
   static void task();
 };

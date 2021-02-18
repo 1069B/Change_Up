@@ -65,22 +65,41 @@ void Manipulator::intake_auto_grabbing(){
             m_intake_status = INTAKE_AUTO_INTAKE;
         }
     }
-    else if(m_ball_positions.m_intakes != BALL_DESIRED && m_intake_status == INTAKE_AUTO_INTAKE){
-        m_ball_positions.m_intakes = BALL_NONE;
-        m_ball_positions.m_tongue = BALL_DESIRED;
+    else if(m_intake_retract == INTAKE_RETRACT_NONE){
+        if(m_ball_positions.m_intakes != BALL_DESIRED && m_intake_status == INTAKE_AUTO_INTAKE){
+            m_ball_positions.m_intakes = BALL_NONE;
+            m_ball_positions.m_tongue = BALL_DESIRED;
 
-        //Reverse Intakes
-        m_intake_status = INTAKE_AUTO_OPEN;
-        set_intake_velocities(-300, -300);
-        m_initial_roller.set_desired_velocity(0);
-
-        m_intake_timer.set_flag_delay(500);
+            set_intake_velocities(0, 0);
+            m_intake_status = INTAKE_STATIONARY;
+        }
     }
-    else if(m_intake_status == INTAKE_AUTO_OPEN && m_intake_timer.get_preform_action()){
-        set_intake_velocities(0, 0);
-        m_intake_status = INTAKE_STATIONARY;
-    }
+    else if(m_intake_retract == INTAKE_RETRACT_OPEN){
+        if(m_ball_positions.m_intakes != BALL_DESIRED && m_intake_status == INTAKE_AUTO_INTAKE){
+            m_ball_positions.m_intakes = BALL_NONE;
+            m_ball_positions.m_tongue = BALL_DESIRED;
 
+            m_intake_status = INTAKE_AUTO_OPEN;
+            set_intake_velocities(-300, -300);
+            m_initial_roller.set_desired_velocity(0);
+
+            m_intake_timer.set_flag_delay(500);
+        }
+        else if(m_intake_status == INTAKE_AUTO_OPEN && m_intake_timer.get_preform_action()){
+            set_intake_velocities(0, 0);
+            m_intake_status = INTAKE_STATIONARY;
+        }
+    }
+    else if(m_intake_retract == INTAKE_RETRACT_STORE){
+        if(m_ball_positions.m_intakes != BALL_DESIRED && m_intake_status == INTAKE_AUTO_INTAKE){
+            m_ball_positions.m_intakes = BALL_NONE;
+            m_ball_positions.m_tongue = BALL_DESIRED;
+
+            intake_store();
+
+            m_initial_roller.set_desired_velocity(0);
+        }
+    }
 }
 void Manipulator::intake_scoring(){
 
@@ -151,6 +170,8 @@ void Manipulator::autonomous(){
 }
 
 void Manipulator::driver_control(){
+    set_intake_retract(INTAKE_RETRACT_OPEN);
+
     if(m_shooting_status != LIFT_SCORING && m_robot.get_partner_controller().ButtonR1.get_state()){// If button is pressed than scoring is active
         m_shooting_status = LIFT_WAITING;
         manipulator_scoring();

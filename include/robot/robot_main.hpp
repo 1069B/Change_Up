@@ -39,7 +39,7 @@ class Timer;
 
 class Holonomic;
 class Manipulator;
-class Autonomous;
+class Autonomous_Routine;
 
 
 /* Enum Variables*/
@@ -73,6 +73,12 @@ enum Ball{
   BALL_DESIRED,
   BALL_OPPOSING,
   BALL_NONE
+};
+
+enum Intake_Retract_Mode{
+  INTAKE_RETRACT_NONE,
+  INTAKE_RETRACT_OPEN,
+  INTAKE_RETRACT_STORE
 };
 struct Ball_Position{
 public:

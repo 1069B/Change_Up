@@ -1,7 +1,10 @@
 #include "robot/robot_class.hpp"
 #include "robot/subsystems/autonomous_class.hpp"
 
-void Robot::autonomous(){
+void Robot::define_autonomous_routines(){
+	Autonomous_Routine l_skills = add_autonomous_routine("Skills", ROBOT_SKILLS);
+	Autonomous_Routine::set_selected_routine("Skills");
+
 	// m_autonomous.start_autonomous();
 
 	// /* Lower Right Goal */

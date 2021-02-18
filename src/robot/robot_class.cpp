@@ -27,9 +27,9 @@ m_partner_controller(*new CONTROLLER::Controller(pros::E_CONTROLLER_PARTNER)){
 }
 
 Motor& Robot::add_motor(std::string const p_name, short const p_port, pros::motor_gearset_e_t const p_gearset, pros::motor_brake_mode_e_t const p_brake, bool const p_reversed){
-  for(int x = 0; x < m_motor_list.size(); x++){
-    if(m_motor_list.at(x)->get_name() == p_name)
-      return *m_motor_list.at(x);
+  for(auto x : m_motor_list){
+    if(x->get_name() == p_name)
+      return *x;
   }
 
   Motor* l_new_motor{new Motor(*this, p_name, p_port, p_gearset, p_brake, p_reversed)};
@@ -39,9 +39,9 @@ Motor& Robot::add_motor(std::string const p_name, short const p_port, pros::moto
 }
 
 SENSOR::Distance& Robot::add_distance(std::string const p_name, short const p_port){
-  for(int x = 0; x < m_distance_list.size(); x++){
-    if(m_distance_list.at(x)->get_name() == p_name)
-      return *m_distance_list.at(x);
+  for(auto x : m_distance_list){
+    if(x->get_name() == p_name)
+      return *x;
   }
 
   SENSOR::Distance* l_new_distance{new SENSOR::Distance(*this, p_name, p_port)};
@@ -50,9 +50,9 @@ SENSOR::Distance& Robot::add_distance(std::string const p_name, short const p_po
 }
 
 SENSOR::Rotation& Robot::add_rotation(std::string const p_name, short const p_port, bool const p_reversed, int const p_position_offset){
-  for(int x = 0; x < m_rotation_list.size(); x++){
-    if(m_rotation_list.at(x)->get_name() == p_name)
-      return *m_rotation_list.at(x);
+  for(auto x : m_rotation_list){
+    if(x->get_name() == p_name)
+      return *x;
   }
 
   SENSOR::Rotation* l_new_rotation{new SENSOR::Rotation(*this, p_name, p_port, p_reversed, p_position_offset)};
@@ -61,9 +61,9 @@ SENSOR::Rotation& Robot::add_rotation(std::string const p_name, short const p_po
 }
 
 SENSOR::Optical& Robot::add_optical(std::string const p_name, short const p_port, short const p_pwm_value){
-  for(int x = 0; x < m_optical_list.size(); x++){
-    if(m_optical_list.at(x)->get_name() == p_name)
-      return *m_optical_list.at(x);
+  for(auto x : m_optical_list){
+    if(x->get_name() == p_name)
+      return *x;
   }
 
   SENSOR::Optical* l_new_optical{new SENSOR::Optical(*this, p_name, p_port, p_pwm_value)};
@@ -72,14 +72,25 @@ SENSOR::Optical& Robot::add_optical(std::string const p_name, short const p_port
 }
 
 SENSOR::Digital& Robot::add_digital(std::string const p_name, short const p_port){
-  for(int x = 0; x < m_digital_list.size(); x++){
-    if(m_digital_list.at(x)->get_name() == p_name)
-      return *m_digital_list.at(x);
+  for(auto x : m_digital_list){
+    if(x->get_name() == p_name)
+      return *x;
   }
 
   SENSOR::Digital* l_new_digital{new SENSOR::Digital(*this, p_name, p_port)};
   m_digital_list.push_back(l_new_digital);
   return *l_new_digital;
+}
+
+Autonomous_Routine& Robot::add_autonomous_routine(std::string p_routine_name, Robot_Alliance p_routine_alliance){
+  for(auto x : m_autonomous_routines){
+    if(x->get_name() == p_routine_name)
+      return *x;
+  }
+
+  Autonomous_Routine* l_new_routine{new Autonomous_Routine(*this, p_routine_name, p_routine_alliance)};
+  m_autonomous_routines.push_back(l_new_routine);
+  return *l_new_routine;
 }
 
 Motor& Robot::find_motor(std::string const p_name){
@@ -92,6 +103,7 @@ Motor& Robot::find_motor(std::string const p_name){
 
 void Robot::initialize(){
   defineGUI();
+  define_autonomous_routines();
   m_manipulator.task();
   m_holonomic.task();
 }
@@ -104,7 +116,9 @@ void Robot::task(){
     m_manipulator.task();
   }
   else if(m_robot_state == ROBOT_AUTONOMOUS){
-    autonomous();
+    Autonomous_Routine::task();
+    m_holonomic.task();
+    m_manipulator.task();
   }
 }
 
