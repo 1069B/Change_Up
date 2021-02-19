@@ -13,21 +13,29 @@ private:
   double m_y_position;
   double m_orientation;
 
+  /*Temp*/
+  double m_translational_velocity;
+  double m_turning_velocity;
+  double m_duration;
+
   friend class Autonomous_Routine;
 
-  Base_Event(Autonomous_Base_Status p_base_status, double p_delay, double p_x_position, double p_y_position, double p_orientation);
+  //Base_Event(Autonomous_Base_Status p_base_status, double p_delay, double p_x_position, double p_y_position, double p_orientation);
+
+  Base_Event(Autonomous_Base_Status p_base_status, double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration, double p_delay);
 public:
-  static Base_Event base_translate_to(double p_x_position, double p_y_position, double p_delay = NO_DELAY);// Point to Point
+  static Base_Event base_move(double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration, double p_delay = NO_DELAY);// Point to Point
+  //  static Base_Event base_translate_to(double p_x_position, double p_y_position, double p_delay = NO_DELAY);// Point to Point
 
-  static Base_Event base_orientate_to(double p_orientation, double p_delay = NO_DELAY);// Point Rotation
+  // static Base_Event base_orientate_to(double p_orientation, double p_delay = NO_DELAY);// Point Rotation
 
-  static Base_Event base_turn_to(double p_x_position, double p_y_position, double p_delay = NO_DELAY);// Arc Turn
+  // static Base_Event base_turn_to(double p_x_position, double p_y_position, double p_delay = NO_DELAY);// Arc Turn
 
-  static Base_Event base_pose_to(double p_x_position, double p_y_position, double p_orientation, double p_delay = NO_DELAY);// Point to Point with Orientation Change
+  // static Base_Event base_pose_to(double p_x_position, double p_y_position, double p_orientation, double p_delay = NO_DELAY);// Point to Point with Orientation Change
 
-  static Base_Event base_align_to_goal(double p_delay = NO_DELAY);
+  // static Base_Event base_align_to_goal(double p_delay = NO_DELAY);
 
-  static Base_Event base_stationary(double p_duration);
+  static Base_Event base_stationary(double p_duration, double p_delay = NO_DELAY);
 };
 struct Intake_Event{
 private:
@@ -65,9 +73,9 @@ public:
 };
 
 struct Robot_Event{
-  Base_Event m_base_event;
-  Intake_Event m_intake_event;
-  Lift_Event m_lift_event;
+  Base_Event& m_base_event;
+  Intake_Event& m_intake_event;
+  Lift_Event& m_lift_event;
 
   Robot_Event(Base_Event p_base_event, Intake_Event p_intake_event, Lift_Event p_lift_event);
 };

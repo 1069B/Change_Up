@@ -7,7 +7,16 @@ void Robot::define_autonomous_routines(){
 	Autonomous_Routine l_skills = add_autonomous_routine("Skills", ROBOT_SKILLS);
 	Autonomous_Routine::set_selected_routine("Skills");
 
-	
+	/*Lower Right Goal */
+	l_skills.add_robot_event(Base_Event::base_move(50,0,48, 2800), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
+	l_skills.add_robot_event(Base_Event::base_move(25,0, 0, 600), Intake_Event::intake_store(), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
+	l_skills.add_robot_event(Base_Event::base_stationary(1000), Intake_Event::intake_store(), Lift_Event::lift_score());// Wait for score, Store Intakes, Score One Ball
+
+	/* Middle Right Goal */
+	l_skills.add_robot_event(Base_Event::base_move(100, 180, 0, 700), Intake_Event::intake_store(), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
+	l_skills.add_robot_event(Base_Event::base_move(0, 0, 50, 870), Intake_Event::intake_store(), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
+	l_skills.add_robot_event(Base_Event::base_move(100, 90, 0, 3000), Intake_Event::intake_store(), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
+	l_skills.add_robot_event(Base_Event::base_stationary(1000), Intake_Event::intake_store(), Lift_Event::lift_score());// Wait for score, Store Intakes, Score One Ball
 
 	// /* Lower Right Goal */
 	// m_autonomous.manipulator_feild(MANIPULATOR_INTAKE_SENSOR);// Pick Up Ball in front of robot

@@ -8,36 +8,50 @@
 #include "robot/subsystems/manipulator.hpp"
 
 /* Base Functions */
-Base_Event::Base_Event(Autonomous_Base_Status p_base_status, double p_delay, double p_x_position, double p_y_position, double p_orientation){
+Base_Event::Base_Event(Autonomous_Base_Status p_base_status, double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration, double p_delay){
   m_base_status = p_base_status;
   m_delay = p_delay;
-  m_x_position = p_x_position;
-  m_y_position = p_y_position;
+
+  m_translational_velocity = p_translational_velocity;
   m_orientation = p_orientation;
+  m_turning_velocity = p_turning_velocity;
+  m_duration = p_duration;
 }
 
-Base_Event Base_Event::base_translate_to(double p_x_position, double p_y_position, double p_delay){// Point to Point
-  return Base_Event(BASE_TRANSLATE, p_delay, p_x_position, p_y_position, INT_MIN);
+Base_Event Base_Event::base_move(double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration, double p_delay){
+  return Base_Event(BASE_TRANSLATE, p_translational_velocity, p_orientation, p_turning_velocity, p_duration, p_delay);
 }
 
-Base_Event Base_Event::base_orientate_to(double p_orientation, double p_delay){// Point Rotation
-  return Base_Event(BASE_ORIENTATION, p_delay, INT_MIN, INT_MIN, p_orientation);
-}
+// Base_Event::Base_Event(Autonomous_Base_Status p_base_status, double p_delay, double p_x_position, double p_y_position, double p_orientation){
+//   m_base_status = p_base_status;
+//   m_delay = p_delay;
+//   m_x_position = p_x_position;
+//   m_y_position = p_y_position;
+//   m_orientation = p_orientation;
+// }
 
-Base_Event Base_Event::base_turn_to(double p_x_position, double p_y_position, double p_delay){// Arc Turn
-  return Base_Event(BASE_TURN, p_delay, p_x_position, p_y_position, INT_MIN);
-}
+// Base_Event Base_Event::base_translate_to(double p_x_position, double p_y_position, double p_delay){// Point to Point
+//   return Base_Event(BASE_TRANSLATE, p_delay, p_x_position, p_y_position, INT_MIN);
+// }
 
-Base_Event Base_Event::base_pose_to(double p_x_position, double p_y_position, double p_orientation, double p_delay){// Point to Point with Orientation Change
-  return Base_Event(BASE_POSE, p_delay, p_x_position, p_y_position, p_orientation);
-}
+// Base_Event Base_Event::base_orientate_to(double p_orientation, double p_delay){// Point Rotation
+//   return Base_Event(BASE_ORIENTATION, p_delay, INT_MIN, INT_MIN, p_orientation);
+// }
 
-Base_Event Base_Event::base_align_to_goal(double p_delay){
-  return Base_Event(BASE_POSE, p_delay, INT_MIN, INT_MIN, INT_MIN);
-}
+// Base_Event Base_Event::base_turn_to(double p_x_position, double p_y_position, double p_delay){// Arc Turn
+//   return Base_Event(BASE_TURN, p_delay, p_x_position, p_y_position, INT_MIN);
+// }
 
-Base_Event Base_Event::base_stationary(double p_duration){
-  return Base_Event(BASE_STATIONARY, p_duration, INT_MIN, INT_MIN, INT_MIN);
+// Base_Event Base_Event::base_pose_to(double p_x_position, double p_y_position, double p_orientation, double p_delay){// Point to Point with Orientation Change
+//   return Base_Event(BASE_POSE, p_delay, p_x_position, p_y_position, p_orientation);
+// }
+
+// Base_Event Base_Event::base_align_to_goal(double p_delay){
+//   return Base_Event(BASE_POSE, p_delay, INT_MIN, INT_MIN, INT_MIN);
+// }
+
+Base_Event Base_Event::base_stationary(double p_duration, double p_delay){
+  return Base_Event(BASE_STATIONARY, 0, 0, 0, p_duration, p_delay);
 }
 
 /* Intake Functions */
@@ -80,6 +94,10 @@ Lift_Event Lift_Event::lift_stationary(double p_delay){
   return Lift_Event(AUTONOMOUS_LIFT_STATIONARY, p_delay);
 }
 
+Robot_Event::Robot_Event(Base_Event p_base_event, Intake_Event p_intake_event, Lift_Event p_lift_event):
+m_base_event(p_base_event),
+m_intake_event(p_intake_event),
+m_lift_event(p_lift_event){}
 
 Autonomous_Routine::Autonomous_Routine(Robot& p_robot, std::string p_routine_name, Robot_Alliance p_routine_alliance):
 m_robot(p_robot),
@@ -90,7 +108,9 @@ m_lift_timer(*new Timer()){
   m_routine_alliance = p_routine_alliance;
 }
 
-
+void Autonomous_Routine::add_robot_event(Base_Event p_base_event, Intake_Event p_intake_event, Lift_Event p_lift_event){
+  m_autonomous_events.push_back(Robot_Event(p_base_event, p_intake_event, p_lift_event));
+}
 
 std::vector<Autonomous_Routine*> Autonomous_Routine::m_routines;
 Autonomous_Routine* Autonomous_Routine::m_selected_routine;
@@ -120,7 +140,7 @@ void Autonomous_Routine::task(){
   }
   
   if(m_selected_routine->m_base_timer.get_preform_action()){
-    // Change Base movement
+    l_holonomic.set_base_movement(l_current_event.m_base_event.m_translational_velocity, l_current_event.m_base_event.m_orientation, l_current_event.m_base_event.m_turning_velocity, l_current_event.m_base_event.m_duration);
   }
   else if(l_holonomic.get_movement_complete()){
     m_current_event++;
