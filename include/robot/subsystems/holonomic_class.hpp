@@ -50,7 +50,7 @@ public:
   Holonomic(Robot &p_robot);
 
   /* Getter Functions */
-  //get
+  bool get_movement_complete(){ return false; }
 
   /* Setter Functions */
 

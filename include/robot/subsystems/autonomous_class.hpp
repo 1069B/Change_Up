@@ -5,28 +5,6 @@
 
 #define NO_DELAY 0
 
-enum Autonomous_Base_Status{
-  BASE_TRANSLATE,
-  BASE_ORIENTATION,
-  BASE_TURN,
-  BASE_POSE,
-  BASE_ALIGN_GOAL,
-  BASE_STATIONARY
-};
-
-enum Autonomous_Intake_Status{
-  AUTONOMOUS_INTAKE_GRAB,
-  AUTONOMOUS_INTAKE_GOAL,
-  AUTONOMOUS_INTAKE_STORE,
-  AUTONOMOUS_INTAKE_STATIONARY
-};
-
-enum Autonomous_Lift_Status{
-  AUTONOMOUS_LIFT_SORT,
-  AUTONOMOUS_LIFT_SCORE,
-  AUTONOMOUS_LIFT_STATIONARY
-};
-
 struct Base_Event{
 private:
   Autonomous_Base_Status m_base_status;
@@ -109,6 +87,8 @@ private:
 
   static std::vector<Autonomous_Routine*> m_routines;
   static Autonomous_Routine* m_selected_routine;
+  static int m_current_event;
+  static int m_previous_event;
 
 public:
   /* Constrotors */
@@ -117,16 +97,16 @@ public:
   /*Getter Functions*/
   std::string get_name(){ return m_routine_name; }
 
-  void start_autonomous();
-
-  void end_autonomous();
-
   /*Robot Functions*/
   void add_robot_event(Base_Event p_base_event, Intake_Event p_intake_event, Lift_Event p_lift_event);
 
   static void set_selected_routine(std::string p_routine_name);
 
   static void task();
+
+  static void start_autonomous();
+
+  static void end_autonomous();
 };
 
 #endif // AUTONOMOUS_CLASS_H

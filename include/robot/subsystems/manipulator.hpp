@@ -30,6 +30,10 @@ private:
     Timer& m_intake_timer;
     Timer& m_lift_timer;
 
+    /*Autonomous*/
+    Autonomous_Intake_Status m_autonomous_intake_status;
+    Autonomous_Lift_Status m_autonomous_lift_status;
+
     void set_intake_velocities(int const p_left_velocity, int const p_right_velocity);
     void set_intake_velocities(int const p_velocity){ set_intake_velocities(p_velocity, p_velocity); };
 
@@ -47,12 +51,17 @@ private:
 
     void driver_control();
 
+    friend class Autonomous_Routine;
 public:
     /* Constructors */
     Manipulator(Robot& p_robot);
 
     /* Setter Functions */
     void set_intake_retract(Intake_Retract_Mode p_intake_retract){ m_intake_retract = p_intake_retract; };
+
+    void set_autonomous_intake_status(Autonomous_Intake_Status p_autonomous_intake_status);
+    
+    void set_autonomous_lift_status(Autonomous_Lift_Status p_autonomous_lift_status);
 
     /* Action Functions */
     void task();

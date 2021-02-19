@@ -162,11 +162,57 @@ void Manipulator::manipulator_scoring(){
     }
 }
 
+void Manipulator::set_autonomous_intake_status(Autonomous_Intake_Status p_autonomous_intake_status){
+    m_autonomous_intake_status = p_autonomous_intake_status;
+}
+    
+void Manipulator::set_autonomous_lift_status(Autonomous_Lift_Status p_autonomous_lift_status){
+    m_autonomous_lift_status = p_autonomous_lift_status;
+
+    if(m_autonomous_lift_status == AUTONOMOUS_LIFT_SCORE){
+        m_shooting_status = LIFT_WAITING;
+    }
+}
+
 void Manipulator::autonomous(){
-    // if(m_mode == MANIPULATOR_FEILD)
-    //     autonomous_feild();
-    // else if(m_mode == MANIPULATOR_SCORE)
-    //     autonomous_score();
+    switch(m_autonomous_intake_status){
+        case AUTONOMOUS_INTAKE_GRAB:
+            intake_auto_grabbing();
+            break;
+
+        case AUTONOMOUS_INTAKE_GOAL:
+            intake_scoring();
+            break;
+
+        case AUTONOMOUS_INTAKE_STORE:
+            intake_store();
+            break;
+
+        case AUTONOMOUS_INTAKE_STATIONARY:
+            set_intake_velocities(0);
+            break;
+        
+        default:
+            break;
+    }
+
+    switch(m_autonomous_lift_status){
+        case AUTONOMOUS_LIFT_SORT:
+            manipulator_sorting();
+            break;
+
+        case AUTONOMOUS_LIFT_SCORE:
+            void manipulator_scoring();
+            break;
+
+        case AUTONOMOUS_LIFT_STATIONARY:
+            m_initial_roller = 0;
+            m_secondary_roller = 0;
+            break;
+        
+        default:
+            break;
+    }
 }
 
 void Manipulator::driver_control(){

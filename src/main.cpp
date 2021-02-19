@@ -1,6 +1,7 @@
 #include "robot/robot_class.hpp"
-#include "robot/subsystems/manipulator.hpp"
 
+#include "robot/subsystems/manipulator.hpp"
+#include "robot/subsystems/autonomous_class.hpp"
 
 Robot g_robot{};
 
@@ -30,11 +31,14 @@ void competition_initialize() {
 
 void autonomous(){
 	g_robot.set_robot_state(ROBOT_AUTONOMOUS);
-	
+	Autonomous_Routine::start_autonomous();
+
 	while(true){
 		g_robot.task();
 		pros::delay(10);
 	}
+
+	Autonomous_Routine::end_autonomous();
 }
 
 void opcontrol(){

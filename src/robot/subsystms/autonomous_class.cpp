@@ -90,15 +90,12 @@ m_lift_timer(*new Timer()){
   m_routine_alliance = p_routine_alliance;
 }
 
-void Autonomous_Routine::start_autonomous(){
-  m_base_timer.reset_timer();
-  m_lift_timer.reset_timer();
-  m_base_timer.reset_timer();
-}
 
-void Autonomous_Routine::end_autonomous(){
 
-}
+std::vector<Autonomous_Routine*> Autonomous_Routine::m_routines;
+Autonomous_Routine* Autonomous_Routine::m_selected_routine;
+int Autonomous_Routine::m_current_event = 0;
+int Autonomous_Routine::m_previous_event = 0;
 
 void Autonomous_Routine::set_selected_routine(std::string p_routine_name){
   for(auto x : m_routines){
@@ -108,5 +105,45 @@ void Autonomous_Routine::set_selected_routine(std::string p_routine_name){
 }
 
 void Autonomous_Routine::task(){
+  Robot& l_robot = m_selected_routine->m_robot;
+  Holonomic& l_holonomic = l_robot.get_holonomic();
+  Manipulator& l_manipulator = l_robot.get_manipulator();
+
+  Robot_Event l_current_event = m_selected_routine->m_autonomous_events.at(m_current_event);
+  
+  if(m_current_event != m_previous_event){
+    m_previous_event = m_current_event;
+
+    m_selected_routine->m_base_timer.set_flag_delay(l_current_event.m_base_event.m_delay);
+    m_selected_routine->m_lift_timer.set_flag_delay(l_current_event.m_lift_event.m_delay);
+    m_selected_routine->m_intake_timer.set_flag_delay(l_current_event.m_intake_event.m_delay);
+  }
+  
+  if(m_selected_routine->m_base_timer.get_preform_action()){
+    // Change Base movement
+  }
+  else if(l_holonomic.get_movement_complete()){
+    m_current_event++;
+  }
+
+  if(m_selected_routine->m_lift_timer.get_preform_action()){
+    l_manipulator.set_autonomous_lift_status(l_current_event.m_lift_event.m_lift_status);
+  }
+
+  if(m_selected_routine->m_intake_timer.get_preform_action()){
+    l_manipulator.set_autonomous_intake_status(l_current_event.m_intake_event.m_intake_status);
+  }
+}
+
+void Autonomous_Routine::start_autonomous(){
+  m_selected_routine->m_base_timer.reset_timer();
+  m_selected_routine->m_lift_timer.reset_timer();
+  m_selected_routine->m_base_timer.reset_timer();
+
+  m_current_event = 0;
+  m_previous_event = -1;
+}
+
+void Autonomous_Routine::end_autonomous(){
 
 }

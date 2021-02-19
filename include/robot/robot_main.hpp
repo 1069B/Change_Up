@@ -41,9 +41,7 @@ class Holonomic;
 class Manipulator;
 class Autonomous_Routine;
 
-
-/* Enum Variables*/
-
+/* Enum Variables */
 enum Robot_State{
   ROBOT_INITIALIZATION,
   ROBOT_DRIVER_CONTROL,
@@ -80,6 +78,30 @@ enum Intake_Retract_Mode{
   INTAKE_RETRACT_OPEN,
   INTAKE_RETRACT_STORE
 };
+
+enum Autonomous_Base_Status{
+  BASE_TRANSLATE,
+  BASE_ORIENTATION,
+  BASE_TURN,
+  BASE_POSE,
+  BASE_ALIGN_GOAL,
+  BASE_STATIONARY
+};
+
+enum Autonomous_Intake_Status{
+  AUTONOMOUS_INTAKE_GRAB,
+  AUTONOMOUS_INTAKE_GOAL,
+  AUTONOMOUS_INTAKE_STORE,
+  AUTONOMOUS_INTAKE_STATIONARY
+};
+
+enum Autonomous_Lift_Status{
+  AUTONOMOUS_LIFT_SORT,
+  AUTONOMOUS_LIFT_SCORE,
+  AUTONOMOUS_LIFT_STATIONARY
+};
+
+/* Structures */
 struct Ball_Position{
 public:
   Ball m_intakes = BALL_NONE;
