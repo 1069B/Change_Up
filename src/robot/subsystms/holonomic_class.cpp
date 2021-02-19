@@ -49,24 +49,33 @@ Functions /  States
   m_desired_velocities.m_back_right = (sin(m_desired_trajectory.m_translation_angle+(M_PI/4.0)) * m_desired_trajectory.m_translation_velocity) + m_desired_trajectory.m_orientation_velocity;
 }
 
-double Holonomic::speed_up(int p_controllerValue){
-  if(abs(p_controllerValue) < 170){
-    return p_controllerValue/2.0;
+void Holonomic::driver_control(){
+  CONTROLLER::Controller& l_main_controller = m_robot.get_main_controller();
+	CONTROLLER::Controller& l_partner_controller = m_robot.get_partner_controller();
+  
+  int l_translation_coefficient;
+  int l_orientation_coefficient;
+  if(l_main_controller.ButtonL2.get_state() && l_main_controller.ButtonR2.get_state()){
+    l_translation_coefficient = 100;
+    l_orientation_coefficient = 100;
   }
-  return p_controllerValue;
+  else if(l_main_controller.ButtonL2.get_state()){
+    l_translation_coefficient = 100;
+    l_orientation_coefficient = 200;
+  }
+  else if(l_main_controller.ButtonR2.get_state()){
+    l_translation_coefficient = 200;
+    l_orientation_coefficient = 100;
+  }
+  else{
+    l_translation_coefficient = 200;
+    l_orientation_coefficient = 200;
+  }
 
-
-  // double l_a = m_acceleration_coefficients.m_coefficient_A;
-	// double l_b = m_acceleration_coefficients.m_coefficient_B;
-	// double l_c = m_acceleration_coefficients.m_coefficient_C;
-	// double l_h = m_acceleration_coefficients.m_coefficient_H;
-  // if(p_controllerValue != 0){
-  //   if(p_controllerValue > 5)
-  //     return l_a/(1+(l_a - l_b)/l_b * pow(M_E, (-l_c*(p_controllerValue + l_h))));
-  //   else if(p_controllerValue < -5)
-  //     return -l_a/(1+(l_a - l_b)/l_b * pow(M_E, (l_c*(p_controllerValue - l_h))));
-  // }
-  // return 0;
+    m_front_left_motor.set_desired_velocity(l_translation_coefficient*l_main_controller.Axis3.get_percent()+l_translation_coefficient*l_main_controller.Axis4.get_percent()+(l_orientation_coefficient*l_main_controller.Axis1.get_percent()));
+    m_front_right_motor.set_desired_velocity(l_translation_coefficient*l_main_controller.Axis3.get_percent()-l_translation_coefficient*l_main_controller.Axis4.get_percent()-(l_orientation_coefficient*l_main_controller.Axis1.get_percent()));
+    m_back_left_motor.set_desired_velocity(l_translation_coefficient*l_main_controller.Axis3.get_percent()-l_translation_coefficient*l_main_controller.Axis4.get_percent()+(l_orientation_coefficient*l_main_controller.Axis1.get_percent()));
+    m_back_right_motor.set_desired_velocity(l_translation_coefficient*l_main_controller.Axis3.get_percent()+l_translation_coefficient*l_main_controller.Axis4.get_percent()-(l_orientation_coefficient*l_main_controller.Axis1.get_percent()));
 }
 
 void Holonomic::base_set_vector(double p_translational_velocity, double p_orientation, double p_turning_velocity){
@@ -77,33 +86,8 @@ void Holonomic::base_set_vector(double p_translational_velocity, double p_orient
 }
 
 int Holonomic::task(){
-  CONTROLLER::Controller& l_main_controller = m_robot.get_main_controller();
-	CONTROLLER::Controller& l_partner_controller = m_robot.get_partner_controller();
-  
   if(m_robot.get_robot_state() == ROBOT_DRIVER_CONTROL){
-    int l_translation_coefficient;
-    int l_orientation_coefficient;
-    if(l_main_controller.ButtonL2.get_state() && l_main_controller.ButtonR2.get_state()){
-      l_translation_coefficient = 100;
-      l_orientation_coefficient = 100;
-    }
-    else if(l_main_controller.ButtonL2.get_state()){
-      l_translation_coefficient = 100;
-      l_orientation_coefficient = 200;
-    }
-    else if(l_main_controller.ButtonR2.get_state()){
-      l_translation_coefficient = 200;
-      l_orientation_coefficient = 100;
-    }
-    else{
-      l_translation_coefficient = 200;
-      l_orientation_coefficient = 200;
-    }
-
-    m_front_left_motor.set_desired_velocity(l_translation_coefficient*l_main_controller.Axis3.get_percent()+l_translation_coefficient*l_main_controller.Axis4.get_percent()+(l_orientation_coefficient*l_main_controller.Axis1.get_percent()));
-    m_front_right_motor.set_desired_velocity(l_translation_coefficient*l_main_controller.Axis3.get_percent()-l_translation_coefficient*l_main_controller.Axis4.get_percent()-(l_orientation_coefficient*l_main_controller.Axis1.get_percent()));
-    m_back_left_motor.set_desired_velocity(l_translation_coefficient*l_main_controller.Axis3.get_percent()-l_translation_coefficient*l_main_controller.Axis4.get_percent()+(l_orientation_coefficient*l_main_controller.Axis1.get_percent()));
-    m_back_right_motor.set_desired_velocity(l_translation_coefficient*l_main_controller.Axis3.get_percent()+l_translation_coefficient*l_main_controller.Axis4.get_percent()-(l_orientation_coefficient*l_main_controller.Axis1.get_percent()));
+    driver_control();
   }
   else if(m_robot.get_robot_state() == ROBOT_AUTONOMOUS){
 

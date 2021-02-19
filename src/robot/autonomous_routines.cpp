@@ -2,10 +2,12 @@
 #include "robot/subsystems/autonomous_class.hpp"
 
 void Robot::define_autonomous_routines(){
+
+	/* Skills */
 	Autonomous_Routine l_skills = add_autonomous_routine("Skills", ROBOT_SKILLS);
 	Autonomous_Routine::set_selected_routine("Skills");
 
-	// m_autonomous.start_autonomous();
+	
 
 	// /* Lower Right Goal */
 	// m_autonomous.manipulator_feild(MANIPULATOR_INTAKE_SENSOR);// Pick Up Ball in front of robot

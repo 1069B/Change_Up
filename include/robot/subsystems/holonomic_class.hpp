@@ -44,6 +44,7 @@ private:
   Acceleration m_acceleration_coefficients{};
 
   // pros::motor_brake_mode_e m_brakeMode = pros::E_MOTOR_BRAKE_COAST;
+  void driver_control();
 
   void autonomous();
 public:
@@ -55,7 +56,6 @@ public:
   /* Setter Functions */
 
   /* Action Functions */
-  double speed_up(int p_controllerValue);
 
   void base_set_vector(double p_translational_velocity, double p_orientation, double p_turning_velocity);
 

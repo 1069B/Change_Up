@@ -138,7 +138,7 @@ void Autonomous_Routine::task(){
 void Autonomous_Routine::start_autonomous(){
   m_selected_routine->m_base_timer.reset_timer();
   m_selected_routine->m_lift_timer.reset_timer();
-  m_selected_routine->m_base_timer.reset_timer();
+  m_selected_routine->m_intake_timer.reset_timer();
 
   m_current_event = 0;
   m_previous_event = -1;
