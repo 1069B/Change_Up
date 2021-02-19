@@ -97,6 +97,7 @@ private:
   static Autonomous_Routine* m_selected_routine;
   static int m_current_event;
   static int m_previous_event;
+  static bool s_running_autonomous;
 
 public:
   /* Constrotors */
@@ -104,6 +105,8 @@ public:
 
   /*Getter Functions*/
   std::string get_name(){ return m_routine_name; }
+
+  static bool is_running_autonomous(){ return s_running_autonomous; }
 
   /*Robot Functions*/
   void add_robot_event(Base_Event p_base_event, Intake_Event p_intake_event, Lift_Event p_lift_event);

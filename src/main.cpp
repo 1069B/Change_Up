@@ -33,7 +33,7 @@ void autonomous(){
 	g_robot.set_robot_state(ROBOT_AUTONOMOUS);
 	Autonomous_Routine::start_autonomous();
 
-	while(true){
+	while(Autonomous_Routine::is_running_autonomous()){
 		g_robot.task();
 		pros::delay(10);
 	}

@@ -59,7 +59,7 @@ public:
     /* Setter Functions */
     void set_intake_retract(Intake_Retract_Mode p_intake_retract){ m_intake_retract = p_intake_retract; };
 
-    void set_autonomous_intake_status(Autonomous_Intake_Status p_autonomous_intake_status);
+    void set_autonomous_intake_status(Autonomous_Intake_Status p_autonomous_intake_status, Intake_Retract_Mode p_intake_retract);
     
     void set_autonomous_lift_status(Autonomous_Lift_Status p_autonomous_lift_status);
 

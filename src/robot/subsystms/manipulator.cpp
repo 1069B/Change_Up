@@ -162,8 +162,9 @@ void Manipulator::manipulator_scoring(){
     }
 }
 
-void Manipulator::set_autonomous_intake_status(Autonomous_Intake_Status p_autonomous_intake_status){
+void Manipulator::set_autonomous_intake_status(Autonomous_Intake_Status p_autonomous_intake_status, Intake_Retract_Mode p_intake_retract){
     m_autonomous_intake_status = p_autonomous_intake_status;
+    m_intake_retract = p_intake_retract;
 }
     
 void Manipulator::set_autonomous_lift_status(Autonomous_Lift_Status p_autonomous_lift_status){

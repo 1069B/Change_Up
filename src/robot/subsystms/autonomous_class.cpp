@@ -57,6 +57,7 @@ Base_Event Base_Event::base_stationary(double p_duration, double p_delay){
 /* Intake Functions */
 Intake_Event::Intake_Event(Autonomous_Intake_Status p_intake_status, Intake_Retract_Mode p_intake_retract, double p_delay){
   m_intake_status = p_intake_status;
+  m_intake_retract = p_intake_retract;
   m_delay = p_delay;
 }
   
@@ -116,6 +117,7 @@ std::vector<Autonomous_Routine*> Autonomous_Routine::m_routines;
 Autonomous_Routine* Autonomous_Routine::m_selected_routine;
 int Autonomous_Routine::m_current_event = 0;
 int Autonomous_Routine::m_previous_event = 0;
+bool Autonomous_Routine::s_running_autonomous = false;
 
 void Autonomous_Routine::set_selected_routine(std::string p_routine_name){
   for(auto x : m_routines){
@@ -129,6 +131,11 @@ void Autonomous_Routine::task(){
   Holonomic& l_holonomic = l_robot.get_holonomic();
   Manipulator& l_manipulator = l_robot.get_manipulator();
 
+  if(m_selected_routine->m_autonomous_events.size() <= m_current_event){
+    s_running_autonomous = false;
+    return;
+  }
+    
   Robot_Event l_current_event = m_selected_routine->m_autonomous_events.at(m_current_event);
   
   if(m_current_event != m_previous_event){
@@ -151,11 +158,13 @@ void Autonomous_Routine::task(){
   }
 
   if(m_selected_routine->m_intake_timer.get_preform_action()){
-    l_manipulator.set_autonomous_intake_status(l_current_event.m_intake_event.m_intake_status);
+    l_manipulator.set_autonomous_intake_status(l_current_event.m_intake_event.m_intake_status, l_current_event.m_intake_event.m_intake_retract);
   }
 }
 
 void Autonomous_Routine::start_autonomous(){
+  s_running_autonomous = true;
+
   m_selected_routine->m_base_timer.reset_timer();
   m_selected_routine->m_lift_timer.reset_timer();
   m_selected_routine->m_intake_timer.reset_timer();
@@ -165,5 +174,9 @@ void Autonomous_Routine::start_autonomous(){
 }
 
 void Autonomous_Routine::end_autonomous(){
+  s_running_autonomous = false;
 
+  m_selected_routine->m_base_timer.stop_timer();
+  m_selected_routine->m_lift_timer.stop_timer();
+  m_selected_routine->m_intake_timer.stop_timer();
 }
