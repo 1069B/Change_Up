@@ -1,52 +1,60 @@
-#include "robot/subsystems/holonomic_class.hpp"
+#include "robot/robot_class.hpp"
 #include "robot/devices/motor_class.hpp"
 #include "robot/devices/controller_class.hpp"
-#include "robot/robot_class.hpp"
+#include "robot/devices/timer_class.hpp"
+#include "robot/subsystems/holonomic_class.hpp"
+
 
 Holonomic::Holonomic(Robot &p_robot):
 m_robot(p_robot),
 m_front_left_motor(m_robot.add_motor("Front Left Base", 15, pros::E_MOTOR_GEARSET_18, pros::E_MOTOR_BRAKE_COAST, false)),
 m_front_right_motor(m_robot.add_motor("Front Right Base", 16, pros::E_MOTOR_GEARSET_18, pros::E_MOTOR_BRAKE_COAST, true)),
 m_back_left_motor(m_robot.add_motor("Back Left Base", 5, pros::E_MOTOR_GEARSET_18, pros::E_MOTOR_BRAKE_COAST, false)),
-m_back_right_motor(m_robot.add_motor("Back Right Base", 6, pros::E_MOTOR_GEARSET_18, pros::E_MOTOR_BRAKE_COAST, true))
+m_back_right_motor(m_robot.add_motor("Back Right Base", 6, pros::E_MOTOR_GEARSET_18, pros::E_MOTOR_BRAKE_COAST, true)),
+m_timer(*new Timer())
 {
 }
 
+void Holonomic::set_base_movement(double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration){
+  m_desired_trajectory.m_translation_velocity = p_translational_velocity;
+  m_desired_trajectory.m_orientation_velocity = p_turning_velocity;
+  m_desired_trajectory.m_translation_angle = p_orientation;
+  m_desired_trajectory.m_duration = p_duration;
+
+  m_timer.reset_timer();
+  m_timer.set_flag_delay(m_desired_trajectory.m_duration);
+
+  m_movement_complete = false;
+}
+
 void Holonomic::autonomous(){
-  /*
-Functions /  States 
+  if(m_timer.get_flag_remaining() == 0){
+    m_front_left_motor = 0;
+    m_front_right_motor = 0;
+    m_back_left_motor = 0;
+    m_back_right_motor = 0;
 
-1 - Translation: Defined X, Defined Y, Constant Ori
-2 - ORIENTATION: Constant X, Constatnt Y, Defined Ori
-3 - Turn: Defined X, Defined Y, Defined Ori
+    m_movement_complete = true;
+    return;
+  }
 
-4 - Pose
+  double speed_up_coefficient = m_timer.get_elapsed_time() * m_Kp;
+  double speed_down_coefficient = m_timer.get_flag_remaining() * m_Kp;
 
-5 - Align to Goal
-
-*/
-//PID: X
-
-  //PID: Y
-
-  //PID Ori
-
-  // PIDS calculate the different speeds
-
-      
-
-  int l_x_vel;
-  int l_y_vel;
-  int l_ori_vel;
-
-  m_desired_trajectory.m_orientation_velocity;
-  m_desired_trajectory.m_translation_velocity = sqrtf(powf(l_x_vel,2) + powf(l_y_vel,2));
-  m_desired_trajectory.m_translation_angle = atanf(l_y_vel/l_x_vel);
-
-  m_desired_velocities.m_front_left = (sin(m_desired_trajectory.m_translation_angle+(M_PI/4.0)) * m_desired_trajectory.m_translation_velocity) - m_desired_trajectory.m_orientation_velocity;
-  m_desired_velocities.m_front_right = (-cos(m_desired_trajectory.m_translation_angle+(M_PI/4.0)) * m_desired_trajectory.m_translation_velocity) + m_desired_trajectory.m_orientation_velocity;
-  m_desired_velocities.m_back_left = (-cos(m_desired_trajectory.m_translation_angle+(M_PI/4.0)) * m_desired_trajectory.m_translation_velocity) - m_desired_trajectory.m_orientation_velocity;
-  m_desired_velocities.m_back_right = (sin(m_desired_trajectory.m_translation_angle+(M_PI/4.0)) * m_desired_trajectory.m_translation_velocity) + m_desired_trajectory.m_orientation_velocity;
+  double motor_coefficient;
+  if(speed_up_coefficient < 1.0 && speed_up_coefficient < speed_down_coefficient)
+    motor_coefficient = speed_up_coefficient;
+  else if(speed_down_coefficient < 1.0 && speed_down_coefficient < speed_up_coefficient)
+    motor_coefficient = speed_down_coefficient;
+  else if(speed_up_coefficient >= 1.0 && speed_down_coefficient >= 1.0)
+    motor_coefficient = 1.0;
+  else
+    motor_coefficient = 0;
+ 
+  m_front_left_motor = motor_coefficient*(cos((m_desired_trajectory.m_translation_angle/180.0*M_PI) + (M_PI/4.0)) * m_desired_trajectory.m_translation_velocity - m_desired_trajectory.m_orientation_velocity);
+  m_front_right_motor = motor_coefficient*(sin((m_desired_trajectory.m_translation_angle/180.0*M_PI) + (M_PI/4.0)) * m_desired_trajectory.m_translation_velocity + m_desired_trajectory.m_orientation_velocity);
+  m_back_left_motor = motor_coefficient*(sin((m_desired_trajectory.m_translation_angle/180.0*M_PI) + (M_PI/4.0)) * m_desired_trajectory.m_translation_velocity - m_desired_trajectory.m_orientation_velocity);
+  m_back_right_motor = motor_coefficient*(cos((m_desired_trajectory.m_translation_angle/180.0*M_PI) + (M_PI/4.0)) * m_desired_trajectory.m_translation_velocity + m_desired_trajectory.m_orientation_velocity);
 }
 
 void Holonomic::driver_control(){
@@ -78,19 +86,12 @@ void Holonomic::driver_control(){
     m_back_right_motor.set_desired_velocity(l_translation_coefficient*l_main_controller.Axis3.get_percent()+l_translation_coefficient*l_main_controller.Axis4.get_percent()-(l_orientation_coefficient*l_main_controller.Axis1.get_percent()));
 }
 
-void Holonomic::base_set_vector(double p_translational_velocity, double p_orientation, double p_turning_velocity){
-  m_front_left_motor.set_desired_velocity(cos((p_orientation/180.0*M_PI) + (M_PI/4.0)) * p_translational_velocity - p_turning_velocity);
-  m_front_right_motor.set_desired_velocity(sin((p_orientation/180.0*M_PI) + (M_PI/4.0)) * p_translational_velocity + p_turning_velocity);
-  m_back_left_motor.set_desired_velocity(sin((p_orientation/180.0*M_PI) + (M_PI/4.0)) * p_translational_velocity - p_turning_velocity);
-  m_back_right_motor.set_desired_velocity(cos((p_orientation/180.0*M_PI) + (M_PI/4.0)) * p_translational_velocity + p_turning_velocity);
-}
-
 int Holonomic::task(){
   if(m_robot.get_robot_state() == ROBOT_DRIVER_CONTROL){
     driver_control();
   }
   else if(m_robot.get_robot_state() == ROBOT_AUTONOMOUS){
-
+    autonomous();
   }
   else if(m_robot.get_robot_state() == ROBOT_INITIALIZATION){
 

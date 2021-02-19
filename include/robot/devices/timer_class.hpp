@@ -25,6 +25,8 @@ public:
 
   int get_current_lap_time();
 
+  int get_flag_remaining();
+
   double get_average_lap_time();// Last 10 laps
 
   bool get_preform_action();

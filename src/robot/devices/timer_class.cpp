@@ -29,6 +29,13 @@ int Timer::get_current_lap_time(){
   return l_lap_time;
 }
 
+int Timer::get_flag_remaining(){
+  m_current_time = get_absolute_time();
+  if(m_action_flag - m_current_time > 0)
+    return m_action_flag - m_current_time;
+  return 0;
+}
+
 double Timer::get_average_lap_time(){
   int l_sum = 0;
 

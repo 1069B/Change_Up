@@ -8,23 +8,9 @@ public:
   double m_orientation_velocity;
   double m_translation_velocity;
   double m_translation_angle;
+  double m_duration;
 };
 
-struct Holonomic_Motors{
-public:
-  double m_front_left;
-  double m_front_right;
-  double m_back_left;
-  double m_back_right;
-};
-
-struct Acceleration{
-public:
-  double m_coefficient_A = 201;
-	double m_coefficient_B = 5;
-	double m_coefficient_C = 0.05;
-	double m_coefficient_H = -27;
-};
 
 class Holonomic{
 private:
@@ -36,14 +22,16 @@ private:
   Motor& m_back_left_motor;
   Motor& m_back_right_motor;
 
-  Holonomic_Motors m_desired_velocities;
+  double m_Kp = 0.002;
+  double m_Ki = 0;
+  double m_Kd = 0;
+
+  bool m_movement_complete = true;
+
+  Timer& m_timer;
+
   Trajectory m_desired_trajectory;
-  // Trajectory m_desired_trajectory{};
-  // 
 
-  Acceleration m_acceleration_coefficients{};
-
-  // pros::motor_brake_mode_e m_brakeMode = pros::E_MOTOR_BRAKE_COAST;
   void driver_control();
 
   void autonomous();
@@ -51,13 +39,13 @@ public:
   Holonomic(Robot &p_robot);
 
   /* Getter Functions */
-  bool get_movement_complete(){ return false; }
+  bool get_movement_complete(){ return m_movement_complete; }
 
   /* Setter Functions */
 
   /* Action Functions */
 
-  void base_set_vector(double p_translational_velocity, double p_orientation, double p_turning_velocity);
+  void set_base_movement(double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration);
 
   int task();
 
