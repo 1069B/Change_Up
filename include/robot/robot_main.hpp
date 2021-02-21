@@ -1,6 +1,6 @@
 #include "main.h"
 #include "robot/graphical_interface/styles.hpp"
-//#include "robot/graphical_interface/alertClass.hpp"
+#include "robot/graphical_interface/alertClass.hpp"
 
 #ifndef MAIN_HEADER
 #define MAIN_HEADER
@@ -30,6 +30,7 @@ namespace SENSOR{
   class Distance;
   class Inertial;
   class Digital;
+  class Analog_Pair;
 }
 
 class Data_Logging;
@@ -111,5 +112,6 @@ public:
 };
 
 extern bool outside_range(double const p_value, double const p_range);
+extern bool inside_range(double const p_value, double const p_lower_bound, double const p_upper_bound);
 
 #endif // MAIN_HEADER

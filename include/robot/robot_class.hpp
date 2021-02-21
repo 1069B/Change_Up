@@ -20,6 +20,7 @@ private:
   std::vector<SENSOR::Rotation*> m_rotation_list{};
   std::vector<SENSOR::Optical*> m_optical_list{};
   std::vector<SENSOR::Digital*> m_digital_list{};
+  std::vector<SENSOR::Analog_Pair*> m_analog_pair_list{};
 
   std::vector<Autonomous_Routine*> m_autonomous_routines{};
 
@@ -59,6 +60,8 @@ public:
   SENSOR::Optical& add_optical(std::string const p_name, short const p_port, short const p_pwm_value = 0);
 
   SENSOR::Digital& add_digital(std::string const p_name, short const p_port);
+
+  SENSOR::Analog_Pair& add_analog_pair(std::string const p_name, short const p_expander_port, short const p_first_port, short const p_second_port, double p_lower_bound, double p_upper_bound);
 
   Autonomous_Routine& add_autonomous_routine(std::string p_routine_name, Robot_Alliance p_routine_alliance);
   /* Finder Functions */

@@ -8,11 +8,7 @@ Robot g_robot{};
 void initialize(){
 	g_robot.set_robot_state(ROBOT_INITIALIZATION);
 	g_robot.initialize();
-
-	while(true){
-		g_robot.task();
-		pros::delay(10);
-	}
+	g_robot.task();
 }
 
 void disabled(){
@@ -22,11 +18,6 @@ void disabled(){
 void competition_initialize() {
 	g_robot.initialize();
 	g_robot.set_robot_state(ROBOT_INITIALIZATION);
-
-	while(true){
-		g_robot.task();
-		pros::delay(10);
-	}
 }
 
 void autonomous(){
@@ -43,7 +34,6 @@ void autonomous(){
 
 void opcontrol(){
 	g_robot.set_robot_state(ROBOT_DRIVER_CONTROL);
-
 	while(true){
 		g_robot.task();
 		pros::delay(10);

@@ -8,6 +8,7 @@
 #include "robot/sensors/optical_class.hpp"
 #include "robot/sensors/distance_class.hpp"
 #include "robot/sensors/digital_class.hpp"
+#include "robot/sensors/analog_class.hpp"
 
 #include "robot/graphical_interface/screen_class.hpp"
 #include "robot/graphical_interface/button_class.hpp"
@@ -227,8 +228,14 @@ void Manipulator::driver_control(){
         manipulator_scoring();
     }
     else if(outside_range(m_robot.get_partner_controller().Axis2.get_percent(), 0.1)){// User input
-        m_initial_roller = m_robot.get_partner_controller().Axis2.get_percent() * 200;
+        m_initial_roller = fabs(m_robot.get_partner_controller().Axis2.get_percent() * 200);
 		m_secondary_roller = m_robot.get_partner_controller().Axis2.get_percent() * 600;
+        m_lift_drivers = true;
+    }
+    else if(m_lift_drivers == true && !outside_range(m_robot.get_partner_controller().Axis2.get_percent(), 0.1)){
+        m_lift_drivers = false;
+        m_initial_roller = 0;
+		m_secondary_roller = 0;
     }
     else{// Run auto code for sorting
         manipulator_sorting();
@@ -236,12 +243,19 @@ void Manipulator::driver_control(){
 
     if(outside_range(m_robot.get_partner_controller().Axis3.get_percent(), 0.1)){
         set_intake_velocities(m_robot.get_partner_controller().Axis3.get_percent() * 600);
+        m_intake_drivers = true;
     }
     else if(m_robot.get_partner_controller().ButtonL1.get_state()){
         set_intake_velocities(600);
+        m_intake_drivers = true;
     }
     else if(m_robot.get_partner_controller().ButtonL2.get_state()){
         intake_store();
+        m_intake_drivers = true;
+    }
+    else if(m_intake_drivers == true && !outside_range(m_robot.get_partner_controller().Axis3.get_percent(), 0.1)){
+        m_intake_drivers = false;
+        set_intake_velocities(0);
     }
     else{
         intake_auto_grabbing();
@@ -262,8 +276,11 @@ void Manipulator::task(){
     else
         m_ball_positions.m_sorting = BALL_NONE;
 
-    if(m_intake_sensor.is_signature_1())
+    if(m_intake_sensor.is_signature_1()){
+        if(m_shooting_status == LIFT_SCORING)
+            m_ball_positions.m_intakes = BALL_NONE;
         m_ball_positions.m_intakes = BALL_DESIRED;
+    }
     else if(m_intake_sensor.is_signature_2())
         m_ball_positions.m_intakes = BALL_OPPOSING;
     else

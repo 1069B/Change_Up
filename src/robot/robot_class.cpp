@@ -8,6 +8,8 @@
 #include "robot/sensors/distance_class.hpp"
 #include "robot/sensors/optical_class.hpp"
 #include "robot/sensors/digital_class.hpp"
+#include "robot/sensors/analog_class.hpp"
+
 
 #include "robot/graphical_interface/screen_class.hpp"
 #include "robot/graphical_interface/button_class.hpp"
@@ -80,6 +82,17 @@ SENSOR::Digital& Robot::add_digital(std::string const p_name, short const p_port
   SENSOR::Digital* l_new_digital{new SENSOR::Digital(*this, p_name, p_port)};
   m_digital_list.push_back(l_new_digital);
   return *l_new_digital;
+}
+
+SENSOR::Analog_Pair& Robot::add_analog_pair(std::string const p_name, short const p_expander_port, short const p_first_port, short const p_second_port, double p_lower_bound, double p_upper_bound){
+  for(auto x : m_analog_pair_list){
+    if(x->get_name() == p_name)
+      return *x;
+  }
+
+  SENSOR::Analog_Pair* l_new_analog_pair{new SENSOR::Analog_Pair(*this, p_name, p_expander_port, p_first_port, p_second_port, p_lower_bound, p_upper_bound)};
+  m_analog_pair_list.push_back(l_new_analog_pair);
+  return *l_new_analog_pair;
 }
 
 Autonomous_Routine& Robot::add_autonomous_routine(std::string p_routine_name, Robot_Alliance p_routine_alliance){

@@ -23,8 +23,10 @@ private:
 
     Intake_Status m_intake_status = INTAKE_STATIONARY;
     Intake_Retract_Mode m_intake_retract = INTAKE_RETRACT_OPEN;
+    bool m_intake_drivers = false;
 
     Lift_Status m_shooting_status = LIFT_STATIONARY;
+    bool m_lift_drivers = false;
     Ball_Position m_ball_positions;
 
     Timer& m_intake_timer;
