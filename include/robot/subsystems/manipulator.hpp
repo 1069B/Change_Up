@@ -15,6 +15,8 @@ private:
     SENSOR::Optical& m_intake_sensor;
     SENSOR::Optical& m_sorting_sensor;
 
+    SENSOR::Analog_Pair& m_tongue_sensor;
+
     SENSOR::Distance& m_scoring_sensor;
 
     SENSOR::Digital& m_left_intake_sensor;

@@ -28,8 +28,8 @@ m_settings(*new Data_Storing("Settings.xml", "Digital", p_name)){
   }
 
   if(m_expander_port != 0){
-    pros::c::ext_adi_analog_calibrate(m_expander_port, m_first_port);
-    pros::c::ext_adi_analog_calibrate(m_expander_port, m_second_port);
+    pros::c::ext_adi_port_set_config(m_expander_port, m_first_port, pros::E_ADI_ANALOG_IN);
+    pros::c::ext_adi_port_set_config(m_expander_port, m_second_port, pros::E_ADI_ANALOG_IN);
   }
 }
 
@@ -38,12 +38,14 @@ double Analog_Pair::get_first_value(){
   if(m_expander_port == 0)
     return pros::c::adi_analog_read(m_first_port);
   return pros::c::ext_adi_analog_read_calibrated(m_expander_port, m_first_port);
+  return 1;
 }
 
 double Analog_Pair::get_second_value(){
   if(m_expander_port == 0)
     return pros::c::adi_analog_read(m_second_port);
   return pros::c::ext_adi_analog_read_calibrated(m_expander_port, m_second_port);
+  return 1;
 }
 
 bool Analog_Pair::is_both(){

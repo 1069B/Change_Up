@@ -28,7 +28,8 @@ m_intake_sensor(m_robot.add_optical("Intake Sensor", 20)),
 m_sorting_sensor(m_robot.add_optical("Sorting Sensor", 2)),
 m_scoring_sensor(m_robot.add_distance("Scoring Sensor", 14)),
 m_left_intake_sensor(m_robot.add_digital("Intake Left", 2)),
-m_right_intake_sensor(m_robot.add_digital("Intake Right", 1))
+m_right_intake_sensor(m_robot.add_digital("Intake Right", 1)),
+m_tongue_sensor(m_robot.add_analog_pair("Tongue Sensor", 1, 1, 2, 0, 2400))
 {
     	
 }
@@ -58,31 +59,22 @@ void Manipulator::intake_auto_grabbing(){
     if(m_ball_positions.m_intakes == BALL_DESIRED){
         if(m_ball_positions.m_scoreing == BALL_DESIRED && (m_ball_positions.m_sorting == BALL_DESIRED || m_ball_positions.m_tongue == BALL_DESIRED)){
             set_intake_velocities(0, 0);
-            m_initial_roller.set_desired_velocity(0);
         }
         else{
             set_intake_velocities(600, 600);
-            m_initial_roller.set_desired_velocity(200);
             m_intake_status = INTAKE_AUTO_INTAKE;
         }
     }
     else if(m_intake_retract == INTAKE_RETRACT_NONE){
         if(m_ball_positions.m_intakes != BALL_DESIRED && m_intake_status == INTAKE_AUTO_INTAKE){
-            m_ball_positions.m_intakes = BALL_NONE;
-            m_ball_positions.m_tongue = BALL_DESIRED;
-
             set_intake_velocities(0, 0);
             m_intake_status = INTAKE_STATIONARY;
         }
     }
     else if(m_intake_retract == INTAKE_RETRACT_OPEN){
         if(m_ball_positions.m_intakes != BALL_DESIRED && m_intake_status == INTAKE_AUTO_INTAKE){
-            m_ball_positions.m_intakes = BALL_NONE;
-            m_ball_positions.m_tongue = BALL_DESIRED;
-
             m_intake_status = INTAKE_AUTO_OPEN;
             set_intake_velocities(-300, -300);
-            m_initial_roller.set_desired_velocity(0);
 
             m_intake_timer.set_flag_delay(500);
         }
@@ -93,12 +85,7 @@ void Manipulator::intake_auto_grabbing(){
     }
     else if(m_intake_retract == INTAKE_RETRACT_STORE){
         if(m_ball_positions.m_intakes != BALL_DESIRED && m_intake_status == INTAKE_AUTO_INTAKE){
-            m_ball_positions.m_intakes = BALL_NONE;
-            m_ball_positions.m_tongue = BALL_DESIRED;
-
             intake_store();
-
-            m_initial_roller.set_desired_velocity(0);
         }
     }
 }
@@ -120,32 +107,32 @@ void Manipulator::intake_store(){
 void Manipulator::manipulator_sorting(){
      /*Manipulator Ball Position*/
     if(m_ball_positions.m_scoreing != BALL_DESIRED){
-        m_initial_roller.set_desired_velocity(200);
-        if(m_ball_positions.m_tongue != BALL_NONE){// Moves the ball to sorting
-            m_secondary_roller.set_desired_velocity(600);
-            m_ball_positions.m_tongue = BALL_NONE;
-        }
-        else if(m_ball_positions.m_sorting == BALL_DESIRED){// Lifts the Ball up to scoring
-            m_secondary_roller.set_desired_velocity(600);
-        }
-        else if(m_ball_positions.m_sorting == BALL_OPPOSING){// Sorts the ball out
+        if(m_ball_positions.m_sorting == BALL_OPPOSING){// Sorts the ball out
+            m_initial_roller.set_desired_velocity(200);
             m_secondary_roller.set_desired_velocity(-600);
+        }
+        else if(m_ball_positions.m_intakes == BALL_DESIRED && (m_ball_positions.m_scoreing != BALL_DESIRED && !(m_ball_positions.m_sorting == BALL_DESIRED || m_ball_positions.m_tongue == BALL_DESIRED))){
+            m_initial_roller.set_desired_velocity(200);
+            m_secondary_roller.set_desired_velocity(600);
+        }
+        else if(m_ball_positions.m_tongue != BALL_NONE || m_ball_positions.m_sorting == BALL_DESIRED){// Moves the ball to scoring
+            m_initial_roller.set_desired_velocity(200);
+            m_secondary_roller.set_desired_velocity(600);
         }
     }
     else if(m_ball_positions.m_scoreing == BALL_DESIRED){
         m_secondary_roller.set_desired_velocity(0);
-        if(m_ball_positions.m_tongue != BALL_NONE){
+        if(m_ball_positions.m_intakes == BALL_DESIRED && m_ball_positions.m_sorting == BALL_NONE && m_ball_positions.m_tongue == BALL_NONE){
+            m_initial_roller.set_desired_velocity(200);
+        }
+        else if(m_ball_positions.m_tongue != BALL_NONE){
             m_initial_roller.set_desired_velocity(0);
         }
         else if(m_ball_positions.m_sorting == BALL_DESIRED){// Ball in top and desired
             m_initial_roller.set_desired_velocity(-100);
-            m_ball_positions.m_tongue = BALL_DESIRED;
         }
         else if(m_ball_positions.m_sorting == BALL_OPPOSING){// Ball ejection
             m_initial_roller.set_desired_velocity(200);
-        }
-        else if(m_ball_positions.m_tongue == BALL_NONE && m_ball_positions.m_sorting == BALL_NONE && m_ball_positions.m_intakes == BALL_NONE){
-            m_initial_roller.set_desired_velocity(0);
         }
     }
 }
@@ -276,6 +263,13 @@ void Manipulator::task(){
     else
         m_ball_positions.m_sorting = BALL_NONE;
 
+    if(m_tongue_sensor.is_either()){
+        m_ball_positions.m_tongue = BALL_DESIRED;
+    }
+    else{
+        m_ball_positions.m_tongue = BALL_NONE;
+    }
+
     if(m_intake_sensor.is_signature_1()){
         if(m_shooting_status == LIFT_SCORING)
             m_ball_positions.m_intakes = BALL_NONE;
@@ -302,8 +296,10 @@ void Manipulator::define_GUI(){
   l_main.create_rectangle(0, 0, 480, 40, GUI_STYLES::white_text);
   l_main.create_label(200, 10, GUI_STYLES::red_text, "Manipulator");
 
-  //l_main.create_label(20, 20, GUI_STYLES::white_text, "Intake Sensor Hue %d", (std::function<int()>)std::bind(&Optical::get_hue, this));
-  //l_main.create_label(20, 20, GUI_STYLES::white_text, "Intake Sensor Hue %d", (std::function<int()>)std::bind(&Optical::get_actual_velocity, this));
+  l_main.create_label(20, 40, GUI_STYLES::white_text, "Intake %d", (int)m_ball_positions.m_intakes);
+  l_main.create_label(20, 60, GUI_STYLES::white_text, "Tongue %d", (int)m_ball_positions.m_tongue);
+  l_main.create_label(20, 80, GUI_STYLES::white_text, "Sorting %d", (int)m_ball_positions.m_sorting);
+  l_main.create_label(20, 100, GUI_STYLES::white_text, "Scoring %d", (int)m_ball_positions.m_scoreing);
 
 //   l_main.create_label(20, 50, GUI_STYLES::white_text, "Desired Velocity: %d", m_desired_velocity);
 //   l_main.create_label(20, 80, GUI_STYLES::white_text, "Actual Velocity: %d", (std::function<int()>)std::bind(&Motor::get_actual_velocity, this));

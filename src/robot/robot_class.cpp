@@ -115,8 +115,8 @@ Motor& Robot::find_motor(std::string const p_name){
 }
 
 void Robot::initialize(){
-  defineGUI();
-  define_autonomous_routines();
+  // defineGUI();
+  // define_autonomous_routines();
   m_manipulator.task();
   m_holonomic.task();
 }
@@ -137,6 +137,7 @@ void Robot::task(){
 
 void Robot::defineGUI(){
   GUI::Screen::initialize(*this);
+  m_manipulator.define_GUI();
 
 
   GUI::Screen& l_home = GUI::Screen::find_screen("Home");
@@ -148,8 +149,8 @@ void Robot::defineGUI(){
 
   l_home.create_label(20, 20, GUI_STYLES::white_text, "Hello Corey");
   l_home.create_rectangle(20, 50, 460, 10, GUI_STYLES::red_button_released);
-  GUI::Button& btn1 = l_home.create_button("Motor 1", 100, 100, 100, 50, GUI_STYLES::blue_button_released, GUI_STYLES::blue_button_pressed);
-  btn1.add_connected_screen("Front Left Base");
+  GUI::Button& btn1 = l_home.create_button("Manipulator", 100, 100, 100, 50, GUI_STYLES::blue_button_released, GUI_STYLES::blue_button_pressed);
+  btn1.add_connected_screen("Manipulator");
 
   GUI::Screen& l_disconnected = GUI::Screen::find_screen("Disconnected");
   l_disconnected.create_label(20, 20, GUI_STYLES::white_text, "Device not Connected");
