@@ -49,8 +49,6 @@ private:
     void manipulator_scoring();
 
     /* Robot State Functions */
-    void initialize();
-
     void autonomous();
 
     void driver_control();
@@ -68,6 +66,8 @@ public:
     void set_autonomous_lift_status(Autonomous_Lift_Status p_autonomous_lift_status);
 
     /* Action Functions */
+    void initialize();
+    
     void task();
 
     void define_GUI();

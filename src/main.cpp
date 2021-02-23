@@ -8,33 +8,42 @@ Robot g_robot{};
 void initialize(){
 	g_robot.set_robot_state(ROBOT_INITIALIZATION);
 	g_robot.initialize();
-	g_robot.task();
+
+	g_robot.set_robot_state(ROBOT_DISABLED);
+	while(g_robot.get_robot_state() == ROBOT_DISABLED){
+		g_robot.task();
+		pros::delay(10);
+	}
 }
 
 void disabled(){
-	
+	g_robot.set_robot_state(ROBOT_DISABLED);
+	while(g_robot.get_robot_state() == ROBOT_DISABLED){
+		g_robot.task();
+		pros::delay(10);
+	}
 }
 
 void competition_initialize(){
 	initialize();
 }
 
-void autonomous(){
-	// g_robot.set_robot_state(ROBOT_AUTONOMOUS);
-	// Autonomous_Routine::start_autonomous();
+void autonomous(){//TODO: Have program run initialize before start of autonomous
+	g_robot.set_robot_state(ROBOT_AUTONOMOUS);
+	g_robot.get_autonomous().start_autonomous();
+	while(g_robot.get_autonomous().is_running()){
+		g_robot.task();
+		pros::delay(10);
+	}
 
-	// while(Autonomous_Routine::is_running_autonomous()){
-	// 	g_robot.task();
-	// 	pros::delay(10);
-	// }
-
-	// Autonomous_Routine::end_autonomous();
+	g_robot.get_autonomous().end_autonomous();
+	g_alert.draw("Ending Auton");
 }
 
-void opcontrol(){
+void opcontrol(){//TODO: Have program run initialize before start of driver control
 	g_robot.set_robot_state(ROBOT_DRIVER_CONTROL);
 	
-	while(true){
+	while(g_robot.get_robot_state() == ROBOT_DRIVER_CONTROL){
 		g_robot.task();
 		pros::delay(10);
 	}

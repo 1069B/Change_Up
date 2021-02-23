@@ -40,6 +40,7 @@ class Timer;
 
 class Holonomic;
 class Manipulator;
+class Autonomous;
 class Autonomous_Routine;
 
 /* Enum Variables */

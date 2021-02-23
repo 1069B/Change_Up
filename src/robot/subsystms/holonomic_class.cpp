@@ -93,11 +93,5 @@ int Holonomic::task(){
   else if(m_robot.get_robot_state() == ROBOT_AUTONOMOUS){
     autonomous();
   }
-  else if(m_robot.get_robot_state() == ROBOT_INITIALIZATION){
-
-  }
-  else{
-
-  }
   return 0;
 }

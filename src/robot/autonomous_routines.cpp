@@ -1,11 +1,12 @@
 #include "robot/robot_class.hpp"
 #include "robot/subsystems/autonomous_class.hpp"
+#include "robot/subsystems/autonomous_rountines_class.hpp"
 
 void Robot::define_autonomous_routines(){
 
 	/* Skills */
-	Autonomous_Routine l_skills = add_autonomous_routine("Skills", ROBOT_SKILLS);
-	Autonomous_Routine::set_selected_routine("Skills");
+	Autonomous_Routine& l_skills = m_autonomous.add_autonomous_routine("Skills", ROBOT_SKILLS);
+	m_autonomous.set_selected_routine(l_skills);
 
 	/* Lower Right Goal */
 	l_skills.add_robot_event(Base_Event::base_move(50,0,48, 2800), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
