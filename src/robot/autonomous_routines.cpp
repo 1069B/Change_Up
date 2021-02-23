@@ -2,6 +2,9 @@
 #include "robot/subsystems/autonomous_class.hpp"
 #include "robot/subsystems/autonomous_rountines_class.hpp"
 
+#define FULL_TURN 90
+#define FULL_TRANSLATION 100
+
 void Robot::define_autonomous_routines(){
 
 	/* Skills */
@@ -9,21 +12,21 @@ void Robot::define_autonomous_routines(){
 	m_autonomous.set_selected_routine(l_skills);
 
 	/* Lower Right Goal */
-	l_skills.add_robot_event(Base_Event::base_move(50,0,48, 2800), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
-	l_skills.add_robot_event(Base_Event::base_move(25,0, 0, 600), Intake_Event::intake_store(), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
+	l_skills.add_robot_event(Base_Event::base_stationary(1000), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(105, 0, 80, 2300), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
 	l_skills.add_robot_event(Base_Event::base_stationary(1000), Intake_Event::intake_store(), Lift_Event::lift_score());// Wait for score, Store Intakes, Score One Ball
 
 	/* Middle Right Goal */
-	l_skills.add_robot_event(Base_Event::base_move(100, 180, 0, 700), Intake_Event::intake_store(), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
-	l_skills.add_robot_event(Base_Event::base_move(0, 0, 50, 870), Intake_Event::intake_store(), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
-	l_skills.add_robot_event(Base_Event::base_move(100, 90, 0, 3000), Intake_Event::intake_store(), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
+	l_skills.add_robot_event(Base_Event::base_move(FULL_TRANSLATION, 180, 0, 1000), Intake_Event::intake_store(), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
+	l_skills.add_robot_event(Base_Event::base_move(0, 0, FULL_TURN, 890), Intake_Event::intake_store(), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
+	l_skills.add_robot_event(Base_Event::base_move(FULL_TRANSLATION, 90, -1, 4000), Intake_Event::intake_store(), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
 	l_skills.add_robot_event(Base_Event::base_stationary(1000), Intake_Event::intake_store(), Lift_Event::lift_score());// Wait for score, Store Intakes, Score One Ball
 
 	/* Top Right Goal */
 	l_skills.add_robot_event(Base_Event::base_move(100, 180, 0, 700), Intake_Event::intake_store(), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
-	l_skills.add_robot_event(Base_Event::base_move(0, 0, 50, 870), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
-	l_skills.add_robot_event(Base_Event::base_move(100, 90, 0, 3000), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
-	l_skills.add_robot_event(Base_Event::base_move(0, 0, -50, 1000), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(0, 0, FULL_TURN, 1150), Intake_Event::intake_store(), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
+	l_skills.add_robot_event(Base_Event::base_move(FULL_TRANSLATION, 90, 0, 1700), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
+	l_skills.add_robot_event(Base_Event::base_move(75, 0, 0, 4900), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());
 	l_skills.add_robot_event(Base_Event::base_stationary(1000), Intake_Event::intake_store(), Lift_Event::lift_score());// Wait for score, Store Intakes, Score One Ball
 }
 // /* Lower Right Goal */

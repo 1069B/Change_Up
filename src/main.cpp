@@ -37,7 +37,6 @@ void autonomous(){//TODO: Have program run initialize before start of autonomous
 	}
 
 	g_robot.get_autonomous().end_autonomous();
-	g_alert.draw("Ending Auton");
 }
 
 void opcontrol(){//TODO: Have program run initialize before start of driver control

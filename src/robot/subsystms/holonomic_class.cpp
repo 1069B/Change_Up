@@ -48,8 +48,6 @@ void Holonomic::autonomous(){
     motor_coefficient = speed_down_coefficient;
   else if(speed_up_coefficient >= 1.0 && speed_down_coefficient >= 1.0)
     motor_coefficient = 1.0;
-  else
-    motor_coefficient = 0;
  
   m_front_left_motor = motor_coefficient*(cos((m_desired_trajectory.m_translation_angle/180.0*M_PI) + (M_PI/4.0)) * m_desired_trajectory.m_translation_velocity - m_desired_trajectory.m_orientation_velocity);
   m_front_right_motor = motor_coefficient*(sin((m_desired_trajectory.m_translation_angle/180.0*M_PI) + (M_PI/4.0)) * m_desired_trajectory.m_translation_velocity + m_desired_trajectory.m_orientation_velocity);

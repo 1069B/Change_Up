@@ -35,7 +35,14 @@ m_tongue_sensor(m_robot.add_analog_pair("Tongue Sensor", 1, 1, 2, 0, 2400))
 }
 
 void Manipulator::initialize(){
-    if(m_robot.get_alliance() == ROBOT_SKILLS || m_robot.get_alliance() == ROBOT_RED){
+    if(m_robot.get_alliance() == ROBOT_SKILLS){
+        m_intake_sensor.set_signature_1(12, 85);
+        m_intake_sensor.set_signature_2(180, 220);
+
+        m_sorting_sensor.set_signature_1(0, 20);// Scoring
+        m_sorting_sensor.set_signature_2(206, 226);// Eject
+    }
+    else if(m_robot.get_alliance() == ROBOT_RED){
         m_intake_sensor.set_signature_1(12, 75);
         m_intake_sensor.set_signature_2(180, 220);
 
@@ -191,7 +198,7 @@ void Manipulator::autonomous(){
             break;
 
         case AUTONOMOUS_LIFT_SCORE:
-            void manipulator_scoring();
+            manipulator_scoring();
             break;
 
         case AUTONOMOUS_LIFT_STATIONARY:
@@ -251,7 +258,7 @@ void Manipulator::driver_control(){
 
 void Manipulator::task(){
     /* Detects Current Ball Position */
-    if(m_scoring_sensor.get_distance() <= 20)
+    if(m_scoring_sensor.get_distance() <= 24)
         m_ball_positions.m_scoreing = BALL_DESIRED;
     else
         m_ball_positions.m_scoreing = BALL_NONE;
