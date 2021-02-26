@@ -68,7 +68,9 @@ private:
 
   Lift_Event(Autonomous_Lift_Status p_lift_status, double p_delay);
 public:
-  static Lift_Event& lift_score(double p_delay = NO_DELAY);
+  static Lift_Event& lift_score_one(double p_delay = NO_DELAY);
+
+  static Lift_Event& lift_score_all(double p_delay = NO_DELAY);
 
   static Lift_Event& lift_sort(double p_delay = NO_DELAY);
 

@@ -84,8 +84,12 @@ Lift_Event::Lift_Event(Autonomous_Lift_Status p_lift_status, double p_delay){
   m_delay = p_delay;
 }
 
-Lift_Event& Lift_Event::lift_score(double p_delay){
-  return *new Lift_Event(AUTONOMOUS_LIFT_SCORE, p_delay);
+Lift_Event& Lift_Event::lift_score_one(double p_delay){
+  return *new Lift_Event(AUTONOMOUS_LIFT_SCORE_ONE, p_delay);
+}
+
+Lift_Event& Lift_Event::lift_score_all(double p_delay){
+  return *new Lift_Event(AUTONOMOUS_LIFT_SCORE_ALL, p_delay);
 }
 
 Lift_Event& Lift_Event::lift_sort(double p_delay){

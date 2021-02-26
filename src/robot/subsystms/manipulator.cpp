@@ -165,7 +165,7 @@ void Manipulator::set_autonomous_intake_status(Autonomous_Intake_Status p_autono
 void Manipulator::set_autonomous_lift_status(Autonomous_Lift_Status p_autonomous_lift_status){
     m_autonomous_lift_status = p_autonomous_lift_status;
 
-    if(m_autonomous_lift_status == AUTONOMOUS_LIFT_SCORE){
+    if(m_autonomous_lift_status == AUTONOMOUS_LIFT_SCORE_ONE){
         m_shooting_status = LIFT_WAITING;
     }
 }
@@ -197,8 +197,13 @@ void Manipulator::autonomous(){
             manipulator_sorting();
             break;
 
-        case AUTONOMOUS_LIFT_SCORE:
+        case AUTONOMOUS_LIFT_SCORE_ONE:
             manipulator_scoring();
+            break;
+
+        case AUTONOMOUS_LIFT_SCORE_ALL:
+            m_initial_roller = 200;
+            m_secondary_roller = 600;
             break;
 
         case AUTONOMOUS_LIFT_STATIONARY:

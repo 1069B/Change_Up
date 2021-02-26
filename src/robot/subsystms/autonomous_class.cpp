@@ -59,9 +59,9 @@ void Autonomous::end_autonomous(){
 
 int Autonomous::set_selected_routine_GUI(){
     switch ((int)m_gui_selected_program){
-        case 11: // Red Program 1
+        case 11: // Red Program 1: Red_Corner_and_Center
             m_robot.set_robot_alliance(ROBOT_RED);
-            m_robot.get_autonomous().set_selected_routine("Skills");
+            m_robot.get_autonomous().set_selected_routine("Red_Corner_and_Center");
             break;
 
         case 12: // Red Program 2
@@ -110,7 +110,7 @@ int Autonomous::set_selected_routine_GUI(){
 void Autonomous::define_GUI(){
     GUI::Screen &team_selector = GUI::Screen::create_screen("Team Selector");
     team_selector.create_rectangle(0, 0, 480, 40, GUI_STYLES::white_text);
-    team_selector.create_label(200, 10, GUI_STYLES::red_text, "Team Selector");
+    team_selector.create_label(0, 10, GUI_STYLES::red_text, "Team Selector", LV_ALIGN_IN_TOP_MID);
 	GUI::Button &red_team = team_selector.create_button("Red Alliance", 10, 100, 225, 40, GUI_STYLES::red_button_released, GUI_STYLES::red_button_pressed);
 	red_team.add_connected_screen("Red Autonomous Programs");
 	GUI::Button &blue_team = team_selector.create_button("Blue Alliance", 245, 100, 225, 40, GUI_STYLES::blue_button_released, GUI_STYLES::blue_button_pressed);
@@ -123,8 +123,8 @@ void Autonomous::define_GUI(){
     /* Red Programs */
     GUI::Screen &red_alliance = GUI::Screen::create_screen("Red Autonomous Programs");
     red_alliance.create_rectangle(0, 0, 480, 40, GUI_STYLES::white_text);
-    red_alliance.create_label(200, 10, GUI_STYLES::red_text, "Red Autonomous Programs");
-	GUI::Button &red_program_1 = red_alliance.create_button("Red Program 1", 10, 100, 225, 40, GUI_STYLES::red_button_released, GUI_STYLES::red_button_pressed);
+    red_alliance.create_label(0, 10, GUI_STYLES::red_text, "Red Autonomous Programs", LV_ALIGN_IN_TOP_MID);
+	GUI::Button &red_program_1 = red_alliance.create_button("Red Corner and Center", 10, 100, 225, 40, GUI_STYLES::red_button_released, GUI_STYLES::red_button_pressed);
 	red_program_1.add_connected_screen("Home");
     red_program_1.add_connected_double(11, m_gui_selected_program);
     red_program_1.add_connected_function(std::bind(&Autonomous::set_selected_routine_GUI, *this));
@@ -144,7 +144,7 @@ void Autonomous::define_GUI(){
     /* Blue Programs */
     GUI::Screen &blue_alliance = GUI::Screen::create_screen("Blue Autonomous Programs");
     blue_alliance.create_rectangle(0, 0, 480, 40, GUI_STYLES::white_text);
-    blue_alliance.create_label(200, 10, GUI_STYLES::red_text, "Blue Autonomous Programs");
+    blue_alliance.create_label(0, 10, GUI_STYLES::blue_text, "Blue Autonomous Programs", LV_ALIGN_IN_TOP_MID);
 	GUI::Button &blue_program_1 = blue_alliance.create_button("Blue Program 1", 10, 100, 225, 40, GUI_STYLES::blue_button_released, GUI_STYLES::blue_button_pressed);
 	blue_program_1.add_connected_screen("Home");
     blue_program_1.add_connected_double(21, m_gui_selected_program);
