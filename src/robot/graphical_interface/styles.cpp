@@ -67,8 +67,8 @@ void defineStyles(){
   //Green Rel style
   lv_style_copy(&green_button_released, &default_button_released);
   green_button_released.body.radius = 8;
-  green_button_released.body.main_color = LV_COLOR_GREEN;
-  green_button_released.body.grad_color = LV_COLOR_GREEN;
+  green_button_released.body.main_color = LV_COLOR_HEX(0x00cc00);
+  green_button_released.body.grad_color = LV_COLOR_HEX(0x00cc00);
   green_button_released.text.color = LV_COLOR_MAKE(255, 255, 255);
 
   //Green Pressed style

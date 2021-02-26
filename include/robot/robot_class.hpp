@@ -8,6 +8,8 @@ private:
 	bool m_recall_settings{};
 
 	Robot_State m_robot_state;
+	Robot_Alliance m_alliance = ROBOT_WAITTING;
+	bool m_competition = true;
 
 	CONTROLLER::Controller &m_main_controller;
 	CONTROLLER::Controller &m_partner_controller;
@@ -25,8 +27,6 @@ private:
 
 	Data_Storing &m_settings;
 
-	Robot_Alliance m_alliance = ROBOT_SKILLS; // TODO: ADD GUI SETTING
-
 	void check_robot_status();
 
 	void define_autonomous_routines();
@@ -38,6 +38,8 @@ public:
 	bool get_recall_settings() { return m_recall_settings; }
 
 	Robot_State get_robot_state() { return m_robot_state; }
+
+	bool is_competition(){ return m_competition; }
 
 	CONTROLLER::Controller &get_main_controller() { return m_main_controller; }
 
@@ -53,6 +55,8 @@ public:
 
 	/*  Setter Function  */
 	void set_robot_state(Robot_State p_state) { m_robot_state = p_state; }
+
+	void set_robot_alliance(Robot_Alliance p_alliance) { m_alliance = p_alliance; }
 
 	/* Creation Functions */
 	Motor &add_motor(std::string const p_name, short const p_port, pros::motor_gearset_e_t const p_gearset, pros::motor_brake_mode_e_t const p_brake, bool const p_reversed);

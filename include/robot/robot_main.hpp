@@ -54,7 +54,8 @@ enum Robot_State{
 enum Robot_Alliance{
   ROBOT_BLUE,
   ROBOT_RED,
-  ROBOT_SKILLS
+  ROBOT_SKILLS,
+  ROBOT_WAITTING
 };
 
 enum Intake_Status{

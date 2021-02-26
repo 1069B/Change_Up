@@ -208,7 +208,10 @@ Screen& Screen::create_screen(const std::string p_name, std::function<bool()> p_
 
 
 void Screen::initialize(Robot& p_robot){
-  if(p_robot.get_recall_settings()){
+  if(p_robot.is_competition()){
+    s_next_screen_name = "Team Selector";
+  }
+  else if(p_robot.get_recall_settings()){
     s_next_screen_name = s_settings.initialize_string("Current_Screen_Name", "Home");
   }
   else{

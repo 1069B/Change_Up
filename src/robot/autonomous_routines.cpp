@@ -4,99 +4,119 @@
 
 #define FULL_TURN 90
 #define FULL_TRANSLATION 100
+#define SCORE_TIME 350
 
-void Robot::define_autonomous_routines(){
+/* Red Autonomous Routines */
+void define_red_home_row(Robot& p_robot){
+	Autonomous_Routine& l_home_row = p_robot.get_autonomous().add_autonomous_routine("Red_Home_Row", ROBOT_RED);
+}
 
-	/* Skills */
-	Autonomous_Routine& l_skills = m_autonomous.add_autonomous_routine("Skills", ROBOT_SKILLS);
-	m_autonomous.set_selected_routine(l_skills);
+void define_red_left_two_goals(Robot& p_robot){
+	Autonomous_Routine& l_two_goals = p_robot.get_autonomous().add_autonomous_routine("Red_Two_Goals", ROBOT_RED);
+}
+
+void define_red_left_corner(Robot& p_robot){
+	Autonomous_Routine& l_left_corner = p_robot.get_autonomous().add_autonomous_routine("Red_Left_Corner", ROBOT_RED);
+}
+
+void define_red_right_corner(Robot& p_robot){
+	Autonomous_Routine& l_right_corner = p_robot.get_autonomous().add_autonomous_routine("Red_Right_Corner", ROBOT_RED);
+}
+
+/* Blue Autonomous Routines */
+void define_blue_home_row(Robot& p_robot){
+	Autonomous_Routine& l_home_row = p_robot.get_autonomous().add_autonomous_routine("Blue_Home_Row", ROBOT_BLUE);
+}
+
+void define_blue_left_two_goals(Robot& p_robot){
+	Autonomous_Routine& l_two_goals = p_robot.get_autonomous().add_autonomous_routine("Blue_Two_Goals", ROBOT_BLUE);
+}
+
+void define_blue_left_corner(Robot& p_robot){
+	Autonomous_Routine& l_left_corner = p_robot.get_autonomous().add_autonomous_routine("Blue_Left_Corner", ROBOT_BLUE);
+}
+
+void define_blue_right_corner(Robot& p_robot){
+	Autonomous_Routine& l_right_corner = p_robot.get_autonomous().add_autonomous_routine("Blue_Right_Corner", ROBOT_BLUE);
+}
+
+/* Skills Routines */
+void define_skills(Robot& p_robot){
+	Autonomous_Routine& l_skills = p_robot.get_autonomous().add_autonomous_routine("Skills", ROBOT_SKILLS);
+	p_robot.set_robot_alliance(ROBOT_SKILLS);
+	p_robot.get_autonomous().set_selected_routine(l_skills);
 
 	/* Lower Right Goal */
-	l_skills.add_robot_event(Base_Event::base_stationary(1000), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());
-	l_skills.add_robot_event(Base_Event::base_move(105, 0, 80, 2300), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
-	l_skills.add_robot_event(Base_Event::base_stationary(1000), Intake_Event::intake_store(), Lift_Event::lift_score());// Wait for score, Store Intakes, Score One Ball
+	l_skills.add_robot_event(Base_Event::base_stationary(750), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(94.5, 0, 75, 2320), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
+	l_skills.add_robot_event(Base_Event::base_stationary(SCORE_TIME), Intake_Event::intake_store(), Lift_Event::lift_score());// Wait for score, Store Intakes, Score One Ball
 
 	/* Middle Right Goal */
-	l_skills.add_robot_event(Base_Event::base_move(FULL_TRANSLATION, 180, 0, 1000), Intake_Event::intake_store(), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
-	l_skills.add_robot_event(Base_Event::base_move(0, 0, FULL_TURN, 890), Intake_Event::intake_store(), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
-	l_skills.add_robot_event(Base_Event::base_move(FULL_TRANSLATION, 90, -1, 4000), Intake_Event::intake_store(), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
-	l_skills.add_robot_event(Base_Event::base_stationary(1000), Intake_Event::intake_store(), Lift_Event::lift_score());// Wait for score, Store Intakes, Score One Ball
+	l_skills.add_robot_event(Base_Event::base_move(FULL_TRANSLATION, 180, 0, 1200), Intake_Event::intake_store(), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
+	l_skills.add_robot_event(Base_Event::base_move(0, 0, FULL_TURN, 960), Intake_Event::intake_store(), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
+	l_skills.add_robot_event(Base_Event::base_move(150, 90, 0, 2550), Intake_Event::intake_store(), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
+	l_skills.add_robot_event(Base_Event::base_move(FULL_TRANSLATION, 0, 0, 600), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_stationary(SCORE_TIME), Intake_Event::intake_store(), Lift_Event::lift_score());// Wait for score, Store Intakes, Score One Ball
 
 	/* Top Right Goal */
 	l_skills.add_robot_event(Base_Event::base_move(100, 180, 0, 700), Intake_Event::intake_store(), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
 	l_skills.add_robot_event(Base_Event::base_move(0, 0, FULL_TURN, 1150), Intake_Event::intake_store(), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
-	l_skills.add_robot_event(Base_Event::base_move(FULL_TRANSLATION, 90, 0, 1700), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
-	l_skills.add_robot_event(Base_Event::base_move(75, 0, 0, 4900), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());
-	l_skills.add_robot_event(Base_Event::base_stationary(1000), Intake_Event::intake_store(), Lift_Event::lift_score());// Wait for score, Store Intakes, Score One Ball
+	l_skills.add_robot_event(Base_Event::base_move(FULL_TRANSLATION, 85, 0, 1600), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());// Move Base forward towards goal, Pick up ball in front and then store, Preload the balls
+	l_skills.add_robot_event(Base_Event::base_move(75, 2, 0, 4800), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_stationary(SCORE_TIME), Intake_Event::intake_store(), Lift_Event::lift_score());// Wait for score, Store Intakes, Score One Ball
+
+	/* Top Middle Goal */
+	l_skills.add_robot_event(Base_Event::base_move(100, 180, 0, 2850), Intake_Event::intake_goal(1000), Lift_Event::lift_score());
+	l_skills.add_robot_event(Base_Event::base_move(0, 0, FULL_TURN, 1850), Intake_Event::intake_stationary(), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(FULL_TRANSLATION, 0, 0, 3000), Intake_Event::intake_grab(INTAKE_RETRACT_OPEN), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(0, 0, -FULL_TURN, 1550), Intake_Event::intake_grab(INTAKE_RETRACT_OPEN), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(125, 0, 0, 2200), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_stationary(SCORE_TIME), Intake_Event::intake_store(), Lift_Event::lift_score());// Wait for score, Store Intakes, Score One Ball
+
+	/* Top Left Goal */
+	l_skills.add_robot_event(Base_Event::base_move(100, 180, 0, 700), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(0, 0, FULL_TURN, 1500), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(125, 353, 0, 3100), Intake_Event::intake_grab(INTAKE_RETRACT_OPEN), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(0, 0, -FULL_TURN, 1000), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(100, 0, 0, 700), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_stationary(SCORE_TIME), Intake_Event::intake_store(), Lift_Event::lift_score());// Wait for score, Store Intakes, Score One Ball
+
+	/* Left Middle Goal */
+	l_skills.add_robot_event(Base_Event::base_move(50, 180, 100, 1770), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(FULL_TRANSLATION, 0, 0, 4400), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(0, 0, -FULL_TURN, 1300), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(FULL_TRANSLATION, 0, 0, 700), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_stationary(SCORE_TIME), Intake_Event::intake_store(), Lift_Event::lift_score());// Wait for score, Store Intakes, Score One Ball
+
+	/* Center Goal */
+	l_skills.add_robot_event(Base_Event::base_move(FULL_TRANSLATION, 180, 0, 700), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(0, 0, -FULL_TURN, 2500), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(FULL_TRANSLATION, 352, 0, 3000), Intake_Event::intake_goal(500), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(0, 0, FULL_TURN, 500), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_stationary(SCORE_TIME), Intake_Event::intake_goal(), Lift_Event::lift_score());// Wait for score, Store Intakes, Score One Ball
+
+	/* Lower Left Goal */
+	l_skills.add_robot_event(Base_Event::base_move(150, 180, 0, 1000), Intake_Event::intake_goal(), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(0, 0, 125, 1000), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(150, 0, 0, 2000), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_stationary(SCORE_TIME), Intake_Event::intake_store(), Lift_Event::lift_score());// Wait for score, Store Intakes, Score One Ball
 }
-// /* Lower Right Goal */
-	// m_autonomous.manipulator_feild(MANIPULATOR_INTAKE_SENSOR);// Pick Up Ball in front of robot
-	// m_autonomous.delay(1700);// Delay for Arms to grab the ball
-	// m_autonomous.manipulator_feild(MANIPULATOR_INTAKE_STORE);// Transistion into score a ball
-	// m_autonomous.move_base(0, 50, 0, 48, 2800);// Turn Base towards goal
-	// m_autonomous.move_base(0, 25, 0, 0, 600);// Move Base forward towards goal
-	// m_autonomous.manipulator_score(MANIPULATOR_INTAKE_STORE);
-	// m_autonomous.delay(2000);//Wait for the robot to score the center
 
-	// /* Middle Right Goal */
-	// m_autonomous.move_base(0, 100, 180, 0, 700);// Back away from the lower right goal
-	// m_autonomous.move_base(0, 0, 0, 50, 870);// Rotate towards the center right ball
-	// m_autonomous.manipulator_feild(MANIPULATOR_INTAKE_STORE);
-	// m_autonomous.move_base(0, 100, 90, 0, 3000);// Move towards the center right ball
-	// m_autonomous.manipulator_score(MANIPULATOR_INTAKE_STORE);
-	// m_autonomous.delay(2000);//Wait for the robot to score the center
+void Robot::define_autonomous_routines(){
+	/* Red Autonomous Routines */
+	define_red_home_row(*this);
+	define_red_left_two_goals(*this);
+	define_red_left_corner(*this);
+	define_red_right_corner(*this);
 
-	// /* Center Goal */
-	// m_autonomous.move_base(0, 75, 180, 0, 300);// Move back from Middle Right Goal
-	// m_autonomous.manipulator_feild(MANIPULATOR_INTAKE_SENSOR);// Pick Up Ball in front of robot
-	// m_autonomous.move_base(0, 0, 0, 50, 3500);// Turn to face center goal
-	// m_autonomous.move_base(0, 75, 0, 0, 1000);// Move Towards Center Goal
-	// m_autonomous.move_base(0, 0, 0, 50, 1000);
-	// m_autonomous.move_base(0, 100, 270, 0, 1500);
-	// m_autonomous.manipulator_feild(MANIPULATOR_INTAKE_DEPLOY);
-	// m_autonomous.move_base(0, 75, 0, 0, 1000);
-	// m_autonomous.manipulator_score(MANIPULATOR_INTAKE_DEPLOY);// Score one red and remove all of the blue
-	//m_autonomous.delay(3000);//Wait for the robot to score the center
+	/* Blue Autonomous Routines */
+	define_blue_home_row(*this);
+	define_blue_left_two_goals(*this);
+	define_blue_left_corner(*this);
+	define_blue_right_corner(*this);
 
-	// /* Upper Left Goal */
-	// m_autonomous.move_base(0, 75, 180, 0, 1000);// Back away from the center goal
-	// m_autonomous.manipulator_feild();// Pick Up Ball in front of robot
-	// m_autonomous.move_base(0, 0, 0, -36, 1000);// Turn Towards Ball above Center Goal
-	// m_autonomous.move_base(0, 75, 0, 0, 4500);// Move towards Ball above Center goal
-	// m_autonomous.manipulator_score_goal();// Transistion into score a ball
-	// m_autonomous.move_base(0, 75, 5, 0, 3700);// Move towards Upper Left Goal
-	// m_autonomous.delay(1000);//Wait for the robot to score
+	/* Skills Autonomous Routines */
+	define_skills(*this);
 
-	// /* Middle Left Goal */
-	// m_autonomous.move_base(0, 40, 180, 0, 1000);// Back Away from Upper Left Goal
-	// m_autonomous.move_base(0, 0, 0, 50, 2500);// Turn towards ball between Upper and Middle Left Goals
-	// m_autonomous.manipulator_feild();// Pick Up Ball in front of robot
-	// m_autonomous.move_base(0, 75, 0, 0, 2000);// Move twards ball
-	// m_autonomous.manipulator_score_goal();// Transistion into score a ball 
-	// m_autonomous.move_base(0, 75, 0, 0, 2000);// Move towards Middle Left Goal
-	// m_autonomous.move_base(0, 0, 0, -40, 2000);// Turn towards Middle Left Goal
-	// m_autonomous.move_base(0, 40, 0, 0, 500);// Move Towards Middle Left Goal
-	// m_autonomous.delay(1000);//Wait for the robot to score
-
-	// /* Bottom Left Goal */
-	// m_autonomous.move_base(0, 40, 180, 0, 500);// Move Away from Middle Left Goal
-	// m_autonomous.move_base(0, 0, 0, 50, 3000);// Turn towards ball between Middle and Lower Left Goals
-	// m_autonomous.manipulator_feild();// Pick Up Ball in front of robot
-	// m_autonomous.move_base(0, 75, 0, 0, 2000);// Move towards ball
-	// m_autonomous.manipulator_score_goal();// Transistion into score a ball 
-	// m_autonomous.move_base(0, 0, 0, -40, 2000);// Turn Towards the Goal
-	// m_autonomous.move_base(0, 40, 0, 0, 500);// Move Towards Bottom Left Goal
-	// m_autonomous.delay(1000);//Wait for the robot to score
-
-	// /* Bottom Center Goal */
-	// m_autonomous.move_base(0, 40, 180, 0, 500);// Move Away from the Bottom Center Goal
-	// m_autonomous.manipulator_feild();// Pick Up Ball in front of robot
-	// m_autonomous.move_base(0, 0, 0, 50, 3000);// Turn towards the ball above the bottom Center Goal
-	// m_autonomous.move_base(0, 75, 180, 0, 5000);// Move towards the ball
-	// m_autonomous.move_base(0, 0, 0, -40, 3000);// Turn towards the Bottom Center Goal
-	// m_autonomous.manipulator_score_goal();// Transistion into score a ball 
-	// m_autonomous.move_base(0, 75, 0, 0, 2000);// Move towards the Bottom Center Goal
-	// m_autonomous.delay(1000);//Wait for the robot to score
-
-	// /* Ending */
-	// m_autonomous.move_base(0, 75, 180, 0, 2000);// Move away from goal
+	
+}

@@ -97,16 +97,16 @@ void Manipulator::intake_auto_grabbing(){
     }
 }
 void Manipulator::intake_scoring(){
-
+    set_intake_velocities(600, 600);
 }
 void Manipulator::intake_store(){
     if(m_left_intake_sensor.get_value() == 0)
-        m_left_intake.set_desired_velocity(-500);
+        m_left_intake.set_desired_velocity(-600);
     else
         m_left_intake.set_desired_velocity(0);
 
     if(m_right_intake_sensor.get_value() == 0)
-        m_right_intake.set_desired_velocity(-500);
+        m_right_intake.set_desired_velocity(-600);
     else
         m_right_intake.set_desired_velocity(0);
 }
@@ -120,11 +120,11 @@ void Manipulator::manipulator_sorting(){
         }
         else if(m_ball_positions.m_intakes == BALL_DESIRED && (m_ball_positions.m_scoreing != BALL_DESIRED && !(m_ball_positions.m_sorting == BALL_DESIRED || m_ball_positions.m_tongue == BALL_DESIRED))){
             m_initial_roller.set_desired_velocity(200);
-            m_secondary_roller.set_desired_velocity(600);
+            m_secondary_roller.set_desired_velocity(500);
         }
         else if(m_ball_positions.m_tongue != BALL_NONE || m_ball_positions.m_sorting == BALL_DESIRED){// Moves the ball to scoring
             m_initial_roller.set_desired_velocity(200);
-            m_secondary_roller.set_desired_velocity(600);
+            m_secondary_roller.set_desired_velocity(500);
         }
     }
     else if(m_ball_positions.m_scoreing == BALL_DESIRED){
@@ -214,18 +214,21 @@ void Manipulator::autonomous(){
 void Manipulator::driver_control(){
     set_intake_retract(INTAKE_RETRACT_OPEN);
 
-    if(m_shooting_status != LIFT_SCORING && m_robot.get_partner_controller().ButtonR1.get_state()){// If button is pressed than scoring is active
+    if(outside_range(m_robot.get_partner_controller().Axis2.get_percent(), 0.1)){// User input
+        m_initial_roller = fabs(m_robot.get_partner_controller().Axis2.get_percent() * 200);
+		m_secondary_roller = m_robot.get_partner_controller().Axis2.get_percent() * 600;
+        m_lift_drivers = true;
+
+        if(m_shooting_status == LIFT_SCORING)
+            m_shooting_status = LIFT_STATIONARY;
+    }
+    else if(m_shooting_status != LIFT_SCORING && m_robot.get_partner_controller().ButtonR1.get_state()){// If button is pressed than scoring is active
         m_shooting_status = LIFT_WAITING;
         manipulator_scoring();
     }
     else if(m_shooting_status == LIFT_SCORING){
         manipulator_scoring();
-    }
-    else if(outside_range(m_robot.get_partner_controller().Axis2.get_percent(), 0.1)){// User input
-        m_initial_roller = fabs(m_robot.get_partner_controller().Axis2.get_percent() * 200);
-		m_secondary_roller = m_robot.get_partner_controller().Axis2.get_percent() * 600;
-        m_lift_drivers = true;
-    }
+    } 
     else if(m_lift_drivers == true && !outside_range(m_robot.get_partner_controller().Axis2.get_percent(), 0.1)){
         m_lift_drivers = false;
         m_initial_roller = 0;
@@ -258,7 +261,7 @@ void Manipulator::driver_control(){
 
 void Manipulator::task(){
     /* Detects Current Ball Position */
-    if(m_scoring_sensor.get_distance() <= 24)
+    if(m_scoring_sensor.get_distance() <= 26)
         m_ball_positions.m_scoreing = BALL_DESIRED;
     else
         m_ball_positions.m_scoreing = BALL_NONE;
