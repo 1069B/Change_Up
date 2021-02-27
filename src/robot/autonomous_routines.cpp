@@ -199,7 +199,7 @@ void define_skills(Robot& p_robot){
 	/* Lower Left Goal */
 	l_skills.add_robot_event(Base_Event::base_move(150, 180, 0, 1000), Intake_Event::intake_goal(), Lift_Event::lift_sort());
 	l_skills.add_robot_event(Base_Event::base_move(0, 0, -125, 1550), Intake_Event::intake_store(), Lift_Event::lift_sort());
-	l_skills.add_robot_event(Base_Event::base_move(150, 0, 0, 3200), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(2000, 0, 0, 2900), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());
 	l_skills.add_robot_event(Base_Event::base_stationary(SCORE_TIME), Intake_Event::intake_store(), Lift_Event::lift_score_one());// Wait for score, Store Intakes, Score One Ball
 }
 

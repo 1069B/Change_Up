@@ -31,30 +31,36 @@ void Optical::set_port(short const p_port){
   m_settings.store_int("Port", p_port);
 }
 
-void Optical::set_signature_1(double const p_hue_lower_bound, double const p_hue_upper_bound, double const p_saturation_lower_bound, double const p_saturation_upper_bound){
+void Optical::set_signature_1(double const p_hue_lower_bound, double const p_hue_upper_bound, int p_proximity_thesehold, double const p_saturation_lower_bound, double const p_saturation_upper_bound){
   m_signature_1.m_hue_lower_bound = p_hue_lower_bound;
   m_signature_1.m_hue_upper_bound = p_hue_upper_bound;
   m_signature_1.m_saturation_lower_bound = p_saturation_lower_bound;
   m_signature_1.m_saturation_upper_bound = p_saturation_upper_bound;
+  m_signature_1.m_proximity = p_proximity_thesehold;
 }
 
-void Optical::set_signature_2(double const p_hue_lower_bound, double const p_hue_upper_bound, double const p_saturation_lower_bound, double const p_saturation_upper_bound){
+void Optical::set_signature_2(double const p_hue_lower_bound, double const p_hue_upper_bound, int p_proximity_thesehold, double const p_saturation_lower_bound, double const p_saturation_upper_bound){
   m_signature_2.m_hue_lower_bound = p_hue_lower_bound;
   m_signature_2.m_hue_upper_bound = p_hue_upper_bound;
   m_signature_2.m_saturation_lower_bound = p_saturation_lower_bound;
   m_signature_2.m_saturation_upper_bound = p_saturation_upper_bound;
+  m_signature_2.m_proximity = p_proximity_thesehold;
 }
 
-void Optical::set_signature_3(double const p_hue_lower_bound, double const p_hue_upper_bound, double const p_saturation_lower_bound, double const p_saturation_upper_bound){
+void Optical::set_signature_3(double const p_hue_lower_bound, double const p_hue_upper_bound, int p_proximity_thesehold, double const p_saturation_lower_bound, double const p_saturation_upper_bound){
   m_signature_3.m_hue_lower_bound = p_hue_lower_bound;
   m_signature_3.m_hue_upper_bound = p_hue_upper_bound;
   m_signature_3.m_saturation_lower_bound = p_saturation_lower_bound;
   m_signature_3.m_saturation_upper_bound = p_saturation_upper_bound;
+  m_signature_3.m_proximity = p_proximity_thesehold;
 }
 
 /* Action Functions */
 bool Optical::is_signature(Optical_Signature& p_signature){
   if((p_signature.m_hue_lower_bound < get_hue() && get_hue() < p_signature.m_hue_upper_bound) && (p_signature.m_saturation_lower_bound < get_saturation() && get_saturation() < p_signature.m_saturation_upper_bound))
-    return true;
+    if(p_signature.m_proximity < get_proximity()){
+      return true;
+    }
+    
   return false;
 }

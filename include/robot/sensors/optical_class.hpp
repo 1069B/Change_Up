@@ -10,6 +10,7 @@ namespace SENSOR{
     double m_hue_lower_bound;
     double m_saturation_upper_bound;
     double m_saturation_lower_bound;
+    int m_proximity;
   };
   class Optical{
   private:
@@ -65,11 +66,11 @@ namespace SENSOR{
 
     void set_port(short const p_port);
 
-    void set_signature_1(double const p_hue_lower_bound, double const p_hue_upper_bound, double const p_saturation_lower_bound = 0.00, double const p_saturation_upper_bound = 1.0);
+    void set_signature_1(double const p_hue_lower_bound, double const p_hue_upper_bound, int p_proximity_thesehold, double const p_saturation_lower_bound = 0.00, double const p_saturation_upper_bound = 1.0);
 
-    void set_signature_2(double const p_hue_lower_bound, double const p_hue_upper_bound, double const p_saturation_lower_bound = 0.00, double const p_saturation_upper_bound = 1.0);
+    void set_signature_2(double const p_hue_lower_bound, double const p_hue_upper_bound, int p_proximity_thesehold, double const p_saturation_lower_bound = 0.00, double const p_saturation_upper_bound = 1.0);
 
-    void set_signature_3(double const p_hue_lower_bound, double const p_hue_upper_bound, double const p_saturation_lower_bound = 0.00, double const p_saturation_upper_bound = 1.0);
+    void set_signature_3(double const p_hue_lower_bound, double const p_hue_upper_bound, int p_proximity_thesehold, double const p_saturation_lower_bound = 0.00, double const p_saturation_upper_bound = 1.0);
 
     //Action Functions
     void enable_gesture(){ pros::c::optical_enable_gesture(m_port); }
