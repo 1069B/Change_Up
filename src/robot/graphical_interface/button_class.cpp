@@ -55,7 +55,7 @@ void Button::update_button(Screen& p_screen){
     }
 
     if(m_connected_double)
-      *m_connected_double_pointer = m_connected_double_value;
+      m_setter_function(m_connected_double_value);
 
     if(m_connected_increment)
       *m_connected_increment_pointer += m_connected_increment_value;
@@ -71,9 +71,9 @@ void Button::add_connected_screen(std::string const p_change_screen_ID){
   m_change_screen = true;
 }
 
-void Button::add_connected_double(double const p_connected_double_value, double& p_connected_double_pointer){
+void Button::add_connected_double(std::function<void(double)> p_setter_function, double const p_connected_double_value){
   m_connected_double_value = p_connected_double_value;
-  m_connected_double_pointer = &p_connected_double_pointer;
+  m_setter_function = p_setter_function;
   m_connected_double = true;
 }
 

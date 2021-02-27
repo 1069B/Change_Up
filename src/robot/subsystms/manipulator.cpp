@@ -50,7 +50,8 @@ void Manipulator::initialize(){
         m_sorting_sensor.set_signature_2(206, 226);// Eject
     }
     else if(m_robot.get_alliance() == ROBOT_BLUE){
-        m_intake_sensor.set_signature_1(190, 210);
+        m_intake_sensor.set_signature_1(110, 240);
+        m_intake_sensor.set_signature_2(12, 75);
 
         m_sorting_sensor.set_signature_1(206, 226);// Scoring
         m_sorting_sensor.set_signature_2(0, 20);// Eject
@@ -148,18 +149,26 @@ void Manipulator::manipulator_scoring(){
         m_initial_roller.set_desired_velocity(0);
         m_secondary_roller.set_desired_velocity(600);
         m_shooting_status = LIFT_SCORING;
-        m_lift_timer.set_flag_delay(1500);
+        m_lift_timer.set_flag_delay(1600);
     }
     else if(m_shooting_status == LIFT_SCORING && m_lift_timer.get_preform_action()){
         m_initial_roller.set_desired_velocity(0);
         m_secondary_roller.set_desired_velocity(0);
         m_shooting_status = LIFT_STATIONARY;
+        if(m_autonomous_lift_status == AUTONOMOUS_LIFT_SCORE_ALL){
+            m_initial_roller.set_desired_velocity(200);
+            m_secondary_roller.set_desired_velocity(600);
+        }
     }
 }
 
 void Manipulator::set_autonomous_intake_status(Autonomous_Intake_Status p_autonomous_intake_status, Intake_Retract_Mode p_intake_retract){
     m_autonomous_intake_status = p_autonomous_intake_status;
     m_intake_retract = p_intake_retract;
+
+    if(m_autonomous_intake_status == AUTONOMOUS_INTAKE_GRAB && m_intake_retract == INTAKE_RETRACT_OPEN){
+        m_intake_status = INTAKE_AUTO_INTAKE;
+    }
 }
     
 void Manipulator::set_autonomous_lift_status(Autonomous_Lift_Status p_autonomous_lift_status){
@@ -202,8 +211,7 @@ void Manipulator::autonomous(){
             break;
 
         case AUTONOMOUS_LIFT_SCORE_ALL:
-            m_initial_roller = 200;
-            m_secondary_roller = 600;
+            manipulator_scoring();
             break;
 
         case AUTONOMOUS_LIFT_STATIONARY:
@@ -214,6 +222,12 @@ void Manipulator::autonomous(){
         default:
             break;
     }
+}
+
+bool Manipulator::is_scoring(){
+    if(m_shooting_status == LIFT_SCORING)
+        return true;
+    return false;
 }
 
 void Manipulator::driver_control(){

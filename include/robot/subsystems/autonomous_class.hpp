@@ -9,7 +9,7 @@ class Autonomous{
 private:
   Robot& m_robot;
 
-  double m_gui_selected_program = 0;
+  double m_gui_selected_program = -1;
 
   std::vector<Autonomous_Routine*> m_routines;
   Autonomous_Routine* m_selected_routine;
@@ -22,9 +22,14 @@ public:
   /*Getter Functions*/
   Autonomous_Routine& add_autonomous_routine(std::string p_routine_name, Robot_Alliance p_routine_alliance);
 
-  int set_selected_routine_GUI();
+  void set_selected_program(double p_program);
+
+  int set_blue_1();
+
   void set_selected_routine(std::string p_routine_name);
   void set_selected_routine(Autonomous_Routine& p_routine){ m_selected_routine = &p_routine; }
+
+  
 
   bool is_running();
 

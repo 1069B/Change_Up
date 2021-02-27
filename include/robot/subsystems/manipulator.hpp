@@ -65,6 +65,7 @@ public:
     
     void set_autonomous_lift_status(Autonomous_Lift_Status p_autonomous_lift_status);
 
+    bool is_scoring();
     /* Action Functions */
     void initialize();
     

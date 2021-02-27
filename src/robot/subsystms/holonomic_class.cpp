@@ -3,6 +3,7 @@
 #include "robot/devices/controller_class.hpp"
 #include "robot/devices/timer_class.hpp"
 #include "robot/subsystems/holonomic_class.hpp"
+#include "robot/subsystems/manipulator.hpp"
 
 
 Holonomic::Holonomic(Robot &p_robot):
@@ -61,7 +62,11 @@ void Holonomic::driver_control(){
   
   int l_translation_coefficient;
   int l_orientation_coefficient;
-  if(l_main_controller.ButtonL2.get_state() && l_main_controller.ButtonR2.get_state()){
+  if(m_robot.get_manipulator().is_scoring()){
+    l_translation_coefficient = 100;
+    l_orientation_coefficient = 50;
+  }
+  else if(l_main_controller.ButtonL2.get_state() && l_main_controller.ButtonR2.get_state()){
     l_translation_coefficient = 100;
     l_orientation_coefficient = 100;
   }

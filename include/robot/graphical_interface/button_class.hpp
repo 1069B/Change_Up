@@ -28,7 +28,7 @@ namespace GUI{
 
     /*Required Variables for Change Variables Value Action*/
     bool m_connected_double = false;
-    double* m_connected_double_pointer;
+    std::function<void(double)> m_setter_function;
     double m_connected_double_value;
 
     /*Required Variables for Increment Variables Screen Action*/
@@ -83,7 +83,7 @@ namespace GUI{
 
     void add_connected_screen(std::string const p_change_screen_ID);
 
-    void add_connected_double(double const p_connected_double_value, double& p_connected_double_pointer);
+    void add_connected_double(std::function<void(double)> m_setter_function, double const p_connected_double_value);
 
     void add_connected_increment(double const p_connected_increment_value, double& p_connected_increment_pointer);
 
