@@ -31,6 +31,7 @@ namespace SENSOR{
   class Inertial;
   class Digital;
   class Analog_Pair;
+  class Vision;
 }
 
 class Data_Logging;
