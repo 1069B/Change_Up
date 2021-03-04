@@ -18,7 +18,7 @@ namespace SENSOR{
     std::vector<double> m_average_velocity_vector;
 
   public:
-    Rotation(Robot &p_robot, std::string const p_name, short const p_port, bool const p_reversed, int const p_position_offset = 0);
+    Rotation(Robot &p_robot, std::string const p_name, short const p_port, bool const p_reversed = false, int const p_position_offset = 0);
 
     /* Getter Functions */
     std::string get_name(){ return m_name; }

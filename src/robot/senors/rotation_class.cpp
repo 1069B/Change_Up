@@ -32,7 +32,7 @@ double Rotation::get_velocity(){
   }
   l_velocity_average_vector.push_back(l_velocity);
   m_average_velocity_vector = l_velocity_average_vector;
-  return l_velocity;
+  return l_velocity;// Returns Revs/sec
 }
 
 double Rotation::get_running_average_velocity(){
