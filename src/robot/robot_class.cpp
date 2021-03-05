@@ -15,10 +15,14 @@
 
 #include "robot/subsystems/holonomic_class.hpp"
 #include "robot/subsystems/manipulator.hpp"
+#include "robot/subsystems/odometry_class.hpp"
+
 #include "robot/subsystems/autonomous_class.hpp"
 
-Robot::Robot():m_holonomic(*new Holonomic(*this)),
+Robot::Robot():
+m_holonomic(*new Holonomic(*this)),
 m_manipulator(*new Manipulator(*this)),
+m_odometry(*new Odometry(*this)),
 m_settings(*new Data_Storing("Settings.xml", "Robot", "1069B")),
 m_main_controller(*new CONTROLLER::Controller(pros::E_CONTROLLER_MASTER)),
 m_partner_controller(*new CONTROLLER::Controller(pros::E_CONTROLLER_PARTNER)),
@@ -124,15 +128,15 @@ Motor &Robot::find_motor(std::string const p_name){
 }
 
 void Robot::initialize(){
+	m_holonomic.initialize();
 	m_manipulator.initialize();
-	//TODO: ADD HOLONOMIC initialize
-
-	
+	m_odometry.initialize();
 }
 
 void Robot::task(){
 	check_robot_status();
 	GUI::Screen::task();
+	m_odometry.task();
 
 	if (m_robot_state == ROBOT_DRIVER_CONTROL)
 	{
@@ -150,6 +154,7 @@ void Robot::task(){
 void Robot::defineGUI(){
 	GUI::Screen::initialize(*this);
 	m_manipulator.define_GUI();
+	m_odometry.define_GUI();
 	m_autonomous.define_GUI();
 
 	GUI::Screen &l_home = GUI::Screen::find_screen("Home");

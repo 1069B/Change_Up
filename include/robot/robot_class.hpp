@@ -16,6 +16,8 @@ private:
 
 	Holonomic &m_holonomic;
 	Manipulator &m_manipulator;
+	Odometry &m_odometry;
+
 	Autonomous &m_autonomous;
 
 	std::vector<Motor *> m_motor_list{};
@@ -50,6 +52,8 @@ public:
 	Holonomic &get_holonomic() { return m_holonomic; }
 
 	Manipulator &get_manipulator() { return m_manipulator; }
+
+	Odometry &get_odometry() { return m_odometry; }
 
 	Autonomous &get_autonomous() { return m_autonomous; }
 

@@ -44,10 +44,12 @@ public:
   /* Setter Functions */
 
   /* Action Functions */
-
-  void set_base_movement(double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration);
+  void initialize();
 
   int task();
+
+  /* Autonomous Functions */
+  void set_base_movement(double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration);
 
 };
 

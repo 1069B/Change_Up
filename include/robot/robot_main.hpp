@@ -41,6 +41,8 @@ class Timer;
 
 class Holonomic;
 class Manipulator;
+class Odometry;
+
 class Autonomous;
 class Autonomous_Routine;
 

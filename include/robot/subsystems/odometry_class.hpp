@@ -94,6 +94,8 @@ public:
     void reset_position(){ set_absolute_position(0, 0); }
 
     /* Action Functions */
+    void initialize();
+    
     void task();
 
     void define_GUI();    

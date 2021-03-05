@@ -94,6 +94,11 @@ void Odometry::define_GUI(){
     go_back.add_connected_screen("Home");
 }
 
+void Odometry::initialize(){
+    reset_orientation();
+    reset_position();
+}
+
 void Odometry::task(){
     orientation_calculation();
     translation_calculation();
