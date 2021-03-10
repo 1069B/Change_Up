@@ -20,12 +20,12 @@ int Timer::get_current_lap_time(){
   int l_lap_time = m_current_time - m_previous_lap_time;
   m_previous_lap_time = m_current_time;
 
-  std::vector<int> l_vector;
-  for(int x = 1; x < m_average_lap_vector.size(); x++){
-    l_vector.push_back(l_vector.at(x));
-  }
-  l_vector.push_back(l_lap_time);
-  m_average_lap_vector = l_vector;
+  // std::vector<int> l_vector;
+  // for(int x = 1; x < m_average_lap_vector.size(); x++){
+  //   l_vector.push_back(l_vector.at(x));
+  // }
+  // l_vector.push_back(l_lap_time);
+  // m_average_lap_vector = l_vector;
   return l_lap_time;
 }
 

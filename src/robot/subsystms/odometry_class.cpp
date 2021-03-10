@@ -13,9 +13,9 @@ m_robot(p_robot),
 m_orientation_timer(*new Timer()),
 m_relative_translation_timer(*new Timer()),
 m_odometry_debug(*new Data_Logging("Odometry.csv")),
-m_left_encoder(*new SENSOR::Rotation(m_robot, "Left_Tracking", 0)),
-m_center_encoder(*new SENSOR::Rotation(m_robot, "Center_Tracking", 0)), 
-m_right_encoder(*new SENSOR::Rotation(m_robot, "Right_Tracking", 0)){
+m_left_encoder(*new SENSOR::Rotation(m_robot, "Left_Tracking", 8)),
+m_center_encoder(*new SENSOR::Rotation(m_robot, "Center_Tracking", 18)), 
+m_right_encoder(*new SENSOR::Rotation(m_robot, "Right_Tracking", 17)){
     m_odometry_debug << "Time, Left Velocity, Right Velocity";
 }
 
@@ -50,7 +50,7 @@ void Odometry::orientation_calculation(){
     m_total_orientation += radian_to_degree((left_encoder_displacement-right_encoder_displacement)/(m_tracking_wheel_distance));
     m_terminal_orientation = total_angle_to_terminal_angle(m_total_orientation);
 
-    m_odometry_debug << std::to_string(pros::millis()) << ", " << std::to_string(left_encoder_velocity) << ", " << std::to_string(right_encoder_velocity);
+    // m_odometry_debug << std::to_string(pros::millis()) << ", " << std::to_string(left_encoder_velocity) << ", " << std::to_string(right_encoder_velocity);
 }
 
 void Odometry::translation_calculation(){
@@ -81,9 +81,9 @@ void Odometry::set_orientation(double p_orientation){
 
 
 void Odometry::define_GUI(){
-    GUI::Screen &odometry = GUI::Screen::create_screen("Team Selector");
+    GUI::Screen &odometry = GUI::Screen::create_screen("Odometry");
     odometry.create_rectangle(0, 0, 480, 40, GUI_STYLES::white_text);
-    odometry.create_label(0, 10, GUI_STYLES::red_text, "Team Selector", LV_ALIGN_IN_TOP_MID);
+    odometry.create_label(0, 10, GUI_STYLES::red_text, "Odometry", LV_ALIGN_IN_TOP_MID);
 
     odometry.create_label(20, 50, GUI_STYLES::white_text, "Absolute Orientation: %d Deg", m_total_orientation);
     odometry.create_label(20, 80, GUI_STYLES::white_text, "Terminal Orientation: %d Deg", m_terminal_orientation);
@@ -101,5 +101,5 @@ void Odometry::initialize(){
 
 void Odometry::task(){
     orientation_calculation();
-    translation_calculation();
+    // translation_calculation();
 }

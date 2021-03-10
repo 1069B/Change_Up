@@ -24,7 +24,7 @@ m_average_velocity_vector(10,0){
 
 /* Getter Functions */
 double Rotation::get_velocity(){
-  double l_velocity = (double)pros::c::rotation_get_velocity(m_port)/36000.0;
+  double l_velocity = (double)pros::c::rotation_get_velocity(m_port)/360.0;
 
   std::vector<double> l_velocity_average_vector;
   for(int x = 1; x < m_average_velocity_vector.size(); x++){

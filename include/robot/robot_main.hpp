@@ -115,6 +115,8 @@ public:
   Ball m_tongue = BALL_NONE;
   Ball m_sorting = BALL_NONE;
   Ball m_scoreing = BALL_NONE;
+
+  Ball m_previous_intakes = BALL_NONE;
 };
 
 extern bool outside_range(double const p_value, double const p_range);

@@ -11,6 +11,8 @@ namespace SENSOR{
     std::string m_name{};
     short m_port{};
 
+    std::vector<double> m_average_distance_vector;
+
     Data_Storing& m_settings;
   public:
     /*  Constuctors  */
@@ -21,7 +23,9 @@ namespace SENSOR{
 
     short get_port(){ return m_port; }
 
-    int get_distance(){ return pros::c::distance_get(m_port); };
+    int get_distance();
+
+    int get_average_distance();
 
     int get_confidence(){ return pros::c::distance_get_confidence(m_port); };
 

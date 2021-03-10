@@ -8,7 +8,7 @@ private:
 	bool m_recall_settings{};
 
 	Robot_State m_robot_state;
-	Robot_Alliance m_alliance = ROBOT_WAITTING;
+	Robot_Alliance m_alliance = ROBOT_SKILLS;
 	bool m_competition = true;
 
 	CONTROLLER::Controller &m_main_controller;
