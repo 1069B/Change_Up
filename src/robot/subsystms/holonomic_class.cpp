@@ -4,6 +4,7 @@
 #include "robot/devices/timer_class.hpp"
 #include "robot/subsystems/holonomic_class.hpp"
 #include "robot/subsystems/manipulator.hpp"
+#include "robot/subsystems/odometry_class.hpp"
 
 Holonomic::Holonomic(Robot &p_robot):
 m_robot(p_robot),
@@ -27,8 +28,53 @@ void Holonomic::set_base_movement(double p_translational_velocity, double p_orie
     m_movement_complete = false;
 }
 
+void Holonomic::set_base_movement(Autonomous_Base_Status p_base_status, double p_delay, double p_x_position, double p_y_position, double p_orientation){
+    m_status = p_base_status;
+
+    m_desired_trajectory.m_x_position = p_x_position;
+    m_desired_trajectory.m_y_position = p_y_position;
+    m_desired_trajectory.m_orientation = p_orientation;
+
+    m_movement_complete = false;
+}
+
 void Holonomic::autonomous(){
-    if (m_timer.get_flag_remaining() == 0){
+    Odometry odometry = m_robot.get_odometry();
+
+    if(m_status == BASE_ORIENTATION){
+        double orientation_remaining = m_desired_trajectory.m_orientation - odometry.get_total_orientation();
+        double orientation_traveled = odometry.get_total_orientation();
+        
+        
+        if(orientation_traveled >= m_desired_trajectory.m_orientation){
+            m_front_left_motor = 0;
+            m_front_right_motor = 0;
+            m_back_left_motor = 0;
+            m_back_right_motor = 0;
+
+            m_movement_complete = true;
+            return;
+        }
+
+        // double speed_up_coefficient = orientation_traveled * m_Kp;
+        // double speed_down_coefficient = orientation_remaining * m_Kp;
+
+        // double motor_coefficient;
+        // if (speed_up_coefficient < 1.0 && speed_up_coefficient < speed_down_coefficient)
+        //     motor_coefficient = speed_up_coefficient;
+        // else if (speed_down_coefficient < 1.0 && speed_down_coefficient < speed_up_coefficient)
+        //     motor_coefficient = speed_down_coefficient;
+        // else if (speed_up_coefficient >= 1.0 && speed_down_coefficient >= 1.0)
+        //     motor_coefficient = 1.0;
+
+        // g_alert.draw(std::to_string(-motor_coefficient*20));
+        m_front_left_motor = 5;
+        m_front_right_motor = 10;
+        m_back_left_motor = 5;
+        m_back_right_motor = 10;
+    }
+    else{
+        if(m_timer.get_flag_remaining() == 0){
         m_front_left_motor = 0;
         m_front_right_motor = 0;
         m_back_left_motor = 0;
@@ -53,6 +99,7 @@ void Holonomic::autonomous(){
     m_front_right_motor = motor_coefficient * (sin((m_desired_trajectory.m_translation_angle / 180.0 * M_PI) + (M_PI / 4.0)) * m_desired_trajectory.m_translation_velocity + m_desired_trajectory.m_orientation_velocity);
     m_back_left_motor = motor_coefficient * (sin((m_desired_trajectory.m_translation_angle / 180.0 * M_PI) + (M_PI / 4.0)) * m_desired_trajectory.m_translation_velocity - m_desired_trajectory.m_orientation_velocity);
     m_back_right_motor = motor_coefficient * (cos((m_desired_trajectory.m_translation_angle / 180.0 * M_PI) + (M_PI / 4.0)) * m_desired_trajectory.m_translation_velocity + m_desired_trajectory.m_orientation_velocity);
+    }
 }
 
 void Holonomic::driver_control(){

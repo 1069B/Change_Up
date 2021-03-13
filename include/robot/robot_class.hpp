@@ -9,7 +9,7 @@ private:
 
 	Robot_State m_robot_state;
 	Robot_Alliance m_alliance = ROBOT_SKILLS;
-	bool m_competition = true;
+	bool m_competition = false;
 
 	CONTROLLER::Controller &m_main_controller;
 	CONTROLLER::Controller &m_partner_controller;

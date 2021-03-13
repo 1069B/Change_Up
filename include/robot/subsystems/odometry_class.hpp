@@ -14,7 +14,7 @@ private:
 
     /* Settings */
     double m_tracking_wheel_distance = 25.5587; //TODO Refine Vale
-    double m_tracking_wheel_circumference = 22.15; //TODO Refine Vale
+    double m_tracking_wheel_circumference = 21.86; //TODO Refine Vale
 
     /* Orientation Variables */
     double m_total_orientation = 0;
@@ -28,6 +28,12 @@ private:
     Data_Logging& m_odometry_debug;
 
     /* Relative Translations */
+    double m_left_encoder_velocity;
+    double m_right_encoder_velocity;
+
+    double m_left_encoder_displacement;
+    double m_right_encoder_displacement;
+
     double m_x_relative_position;
     double m_y_relative_position;
 

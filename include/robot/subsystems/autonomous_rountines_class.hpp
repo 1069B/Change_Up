@@ -21,14 +21,14 @@ private:
   friend class Autonomous_Routine;
   friend class Robot_Event;
 
-  //Base_Event(Autonomous_Base_Status p_base_status, double p_delay, double p_x_position, double p_y_position, double p_orientation);
+  Base_Event(Autonomous_Base_Status p_base_status, double p_delay, double p_x_position, double p_y_position, double p_orientation);
 
   Base_Event(Autonomous_Base_Status p_base_status, double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration, double p_delay);
 public:
   static Base_Event& base_move(double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration, double p_delay = NO_DELAY);// Point to Point
   //  static Base_Event base_translate_to(double p_x_position, double p_y_position, double p_delay = NO_DELAY);// Point to Point
 
-  // static Base_Event base_orientate_to(double p_orientation, double p_delay = NO_DELAY);// Point Rotation
+  static Base_Event& base_orientate_to(double p_orientation, double p_delay = NO_DELAY);// Point Rotation
 
   // static Base_Event base_turn_to(double p_x_position, double p_y_position, double p_delay = NO_DELAY);// Arc Turn
 

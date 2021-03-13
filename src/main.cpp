@@ -2,6 +2,8 @@
 
 #include "robot/subsystems/manipulator.hpp"
 #include "robot/subsystems/autonomous_class.hpp"
+#include "robot/graphical_interface/screen_class.hpp"
+#include "robot/subsystems/odometry_class.hpp"
 
 Robot g_robot{};
 
@@ -36,10 +38,16 @@ void autonomous(){
 	g_robot.get_autonomous().start_autonomous();
 	while(g_robot.get_autonomous().is_running()){
 		g_robot.task();
-		pros::delay(10);
+		pros::delay(20);
 	}
 
 	g_robot.get_autonomous().end_autonomous();
+	
+	while(g_robot.get_robot_state() == ROBOT_AUTONOMOUS){
+		GUI::Screen::task();
+		g_robot.get_odometry().task();
+		pros::delay(20);
+	}
 }
 
 void opcontrol(){

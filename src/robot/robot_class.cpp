@@ -159,11 +159,10 @@ void Robot::defineGUI(){
 
 	GUI::Screen &l_home = GUI::Screen::find_screen("Home");
 
-	l_home.create_rectangle(20, 50, 460, 10, GUI_STYLES::red_button_released);
 	GUI::Button &btn1 = l_home.create_button("Manipulator", 20, 20, 100, 50, GUI_STYLES::blue_button_released, GUI_STYLES::blue_button_pressed);
 	btn1.add_connected_screen("Manipulator");
 
-	GUI::Button &odo = l_home.create_button("Odometry", 20, 50, 100, 50, GUI_STYLES::blue_button_released, GUI_STYLES::blue_button_pressed);
+	GUI::Button &odo = l_home.create_button("Odometry", 20, 80, 100, 50, GUI_STYLES::blue_button_released, GUI_STYLES::blue_button_pressed);
 	odo.add_connected_screen("Odometry");
 
 	GUI::Screen &l_disconnected = GUI::Screen::find_screen("Disconnected");

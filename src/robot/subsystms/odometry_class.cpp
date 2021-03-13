@@ -15,8 +15,11 @@ m_relative_translation_timer(*new Timer()),
 m_odometry_debug(*new Data_Logging("Odometry.csv")),
 m_left_encoder(*new SENSOR::Rotation(m_robot, "Left_Tracking", 8)),
 m_center_encoder(*new SENSOR::Rotation(m_robot, "Center_Tracking", 18)), 
-m_right_encoder(*new SENSOR::Rotation(m_robot, "Right_Tracking", 17)){
+m_right_encoder(*new SENSOR::Rotation(m_robot, "Right_Tracking", 17, true)){
     m_odometry_debug << "Time, Left Velocity, Right Velocity";
+
+    reset_orientation();
+    reset_position();
 }
 
 double Odometry::total_angle_to_terminal_angle(double p_angle){
@@ -40,14 +43,14 @@ double Odometry::degree_to_radian(double p_degree){
 void Odometry::orientation_calculation(){
     m_orientation_cycle_time = m_orientation_timer.get_current_lap_time()/1000.0;// Time in secs
 
-    double left_encoder_velocity = m_left_encoder.get_velocity() * m_tracking_wheel_circumference; // Converts Rev/sec to cm/sec
-    double right_encoder_velocity = m_right_encoder.get_velocity() * m_tracking_wheel_circumference;
+    m_left_encoder_velocity = m_left_encoder.get_velocity() * m_tracking_wheel_circumference; // Converts Rev/sec to cm/sec
+    m_right_encoder_velocity = m_right_encoder.get_velocity() * m_tracking_wheel_circumference;
 
-    double left_encoder_displacement = left_encoder_velocity * m_orientation_cycle_time;// cms traveled
-    double right_encoder_displacement = right_encoder_velocity * m_orientation_cycle_time;
+    m_left_encoder_displacement = m_left_encoder_velocity * m_orientation_cycle_time;// cms traveled
+    m_right_encoder_displacement = m_right_encoder_velocity * m_orientation_cycle_time;
 
-    m_orientation_velocity = radian_to_degree((left_encoder_displacement-right_encoder_displacement)/(m_tracking_wheel_distance)) / m_orientation_cycle_time;// deg/s
-    m_total_orientation += radian_to_degree((left_encoder_displacement-right_encoder_displacement)/(m_tracking_wheel_distance));
+    m_orientation_velocity = radian_to_degree((m_right_encoder_displacement-m_left_encoder_displacement)/(m_tracking_wheel_distance)) / m_orientation_cycle_time;// deg/s
+    m_total_orientation += radian_to_degree((m_right_encoder_displacement-m_left_encoder_displacement)/(m_tracking_wheel_distance));
     m_terminal_orientation = total_angle_to_terminal_angle(m_total_orientation);
 
     // m_odometry_debug << std::to_string(pros::millis()) << ", " << std::to_string(left_encoder_velocity) << ", " << std::to_string(right_encoder_velocity);
@@ -86,17 +89,20 @@ void Odometry::define_GUI(){
     odometry.create_label(0, 10, GUI_STYLES::red_text, "Odometry", LV_ALIGN_IN_TOP_MID);
 
     odometry.create_label(20, 50, GUI_STYLES::white_text, "Absolute Orientation: %d Deg", m_total_orientation);
-    odometry.create_label(20, 80, GUI_STYLES::white_text, "Terminal Orientation: %d Deg", m_terminal_orientation);
-    odometry.create_label(20, 110, GUI_STYLES::white_text, "Orientation Velocity: %d Deg/sec", m_orientation_velocity);
-    odometry.create_label(20, 140, GUI_STYLES::white_text, "Cycle Duration: %d ms", m_orientation_cycle_time);
+    odometry.create_label(20, 70, GUI_STYLES::white_text, "Terminal Orientation: %d Deg", m_terminal_orientation);
+    odometry.create_label(20, 90, GUI_STYLES::white_text, "Orientation Velocity: %d Deg/sec", m_orientation_velocity);
+    odometry.create_label(20, 110, GUI_STYLES::white_text, "Cycle Duration: %d ms", m_orientation_cycle_time);
 
-    GUI::Button& go_back = odometry.create_button("Go Back", 300, 200, 150, 20);
-    go_back.add_connected_screen("Home");
+    odometry.create_label(20, 130, GUI_STYLES::white_text, "Left Velocity: %d deg/sec", m_left_encoder_velocity);
+    odometry.create_label(20, 150, GUI_STYLES::white_text, "Right Velocity: %d deg/sec", m_right_encoder_velocity);
+    odometry.create_label(20, 170, GUI_STYLES::white_text, "Left Velocity: %d cm/sec", m_left_encoder_displacement);
+    odometry.create_label(20, 190, GUI_STYLES::white_text, "Right Velocity: %d cm/sec", m_right_encoder_displacement);
+
+
 }
 
 void Odometry::initialize(){
-    reset_orientation();
-    reset_position();
+    
 }
 
 void Odometry::task(){

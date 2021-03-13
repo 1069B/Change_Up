@@ -12,12 +12,23 @@
 Base_Event::Base_Event(Autonomous_Base_Status p_base_status, double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration, double p_delay){
   m_base_status = p_base_status;
   m_delay = p_delay;
+  m_orientation = p_orientation;
 
   m_translational_velocity = p_translational_velocity;
-  m_orientation = p_orientation;
+  
   m_turning_velocity = p_turning_velocity;
   m_duration = p_duration;
 }
+
+Base_Event::Base_Event(Autonomous_Base_Status p_base_status, double p_delay, double p_x_position, double p_y_position, double p_orientation){
+  m_base_status = p_base_status;
+  m_delay = p_delay;
+  
+  m_x_position = p_x_position;
+  m_y_position = p_y_position;
+  m_orientation = p_orientation;
+}
+
 
 Base_Event& Base_Event::base_move(double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration, double p_delay){
   return *new Base_Event(BASE_TRANSLATE, p_translational_velocity, p_orientation, p_turning_velocity, p_duration, p_delay);
@@ -35,9 +46,9 @@ Base_Event& Base_Event::base_move(double p_translational_velocity, double p_orie
 //   return Base_Event(BASE_TRANSLATE, p_delay, p_x_position, p_y_position, INT_MIN);
 // }
 
-// Base_Event Base_Event::base_orientate_to(double p_orientation, double p_delay){// Point Rotation
-//   return Base_Event(BASE_ORIENTATION, p_delay, INT_MIN, INT_MIN, p_orientation);
-// }
+Base_Event& Base_Event::base_orientate_to(double p_orientation, double p_delay){// Point Rotation
+  return *new Base_Event(BASE_ORIENTATION, p_delay, INT_MIN, INT_MIN, p_orientation);
+}
 
 // Base_Event Base_Event::base_turn_to(double p_x_position, double p_y_position, double p_delay){// Arc Turn
 //   return Base_Event(BASE_TURN, p_delay, p_x_position, p_y_position, INT_MIN);
@@ -139,6 +150,9 @@ void Autonomous_Routine::task(){
   }
   
   if(m_base_timer.get_preform_action()){
+    if(l_current_event.m_base_event.m_base_status == BASE_ORIENTATION){
+      l_holonomic.set_base_movement(l_current_event.m_base_event.m_base_status, l_current_event.m_base_event.m_delay, l_current_event.m_base_event.m_x_position, l_current_event.m_base_event.m_y_position, l_current_event.m_base_event.m_orientation);
+    }
     l_holonomic.set_base_movement(l_current_event.m_base_event.m_translational_velocity, l_current_event.m_base_event.m_orientation, l_current_event.m_base_event.m_turning_velocity, l_current_event.m_base_event.m_duration);
   }
   else if(l_holonomic.get_movement_complete()){

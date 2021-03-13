@@ -9,6 +9,11 @@ public:
   double m_translation_velocity;
   double m_translation_angle;
   double m_duration;
+
+  double m_x_position;
+  double m_y_position;
+  double m_orientation;
+
 };
 
 
@@ -32,6 +37,8 @@ private:
 
   Trajectory m_desired_trajectory;
 
+  Autonomous_Base_Status m_status;
+
   void driver_control();
 
   void autonomous();
@@ -50,6 +57,8 @@ public:
 
   /* Autonomous Functions */
   void set_base_movement(double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration);
+
+  void set_base_movement(Autonomous_Base_Status p_base_status, double p_delay, double p_x_position, double p_y_position, double p_orientation);
 
 };
 

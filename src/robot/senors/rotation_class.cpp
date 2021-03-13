@@ -20,6 +20,9 @@ m_average_velocity_vector(10,0){
     m_reversed = p_reversed;
     m_position_offset = p_position_offset;
   }
+
+  if(m_reversed)
+    pros::c::rotation_set_reversed(m_port, true);
 }
 
 /* Getter Functions */

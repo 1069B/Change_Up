@@ -203,6 +203,15 @@ void define_skills(Robot& p_robot){
 	l_skills.add_robot_event(Base_Event::base_stationary(SCORE_TIME), Intake_Event::intake_store(), Lift_Event::lift_score_one());// Wait for score, Store Intakes, Score One Ball
 }
 
+void define_odometry(Robot& p_robot){
+	Autonomous_Routine& odometry = p_robot.get_autonomous().add_autonomous_routine("Odometry", ROBOT_SKILLS);
+
+	odometry.add_robot_event(Base_Event::base_orientate_to(90), Intake_Event::intake_stationary(), Lift_Event::lift_stationary());// Turn base to goal, Pick up ball in front and then store, Preload the balls
+
+	p_robot.set_robot_alliance(ROBOT_SKILLS);
+	p_robot.get_autonomous().set_selected_routine("Odometry");
+}
+
 void Robot::define_autonomous_routines(){
 	/* Red Autonomous Routines */
 	define_red_corner_and_center(*this);
@@ -218,6 +227,7 @@ void Robot::define_autonomous_routines(){
 
 	/* Skills Autonomous Routines */
 	define_skills(*this);
+	define_odometry(*this);
 
 	
 }
