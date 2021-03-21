@@ -44,6 +44,7 @@ private:
     void intake_auto_grabbing();
     void intake_scoring();
     void intake_store();
+    void intake_manual();
 
     void manipulator_sorting();
     void manipulator_scoring();

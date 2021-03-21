@@ -60,14 +60,14 @@ void Holonomic::autonomous(){
         double velocity = (m_Kp_orientation * m_orientation_error) + (m_Ki_orientation * m_orientation_integral) + (m_Kp_orientation * m_orientation_derivative);
 
         
-        if(velocity > 90)// Max Vel
-            velocity = 90;
-        else if(velocity < -90)
-            velocity = -90;
+        if(velocity > 85)// Max Vel
+            velocity = 85;
+        else if(velocity < -85)
+            velocity = -85;
 
 
         if(abs(velocity) < 4 && !m_movement_ending){
-            m_movement_timer.set_flag_delay(400);  
+            m_movement_timer.set_flag_delay(300);  
             m_movement_ending = true;    
         }
 

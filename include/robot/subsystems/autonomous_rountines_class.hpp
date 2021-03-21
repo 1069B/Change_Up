@@ -56,6 +56,8 @@ public:
 
   static Intake_Event& intake_grab(Intake_Retract_Mode p_intake_retract, double p_delay = NO_DELAY);
 
+  static Intake_Event& intake_manual(double p_delay = NO_DELAY);
+
   static Intake_Event& intake_stationary(double p_delay = NO_DELAY);
 };
 struct Lift_Event{

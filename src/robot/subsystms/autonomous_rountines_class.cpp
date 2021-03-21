@@ -85,6 +85,10 @@ Intake_Event& Intake_Event::intake_grab(Intake_Retract_Mode p_intake_retract, do
   return *new Intake_Event(AUTONOMOUS_INTAKE_GRAB, p_intake_retract, p_delay);
 }
 
+Intake_Event& Intake_Event::intake_manual(double p_delay){
+  return *new Intake_Event(AUTONOMOUS_INTAKE_MANUAL, INTAKE_RETRACT_STORE, p_delay);
+}
+
 Intake_Event& Intake_Event::intake_stationary(double p_delay){
   return *new Intake_Event(AUTONOMOUS_INTAKE_STATIONARY, INTAKE_RETRACT_NONE, p_delay);
 }

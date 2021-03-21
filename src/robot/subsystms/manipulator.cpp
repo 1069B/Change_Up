@@ -111,6 +111,16 @@ void Manipulator::intake_store(){
     else
         m_right_intake.set_desired_velocity(0);
 }
+void Manipulator::intake_manual(){
+    if(m_intake_status == INTAKE_AUTO_OPEN){// Waiting for ball
+        set_intake_velocities(600, 600);
+        m_intake_status = INTAKE_AUTO_INTAKE;
+        m_intake_timer.set_flag_delay(1300);
+    }
+    else if(m_intake_status == INTAKE_AUTO_INTAKE && m_intake_timer.get_preform_action()){// No longer ball
+        intake_store();
+    }
+}
 
 void Manipulator::manipulator_sorting(){
      /*Manipulator Ball Position*/
@@ -172,6 +182,9 @@ void Manipulator::set_autonomous_intake_status(Autonomous_Intake_Status p_autono
     if(m_autonomous_intake_status == AUTONOMOUS_INTAKE_GRAB && m_intake_retract == INTAKE_RETRACT_OPEN){
         m_intake_status = INTAKE_AUTO_INTAKE;
     }
+    else if(m_autonomous_intake_status == AUTONOMOUS_INTAKE_MANUAL){
+        m_intake_status = INTAKE_AUTO_OPEN;
+    }
 }
     
 void Manipulator::set_autonomous_lift_status(Autonomous_Lift_Status p_autonomous_lift_status){
@@ -194,6 +207,10 @@ void Manipulator::autonomous(){
 
         case AUTONOMOUS_INTAKE_STORE:
             intake_store();
+            break;
+
+        case AUTONOMOUS_INTAKE_MANUAL:
+            intake_manual();
             break;
 
         case AUTONOMOUS_INTAKE_STATIONARY:
@@ -303,10 +320,11 @@ void Manipulator::task(){
         m_ball_positions.m_intakes = BALL_NONE;
 
     /* Detects Current Ball Position */
-    if(m_scoring_sensor.get_distance() <= 30)
-        m_ball_positions.m_scoreing = BALL_DESIRED;
-    else
+    if(m_scoring_sensor.get_distance() > 40 && m_scoring_sensor.get_average_distance() > 60)
         m_ball_positions.m_scoreing = BALL_NONE;
+    else
+        m_ball_positions.m_scoreing = BALL_DESIRED;
+        
 
     if(m_sorting_sensor.is_signature_1())
         m_ball_positions.m_sorting = BALL_DESIRED;
