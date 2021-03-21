@@ -76,6 +76,8 @@ public:
 
   static Lift_Event& lift_sort(double p_delay = NO_DELAY);
 
+  static Lift_Event& lift_sort_and_shoot(double p_delay = NO_DELAY);
+
   static Lift_Event& lift_stationary(double p_delay = NO_DELAY);
 };
 

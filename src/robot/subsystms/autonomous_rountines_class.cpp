@@ -111,6 +111,10 @@ Lift_Event& Lift_Event::lift_sort(double p_delay){
   return *new Lift_Event(AUTONOMOUS_LIFT_SORT, p_delay);
 }
 
+Lift_Event& Lift_Event::lift_sort_and_shoot(double p_delay){
+  return *new Lift_Event(AUTONOMOUS_LIFT_SORT_AND_SHOOT, p_delay);
+}
+
 Lift_Event& Lift_Event::lift_stationary(double p_delay){
   return *new Lift_Event(AUTONOMOUS_LIFT_STATIONARY, p_delay);
 }
@@ -151,6 +155,10 @@ void Autonomous_Routine::task(){
     m_base_timer.set_flag_delay(l_current_event.m_base_event.m_delay);
     m_lift_timer.set_flag_delay(l_current_event.m_lift_event.m_delay);
     m_intake_timer.set_flag_delay(l_current_event.m_intake_event.m_delay);
+
+    if(l_current_event.m_lift_event.m_lift_status == AUTONOMOUS_LIFT_SORT_AND_SHOOT){
+      l_manipulator.set_autonomous_lift_status(AUTONOMOUS_LIFT_SORT);
+    }
   }
   
   if(m_base_timer.get_preform_action()){
@@ -165,9 +173,18 @@ void Autonomous_Routine::task(){
     m_current_event++;
   }
 
-  if(m_lift_timer.get_preform_action()){
-    l_manipulator.set_autonomous_lift_status(l_current_event.m_lift_event.m_lift_status);
+  if(l_current_event.m_lift_event.m_lift_status == AUTONOMOUS_LIFT_SORT_AND_SHOOT){
+    if(m_lift_timer.get_preform_action()){
+      l_manipulator.set_autonomous_lift_status(AUTONOMOUS_LIFT_SCORE_ONE);
+    }
   }
+  else{
+    if(m_lift_timer.get_preform_action()){
+      l_manipulator.set_autonomous_lift_status(l_current_event.m_lift_event.m_lift_status);
+    }
+  }
+
+  
 
   if(m_intake_timer.get_preform_action()){
     l_manipulator.set_autonomous_intake_status(l_current_event.m_intake_event.m_intake_status, l_current_event.m_intake_event.m_intake_retract);
