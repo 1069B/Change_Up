@@ -27,9 +27,18 @@ private:
   Motor& m_back_left_motor;
   Motor& m_back_right_motor;
 
-  double m_Kp = 0.002;
-  double m_Ki = 0;
-  double m_Kd = 0;
+  /* Orientation PID */
+  double m_orientation_error;
+  double m_orientation_previous_error;
+  double m_orientation_integral;
+  double m_orientation_derivative;
+
+  double m_Kp_orientation = 2.8;
+  double m_Ki_orientation = 0.015;
+  double m_Kd_orientation = 0.8;
+
+  Timer& m_movement_timer;
+  bool m_movement_ending = false;
 
   bool m_movement_complete = true;
 

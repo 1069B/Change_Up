@@ -11,7 +11,7 @@ namespace SENSOR{
     std::string m_name{};
     short m_port{};
 
-    std::vector<double> m_average_distance_vector;
+    std::vector<int> m_average_distance_vector{1000,1000,1000,1000,1000};
 
     Data_Storing& m_settings;
   public:

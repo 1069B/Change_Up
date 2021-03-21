@@ -153,7 +153,9 @@ void Autonomous_Routine::task(){
     if(l_current_event.m_base_event.m_base_status == BASE_ORIENTATION){
       l_holonomic.set_base_movement(l_current_event.m_base_event.m_base_status, l_current_event.m_base_event.m_delay, l_current_event.m_base_event.m_x_position, l_current_event.m_base_event.m_y_position, l_current_event.m_base_event.m_orientation);
     }
-    l_holonomic.set_base_movement(l_current_event.m_base_event.m_translational_velocity, l_current_event.m_base_event.m_orientation, l_current_event.m_base_event.m_turning_velocity, l_current_event.m_base_event.m_duration);
+    else{
+      l_holonomic.set_base_movement(l_current_event.m_base_event.m_translational_velocity, l_current_event.m_base_event.m_orientation, l_current_event.m_base_event.m_turning_velocity, l_current_event.m_base_event.m_duration);
+    }
   }
   else if(l_holonomic.get_movement_complete()){
     m_current_event++;

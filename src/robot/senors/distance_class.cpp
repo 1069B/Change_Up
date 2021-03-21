@@ -19,15 +19,29 @@ m_settings(*new Data_Storing("Settings.xml", "Distance", p_name)){
 
 /* Getter Functions */
 int Distance::get_distance(){
-  int distance = pros::c::distance_get(m_port); 
-  return distance;
+  return pros::c::distance_get(m_port);
+}
 
-  // std::vector<int> distance_average_vector;
-  // for(int x = 1; x < m_average_velo_vector.size(); x++){
-  //   l_velocity_average_vector.push_back(m_average_velocity_vector.at(x));
-  // }
-  // l_velocity_average_vector.push_back(l_velocity);
-  // m_average_velocity_vector = l_velocity_average_vector;
+int Distance::get_average_distance(){
+  int distance = get_distance();
+
+  std::vector<int> distance_average_vector;
+  for(int x = 1; x < m_average_distance_vector.size(); x++){
+    distance_average_vector.push_back(m_average_distance_vector.at(x));
+  }
+  distance_average_vector.push_back(distance);
+  m_average_distance_vector = distance_average_vector;
+
+  int sum = 0;
+  for(int x : m_average_distance_vector){
+    sum += x;
+  }
+
+  
+  if(sum == 0){
+    return 0;
+  }
+  return sum/m_average_distance_vector.size();
 }
 
 /* Setter Function */

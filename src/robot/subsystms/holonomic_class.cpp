@@ -12,7 +12,8 @@ m_front_left_motor(m_robot.add_motor("Front Left Base", 15, pros::E_MOTOR_GEARSE
 m_front_right_motor(m_robot.add_motor("Front Right Base", 16, pros::E_MOTOR_GEARSET_18, pros::E_MOTOR_BRAKE_COAST, true)),
 m_back_left_motor(m_robot.add_motor("Back Left Base", 5, pros::E_MOTOR_GEARSET_18, pros::E_MOTOR_BRAKE_COAST, false)),
 m_back_right_motor(m_robot.add_motor("Back Right Base", 6, pros::E_MOTOR_GEARSET_18, pros::E_MOTOR_BRAKE_COAST, true)),
-m_timer(*new Timer())
+m_timer(*new Timer()),
+m_movement_timer(*new Timer())
 {
 }
 
@@ -26,6 +27,9 @@ void Holonomic::set_base_movement(double p_translational_velocity, double p_orie
     m_timer.set_flag_delay(m_desired_trajectory.m_duration);
 
     m_movement_complete = false;
+    m_movement_ending = false;
+
+    m_status = BASE_TRANSLATE;
 }
 
 void Holonomic::set_base_movement(Autonomous_Base_Status p_base_status, double p_delay, double p_x_position, double p_y_position, double p_orientation){
@@ -36,17 +40,38 @@ void Holonomic::set_base_movement(Autonomous_Base_Status p_base_status, double p
     m_desired_trajectory.m_orientation = p_orientation;
 
     m_movement_complete = false;
+    m_movement_ending = false;
 }
 
 void Holonomic::autonomous(){
     Odometry odometry = m_robot.get_odometry();
 
     if(m_status == BASE_ORIENTATION){
-        double orientation_remaining = m_desired_trajectory.m_orientation - odometry.get_total_orientation();
-        double orientation_traveled = odometry.get_total_orientation();
         
+        m_orientation_error = m_desired_trajectory.m_orientation - odometry.get_total_orientation();
+        m_orientation_integral += m_orientation_error;
+        m_orientation_derivative = m_orientation_error - m_orientation_previous_error;
+        m_orientation_previous_error = m_orientation_error;
+
+        if(m_orientation_error == 0 || abs(m_orientation_error) > 2){
+            m_orientation_integral = 0;
+        }
+
+        double velocity = (m_Kp_orientation * m_orientation_error) + (m_Ki_orientation * m_orientation_integral) + (m_Kp_orientation * m_orientation_derivative);
+
         
-        if(orientation_traveled >= m_desired_trajectory.m_orientation){
+        if(velocity > 90)// Max Vel
+            velocity = 90;
+        else if(velocity < -90)
+            velocity = -90;
+
+
+        if(abs(velocity) < 4 && !m_movement_ending){
+            m_movement_timer.set_flag_delay(400);  
+            m_movement_ending = true;    
+        }
+
+        if(m_movement_timer.get_preform_action()){
             m_front_left_motor = 0;
             m_front_right_motor = 0;
             m_back_left_motor = 0;
@@ -56,36 +81,24 @@ void Holonomic::autonomous(){
             return;
         }
 
-        // double speed_up_coefficient = orientation_traveled * m_Kp;
-        // double speed_down_coefficient = orientation_remaining * m_Kp;
-
-        // double motor_coefficient;
-        // if (speed_up_coefficient < 1.0 && speed_up_coefficient < speed_down_coefficient)
-        //     motor_coefficient = speed_up_coefficient;
-        // else if (speed_down_coefficient < 1.0 && speed_down_coefficient < speed_up_coefficient)
-        //     motor_coefficient = speed_down_coefficient;
-        // else if (speed_up_coefficient >= 1.0 && speed_down_coefficient >= 1.0)
-        //     motor_coefficient = 1.0;
-
-        // g_alert.draw(std::to_string(-motor_coefficient*20));
-        m_front_left_motor = 5;
-        m_front_right_motor = 10;
-        m_back_left_motor = 5;
-        m_back_right_motor = 10;
+        m_front_left_motor = -velocity;
+        m_front_right_motor = velocity;
+        m_back_left_motor = -velocity;
+        m_back_right_motor = velocity;
     }
     else{
         if(m_timer.get_flag_remaining() == 0){
-        m_front_left_motor = 0;
-        m_front_right_motor = 0;
-        m_back_left_motor = 0;
-        m_back_right_motor = 0;
+            m_front_left_motor = 0;
+            m_front_right_motor = 0;
+            m_back_left_motor = 0;
+            m_back_right_motor = 0;
 
-        m_movement_complete = true;
-        return;
-    }
+            m_movement_complete = true;
+            return;
+        }
 
-    double speed_up_coefficient = m_timer.get_elapsed_time() * m_Kp;
-    double speed_down_coefficient = m_timer.get_flag_remaining() * m_Kp;
+    double speed_up_coefficient = m_timer.get_elapsed_time() * 0.002;
+    double speed_down_coefficient = m_timer.get_flag_remaining() * 0.002;
 
     double motor_coefficient;
     if (speed_up_coefficient < 1.0 && speed_up_coefficient < speed_down_coefficient)

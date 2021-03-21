@@ -14,7 +14,7 @@ private:
 
     /* Settings */
     double m_tracking_wheel_distance = 25.5587; //TODO Refine Vale
-    double m_tracking_wheel_circumference = 21.86; //TODO Refine Vale
+    double m_tracking_wheel_circumference = 22.11; //TODO Refine Vale
 
     /* Orientation Variables */
     double m_total_orientation = 0;

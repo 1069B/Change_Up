@@ -303,7 +303,7 @@ void Manipulator::task(){
         m_ball_positions.m_intakes = BALL_NONE;
 
     /* Detects Current Ball Position */
-    if(m_scoring_sensor.get_distance() <= 26)
+    if(m_scoring_sensor.get_distance() <= 30)
         m_ball_positions.m_scoreing = BALL_DESIRED;
     else
         m_ball_positions.m_scoreing = BALL_NONE;
