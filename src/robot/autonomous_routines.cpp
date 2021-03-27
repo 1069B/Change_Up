@@ -166,7 +166,7 @@ void define_skills(Robot& p_robot){
 	l_skills.add_robot_event(Base_Event::base_move(150, 180, 0, 2300), Intake_Event::intake_goal(1000), Lift_Event::lift_score_one());
 	l_skills.add_robot_event(Base_Event::base_orientate_to(353), Intake_Event::intake_stationary(), Lift_Event::lift_sort());
 	l_skills.add_robot_event(Base_Event::base_move(150, 0, 0, 1900), Intake_Event::intake_grab(INTAKE_RETRACT_OPEN), Lift_Event::lift_sort());
-	l_skills.add_robot_event(Base_Event::base_orientate_to(265), Intake_Event::intake_grab(INTAKE_RETRACT_OPEN), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_orientate_to(264), Intake_Event::intake_grab(INTAKE_RETRACT_OPEN), Lift_Event::lift_sort());
 	l_skills.add_robot_event(Base_Event::base_move(125, 0, 0, 2100), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort_and_shoot(1700));
 
 	/* Top Left Goal */
@@ -177,9 +177,9 @@ void define_skills(Robot& p_robot){
 	l_skills.add_robot_event(Base_Event::base_move(100, 0, 0, 500), Intake_Event::intake_store(), Lift_Event::lift_sort_and_shoot(100));
 
 	/* Left Middle Goal */
-	l_skills.add_robot_event(Base_Event::base_move(120, -135, 0, 900), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(130, -135, 0, 900), Intake_Event::intake_store(), Lift_Event::lift_sort());
 	l_skills.add_robot_event(Base_Event::base_orientate_to(447), Intake_Event::intake_store(), Lift_Event::lift_sort());
-	l_skills.add_robot_event(Base_Event::base_move(150, 0, 0, 2840), Intake_Event::intake_manual(0), Lift_Event::lift_sort());
+	l_skills.add_robot_event(Base_Event::base_move(150, 0, 0, 2800), Intake_Event::intake_manual(0), Lift_Event::lift_sort());
 	l_skills.add_robot_event(Base_Event::base_orientate_to(360), Intake_Event::intake_store(), Lift_Event::lift_sort());
 	l_skills.add_robot_event(Base_Event::base_move(150, 0, 0, 700), Intake_Event::intake_store(), Lift_Event::lift_sort_and_shoot(300));
 
