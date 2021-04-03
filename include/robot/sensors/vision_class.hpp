@@ -33,8 +33,7 @@ namespace SENSOR{
     short m_port{};
 
     Vision_Signature m_signature_1;
-    Vision_Signature m_signature_2;
-    Vision_Signature m_signature_3;
+    
 
     Data_Storing& m_settings;
 
@@ -48,8 +47,6 @@ namespace SENSOR{
     std::string get_name(){ return m_name; }
 
     Vision_Signature& get_signature_1(){ return m_signature_1; }
-    Vision_Signature& get_signature_2(){ return m_signature_2; }
-    Vision_Signature& get_signature_3(){ return m_signature_3; }
 
     /* Setter Functions */
     void set_port(short const p_port);

@@ -156,6 +156,7 @@ void Robot::defineGUI(){
 	m_manipulator.define_GUI();
 	m_odometry.define_GUI();
 	m_autonomous.define_GUI();
+	m_holonomic.define_GUI();
 
 	GUI::Screen &l_home = GUI::Screen::find_screen("Home");
 
@@ -164,6 +165,9 @@ void Robot::defineGUI(){
 
 	GUI::Button &odo = l_home.create_button("Odometry", 20, 80, 100, 50, GUI_STYLES::blue_button_released, GUI_STYLES::blue_button_pressed);
 	odo.add_connected_screen("Odometry");
+
+	GUI::Button &holo = l_home.create_button("Holonomic", 20, 140, 100, 50, GUI_STYLES::blue_button_released, GUI_STYLES::blue_button_pressed);
+	holo.add_connected_screen("Holonomic");
 
 	GUI::Screen &l_disconnected = GUI::Screen::find_screen("Disconnected");
 	l_disconnected.create_label(20, 20, GUI_STYLES::white_text, "Device not Connected");

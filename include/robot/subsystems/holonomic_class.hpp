@@ -44,9 +44,23 @@ private:
 
   Timer& m_timer;
 
+  pros::Vision vision_sensor{4};
+
+  pros::vision_signature_s_t Goal_Sig = pros::Vision::signature_from_utility(1, -5319, -4815, -5067, -6281, -5685, -5983, 5.000, 0);
+
+  double m_goal_x_position;
+  double m_goal_y_position;
+
+  double m_goal_width;
+  double m_goal_hight;
+
+  bool m_goal = false;
+
   Trajectory m_desired_trajectory;
 
   Autonomous_Base_Status m_status;
+
+  void vision_based_goal();
 
   void driver_control();
 
@@ -64,10 +78,14 @@ public:
 
   int task();
 
+  void define_GUI();
+
   /* Autonomous Functions */
   void set_base_movement(double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration);
 
   void set_base_movement(Autonomous_Base_Status p_base_status, double p_delay, double p_x_position, double p_y_position, double p_orientation);
+
+  void set_base_vision_movement(Autonomous_Base_Status p_base_status, double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration);
 
 };
 

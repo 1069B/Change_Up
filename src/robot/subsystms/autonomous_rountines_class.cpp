@@ -58,9 +58,9 @@ Base_Event& Base_Event::base_orientate_to(double p_orientation, double p_delay){
 //   return Base_Event(BASE_POSE, p_delay, p_x_position, p_y_position, p_orientation);
 // }
 
-// Base_Event Base_Event::base_align_to_goal(double p_delay){
-//   return Base_Event(BASE_POSE, p_delay, INT_MIN, INT_MIN, INT_MIN);
-// }
+Base_Event& Base_Event::base_align_to_goal(double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration, double p_delay){
+  return *new Base_Event(BASE_ALIGN_GOAL, p_translational_velocity, p_orientation, p_turning_velocity, p_duration, p_delay);
+}
 
 Base_Event& Base_Event::base_stationary(double p_duration, double p_delay){
   return *new Base_Event(BASE_STATIONARY, 0, 0, 0, p_duration, p_delay);
@@ -164,6 +164,9 @@ void Autonomous_Routine::task(){
   if(m_base_timer.get_preform_action()){
     if(l_current_event.m_base_event.m_base_status == BASE_ORIENTATION){
       l_holonomic.set_base_movement(l_current_event.m_base_event.m_base_status, l_current_event.m_base_event.m_delay, l_current_event.m_base_event.m_x_position, l_current_event.m_base_event.m_y_position, l_current_event.m_base_event.m_orientation);
+    }
+    else if(l_current_event.m_base_event.m_base_status == BASE_ALIGN_GOAL){
+      l_holonomic.set_base_vision_movement(l_current_event.m_base_event.m_base_status, l_current_event.m_base_event.m_translational_velocity, l_current_event.m_base_event.m_orientation, l_current_event.m_base_event.m_turning_velocity, l_current_event.m_base_event.m_duration);
     }
     else{
       l_holonomic.set_base_movement(l_current_event.m_base_event.m_translational_velocity, l_current_event.m_base_event.m_orientation, l_current_event.m_base_event.m_turning_velocity, l_current_event.m_base_event.m_duration);

@@ -12,16 +12,16 @@ void define_red_corner_and_center(Robot& p_robot){
 
 	/* Red Corner Goal */
 	red_corner_and_center.add_robot_event(Base_Event::base_move(100, 270, 40, 1800), Intake_Event::intake_stationary(), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
-	red_corner_and_center.add_robot_event(Base_Event::base_move(100, 0, 0, 1400), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	red_corner_and_center.add_robot_event(Base_Event::base_move(120, 0, 0, 1400), Intake_Event::intake_store(), Lift_Event::lift_sort());
 	red_corner_and_center.add_robot_event(Base_Event::base_stationary(400), Intake_Event::intake_store(), Lift_Event::lift_score_one());// Wait for score, Store Intakes, Score One Ball
 
 	/* Center Goal Ball */
 	red_corner_and_center.add_robot_event(Base_Event::base_move(150, 180, 0, 1600), Intake_Event::intake_goal(), Lift_Event::lift_sort());
 	red_corner_and_center.add_robot_event(Base_Event::base_move(0, 0, -FULL_TURN, 2000), Intake_Event::intake_grab(INTAKE_RETRACT_OPEN), Lift_Event::lift_sort());
-	red_corner_and_center.add_robot_event(Base_Event::base_move(150, 0, 0, 1600), Intake_Event::intake_grab(INTAKE_RETRACT_NONE), Lift_Event::lift_sort());
+	red_corner_and_center.add_robot_event(Base_Event::base_align_to_goal(150, 0, 0, 1600), Intake_Event::intake_grab(INTAKE_RETRACT_NONE), Lift_Event::lift_sort());
 
 	/* Center Goal */
-	red_corner_and_center.add_robot_event(Base_Event::base_move(150, 275, 0, 1700), Intake_Event::intake_stationary(), Lift_Event::lift_sort());
+	red_corner_and_center.add_robot_event(Base_Event::base_move(150, 280, 0, 1700), Intake_Event::intake_stationary(), Lift_Event::lift_sort());
 	red_corner_and_center.add_robot_event(Base_Event::base_move(100, 180, 0, 950), Intake_Event::intake_stationary(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());
 	red_corner_and_center.add_robot_event(Base_Event::base_move(100, 300, 19, 1900), Intake_Event::intake_grab(INTAKE_RETRACT_STORE), Lift_Event::lift_sort());
 	red_corner_and_center.add_robot_event(Base_Event::base_stationary(3000), Intake_Event::intake_stationary(), Lift_Event::lift_score_all());
@@ -32,7 +32,7 @@ void define_red_left_two_goals(Robot& p_robot){
 
 	/* Red Corner Goal */
 	l_left_two_goals.add_robot_event(Base_Event::base_move(100, 270, 40, 1800), Intake_Event::intake_stationary(), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
-	l_left_two_goals.add_robot_event(Base_Event::base_move(100, 0, 0, 1400), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_left_two_goals.add_robot_event(Base_Event::base_move(120, 0, 0, 1400), Intake_Event::intake_store(), Lift_Event::lift_sort());
 	l_left_two_goals.add_robot_event(Base_Event::base_stationary(400), Intake_Event::intake_store(), Lift_Event::lift_score_one());// Wait for score, Store Intakes, Score One Ball
 
 	/* Red Middle Goal */
@@ -50,7 +50,7 @@ void define_red_right_two_goals(Robot& p_robot){
 
 	/* Red Corner Goal */
 	l_right_two_goals.add_robot_event(Base_Event::base_move(100, 90, -40, 1800), Intake_Event::intake_stationary(), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
-	l_right_two_goals.add_robot_event(Base_Event::base_move(100, 0, 0, 1500), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_right_two_goals.add_robot_event(Base_Event::base_move(120, 0, 0, 1500), Intake_Event::intake_store(), Lift_Event::lift_sort());
 	l_right_two_goals.add_robot_event(Base_Event::base_stationary(400), Intake_Event::intake_store(), Lift_Event::lift_score_one());// Wait for score, Store Intakes, Score One Ball
 
 	/* Red Middle Goal */
@@ -68,7 +68,7 @@ void define_red_right_corner(Robot& p_robot){
 
 	/* Red Corner Goal */
 	l_right_corner.add_robot_event(Base_Event::base_move(100, 90, -40, 1800), Intake_Event::intake_stationary(), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
-	l_right_corner.add_robot_event(Base_Event::base_move(100, 0, 0, 1500), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_right_corner.add_robot_event(Base_Event::base_move(120, 0, 0, 1500), Intake_Event::intake_store(), Lift_Event::lift_sort());
 	l_right_corner.add_robot_event(Base_Event::base_stationary(400), Intake_Event::intake_store(), Lift_Event::lift_score_one());// Wait for score, Store Intakes, Score One Ball
 	l_right_corner.add_robot_event(Base_Event::base_move(FULL_TRANSLATION, 180, 0, 1200), Intake_Event::intake_stationary(), Lift_Event::lift_stationary());
 }
@@ -79,7 +79,7 @@ void define_blue_corner_and_center(Robot& p_robot){
 
 	/* Red Corner Goal */
 	blue_corner_and_center.add_robot_event(Base_Event::base_move(100, 270, 40, 1800), Intake_Event::intake_stationary(), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
-	blue_corner_and_center.add_robot_event(Base_Event::base_move(100, 0, 0, 1500), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	blue_corner_and_center.add_robot_event(Base_Event::base_move(120, 0, 0, 1500), Intake_Event::intake_store(), Lift_Event::lift_sort());
 	blue_corner_and_center.add_robot_event(Base_Event::base_stationary(400), Intake_Event::intake_store(), Lift_Event::lift_score_one());// Wait for score, Store Intakes, Score One Ball
 
 	/* Center Goal Ball */
@@ -99,7 +99,7 @@ void define_blue_left_two_goals(Robot& p_robot){
 
 	/* Red Corner Goal */
 	l_left_two_goals.add_robot_event(Base_Event::base_move(100, 270, 40, 1800), Intake_Event::intake_stationary(), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
-	l_left_two_goals.add_robot_event(Base_Event::base_move(100, 0, 0, 1400), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_left_two_goals.add_robot_event(Base_Event::base_move(120, 0, 0, 1400), Intake_Event::intake_store(), Lift_Event::lift_sort());
 	l_left_two_goals.add_robot_event(Base_Event::base_stationary(400), Intake_Event::intake_store(), Lift_Event::lift_score_one());// Wait for score, Store Intakes, Score One Ball
 
 	/* Red Middle Goal */
@@ -117,7 +117,7 @@ void define_blue_right_two_goals(Robot& p_robot){
 
 	/* Red Corner Goal */
 	l_right_two_goals.add_robot_event(Base_Event::base_move(100, 90, -40, 1800), Intake_Event::intake_stationary(), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
-	l_right_two_goals.add_robot_event(Base_Event::base_move(100, 0, 0, 1500), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_right_two_goals.add_robot_event(Base_Event::base_move(120, 0, 0, 1500), Intake_Event::intake_store(), Lift_Event::lift_sort());
 	l_right_two_goals.add_robot_event(Base_Event::base_stationary(400), Intake_Event::intake_store(), Lift_Event::lift_score_one());// Wait for score, Store Intakes, Score One Ball
 
 	/* Red Middle Goal */
@@ -135,7 +135,7 @@ void define_blue_right_corner(Robot& p_robot){
 
 	/* Red Corner Goal */
 	l_right_corner.add_robot_event(Base_Event::base_move(100, 90, -40, 1800), Intake_Event::intake_stationary(), Lift_Event::lift_sort());// Turn base to goal, Pick up ball in front and then store, Preload the balls
-	l_right_corner.add_robot_event(Base_Event::base_move(100, 0, 0, 1500), Intake_Event::intake_store(), Lift_Event::lift_sort());
+	l_right_corner.add_robot_event(Base_Event::base_move(120, 0, 0, 1500), Intake_Event::intake_store(), Lift_Event::lift_sort());
 	l_right_corner.add_robot_event(Base_Event::base_stationary(400), Intake_Event::intake_store(), Lift_Event::lift_score_one());// Wait for score, Store Intakes, Score One Ball
 	l_right_corner.add_robot_event(Base_Event::base_move(FULL_TRANSLATION, 180, 0, 1200), Intake_Event::intake_stationary(), Lift_Event::lift_stationary());
 }

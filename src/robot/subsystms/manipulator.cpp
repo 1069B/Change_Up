@@ -36,14 +36,14 @@ m_tongue_sensor(m_robot.add_analog_pair("Tongue Sensor", 1, 1, 2, 0, 2400))
 
 void Manipulator::initialize(){
     if(m_robot.get_alliance() == ROBOT_SKILLS){
-        m_intake_sensor.set_signature_1(12, 85, 0);
+        m_intake_sensor.set_signature_1(12, 60, 0);
         m_intake_sensor.set_signature_2(180, 220, 00);
 
         m_sorting_sensor.set_signature_1(0, 20, 75);// Scoring
         m_sorting_sensor.set_signature_2(206, 226, 75);// Eject
     }
     else if(m_robot.get_alliance() == ROBOT_RED){
-        m_intake_sensor.set_signature_1(12, 75, 20);
+        m_intake_sensor.set_signature_1(12, 60, 20);
         m_intake_sensor.set_signature_2(180, 220, 20);
 
         m_sorting_sensor.set_signature_1(0, 20, 75);// Scoring
@@ -51,7 +51,7 @@ void Manipulator::initialize(){
     }
     else if(m_robot.get_alliance() == ROBOT_BLUE){
         m_intake_sensor.set_signature_1(110, 240, 20);
-        m_intake_sensor.set_signature_2(12, 75, 20);
+        m_intake_sensor.set_signature_2(12, 60, 20);
 
         m_sorting_sensor.set_signature_1(206, 226, 75);// Scoring
         m_sorting_sensor.set_signature_2(0, 20, 75);// Eject
@@ -320,7 +320,7 @@ void Manipulator::task(){
         m_ball_positions.m_intakes = BALL_NONE;
 
     /* Detects Current Ball Position */
-    if(m_scoring_sensor.get_distance() > 40 && m_scoring_sensor.get_average_distance() > 60)
+    if(m_scoring_sensor.get_distance() > 50 && m_scoring_sensor.get_average_distance() > 70)
         m_ball_positions.m_scoreing = BALL_NONE;
     else
         m_ball_positions.m_scoreing = BALL_DESIRED;

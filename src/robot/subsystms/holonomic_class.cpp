@@ -1,10 +1,15 @@
 #include "robot/robot_class.hpp"
+
 #include "robot/devices/motor_class.hpp"
 #include "robot/devices/controller_class.hpp"
 #include "robot/devices/timer_class.hpp"
+
 #include "robot/subsystems/holonomic_class.hpp"
 #include "robot/subsystems/manipulator.hpp"
 #include "robot/subsystems/odometry_class.hpp"
+
+#include "robot/graphical_interface/screen_class.hpp"
+#include "robot/graphical_interface/button_class.hpp"
 
 Holonomic::Holonomic(Robot &p_robot):
 m_robot(p_robot),
@@ -43,11 +48,116 @@ void Holonomic::set_base_movement(Autonomous_Base_Status p_base_status, double p
     m_movement_ending = false;
 }
 
+void Holonomic::set_base_vision_movement(Autonomous_Base_Status p_base_status, double p_translational_velocity, double p_orientation, double p_turning_velocity, double p_duration){
+    m_status = p_base_status;
+    
+    m_desired_trajectory.m_translation_velocity = p_translational_velocity;
+    m_desired_trajectory.m_orientation_velocity = p_turning_velocity;
+    m_desired_trajectory.m_translation_angle = p_orientation;
+    m_desired_trajectory.m_duration = p_duration;
+
+    m_timer.reset_timer();
+    m_timer.set_flag_delay(m_desired_trajectory.m_duration);
+
+    m_movement_complete = false;
+    m_movement_ending = false;
+}
+
+void Holonomic::vision_based_goal(){
+    if(m_goal){
+        double desired_x = 187;
+        double desired_y = -9;
+
+        double desried_height = 75;
+        double desried_width = 60;
+
+        double alignment_error = desired_x - m_goal_x_position;
+        double distance_error = desired_y - m_goal_y_position;
+        double orientation_error = 0;
+
+        double Kp_x = 0;
+        double Ki_x = 0;
+        double Kd_x = 0;
+
+        double x_velocity = (Kp_x * alignment_error);
+
+            
+        if(x_velocity > m_desired_trajectory.m_translation_velocity)// Max Vel
+            x_velocity = m_desired_trajectory.m_translation_velocity;
+        else if(x_velocity < -m_desired_trajectory.m_translation_velocity)
+            x_velocity = -m_desired_trajectory.m_translation_velocity;
+            
+        //     m_orientation_error = m_desired_trajectory.m_orientation - odometry.get_total_orientation();
+        //     m_orientation_integral += m_orientation_error;
+        //     m_orientation_derivative = m_orientation_error - m_orientation_previous_error;
+        //     m_orientation_previous_error = m_orientation_error;
+
+        //     if(m_orientation_error == 0 || abs(m_orientation_error) > 2){
+        //         m_orientation_integral = 0;
+        //     }
+
+        //     double velocity = (m_Kp_orientation * m_orientation_error) + (m_Ki_orientation * m_orientation_integral) + (m_Kp_orientation * m_orientation_derivative);
+
+            
+        //     if(velocity > 85)// Max Vel
+        //         velocity = 85;
+        //     else if(velocity < -85)
+        //         velocity = -85;
+
+
+        if(abs(x_velocity) < 4 && !m_movement_ending){
+            m_movement_timer.set_flag_delay(300);  
+            m_movement_ending = true;    
+        }
+
+        if(m_movement_timer.get_preform_action()){
+            m_front_left_motor = 0;
+            m_front_right_motor = 0;
+            m_back_left_motor = 0;
+            m_back_right_motor = 0;
+
+            m_movement_complete = true;
+            return;
+        }
+
+        m_front_left_motor = -x_velocity;
+        m_front_right_motor = x_velocity;
+        m_back_left_motor = -x_velocity;
+        m_back_right_motor = x_velocity;
+    }
+    else{
+        // if(m_timer.get_flag_remaining() == 0){
+        //     m_front_left_motor = 0;
+        //     m_front_right_motor = 0;
+        //     m_back_left_motor = 0;
+        //     m_back_right_motor = 0;
+
+        //     m_movement_complete = true;
+        //     return;
+        // }
+
+        double speed_up_coefficient = m_timer.get_elapsed_time() * 0.002;
+        double speed_down_coefficient = m_timer.get_flag_remaining() * 0.002;
+
+        double motor_coefficient;
+        if (speed_up_coefficient < 1.0 && speed_up_coefficient < speed_down_coefficient)
+            motor_coefficient = speed_up_coefficient;
+        else if (speed_down_coefficient < 1.0 && speed_down_coefficient < speed_up_coefficient)
+            motor_coefficient = speed_down_coefficient;
+        else if (speed_up_coefficient >= 1.0 && speed_down_coefficient >= 1.0)
+            motor_coefficient = 1.0;
+
+        m_front_left_motor = motor_coefficient * (cos((m_desired_trajectory.m_translation_angle / 180.0 * M_PI) + (M_PI / 4.0)) * m_desired_trajectory.m_translation_velocity - m_desired_trajectory.m_orientation_velocity);
+        m_front_right_motor = motor_coefficient * (sin((m_desired_trajectory.m_translation_angle / 180.0 * M_PI) + (M_PI / 4.0)) * m_desired_trajectory.m_translation_velocity + m_desired_trajectory.m_orientation_velocity);
+        m_back_left_motor = motor_coefficient * (sin((m_desired_trajectory.m_translation_angle / 180.0 * M_PI) + (M_PI / 4.0)) * m_desired_trajectory.m_translation_velocity - m_desired_trajectory.m_orientation_velocity);
+        m_back_right_motor = motor_coefficient * (cos((m_desired_trajectory.m_translation_angle / 180.0 * M_PI) + (M_PI / 4.0)) * m_desired_trajectory.m_translation_velocity + m_desired_trajectory.m_orientation_velocity);
+    }
+}
+
 void Holonomic::autonomous(){
     Odometry odometry = m_robot.get_odometry();
 
     if(m_status == BASE_ORIENTATION){
-        
         m_orientation_error = m_desired_trajectory.m_orientation - odometry.get_total_orientation();
         m_orientation_integral += m_orientation_error;
         m_orientation_derivative = m_orientation_error - m_orientation_previous_error;
@@ -86,6 +196,9 @@ void Holonomic::autonomous(){
         m_back_left_motor = -velocity;
         m_back_right_motor = velocity;
     }
+    else if(m_status == BASE_ALIGN_GOAL){
+        vision_based_goal();
+    }
     else{
         if(m_timer.get_flag_remaining() == 0){
             m_front_left_motor = 0;
@@ -97,21 +210,21 @@ void Holonomic::autonomous(){
             return;
         }
 
-    double speed_up_coefficient = m_timer.get_elapsed_time() * 0.002;
-    double speed_down_coefficient = m_timer.get_flag_remaining() * 0.002;
+        double speed_up_coefficient = m_timer.get_elapsed_time() * 0.002;
+        double speed_down_coefficient = m_timer.get_flag_remaining() * 0.002;
 
-    double motor_coefficient;
-    if (speed_up_coefficient < 1.0 && speed_up_coefficient < speed_down_coefficient)
-        motor_coefficient = speed_up_coefficient;
-    else if (speed_down_coefficient < 1.0 && speed_down_coefficient < speed_up_coefficient)
-        motor_coefficient = speed_down_coefficient;
-    else if (speed_up_coefficient >= 1.0 && speed_down_coefficient >= 1.0)
-        motor_coefficient = 1.0;
+        double motor_coefficient;
+        if (speed_up_coefficient < 1.0 && speed_up_coefficient < speed_down_coefficient)
+            motor_coefficient = speed_up_coefficient;
+        else if (speed_down_coefficient < 1.0 && speed_down_coefficient < speed_up_coefficient)
+            motor_coefficient = speed_down_coefficient;
+        else if (speed_up_coefficient >= 1.0 && speed_down_coefficient >= 1.0)
+            motor_coefficient = 1.0;
 
-    m_front_left_motor = motor_coefficient * (cos((m_desired_trajectory.m_translation_angle / 180.0 * M_PI) + (M_PI / 4.0)) * m_desired_trajectory.m_translation_velocity - m_desired_trajectory.m_orientation_velocity);
-    m_front_right_motor = motor_coefficient * (sin((m_desired_trajectory.m_translation_angle / 180.0 * M_PI) + (M_PI / 4.0)) * m_desired_trajectory.m_translation_velocity + m_desired_trajectory.m_orientation_velocity);
-    m_back_left_motor = motor_coefficient * (sin((m_desired_trajectory.m_translation_angle / 180.0 * M_PI) + (M_PI / 4.0)) * m_desired_trajectory.m_translation_velocity - m_desired_trajectory.m_orientation_velocity);
-    m_back_right_motor = motor_coefficient * (cos((m_desired_trajectory.m_translation_angle / 180.0 * M_PI) + (M_PI / 4.0)) * m_desired_trajectory.m_translation_velocity + m_desired_trajectory.m_orientation_velocity);
+        m_front_left_motor = motor_coefficient * (cos((m_desired_trajectory.m_translation_angle / 180.0 * M_PI) + (M_PI / 4.0)) * m_desired_trajectory.m_translation_velocity - m_desired_trajectory.m_orientation_velocity);
+        m_front_right_motor = motor_coefficient * (sin((m_desired_trajectory.m_translation_angle / 180.0 * M_PI) + (M_PI / 4.0)) * m_desired_trajectory.m_translation_velocity + m_desired_trajectory.m_orientation_velocity);
+        m_back_left_motor = motor_coefficient * (sin((m_desired_trajectory.m_translation_angle / 180.0 * M_PI) + (M_PI / 4.0)) * m_desired_trajectory.m_translation_velocity - m_desired_trajectory.m_orientation_velocity);
+        m_back_right_motor = motor_coefficient * (cos((m_desired_trajectory.m_translation_angle / 180.0 * M_PI) + (M_PI / 4.0)) * m_desired_trajectory.m_translation_velocity + m_desired_trajectory.m_orientation_velocity);
     }
 }
 
@@ -153,9 +266,31 @@ void Holonomic::initialize(){
     m_front_right_motor.reset_position();
     m_back_left_motor.reset_position();
     m_back_right_motor.reset_position();
+
+    vision_sensor.set_signature(1, &Goal_Sig);
 }
 
 int Holonomic::task(){
+    pros::vision_object_s_t goal_object = vision_sensor.get_by_sig(0, 1);
+
+    m_goal_x_position = goal_object.x_middle_coord;
+    m_goal_y_position = goal_object.y_middle_coord;
+
+    m_goal_width = goal_object.width;
+    m_goal_hight = goal_object.height;
+
+    if(m_goal_width < 20 || m_goal_hight < 40){
+        m_goal_x_position = INT_MAX;
+        m_goal_y_position = INT_MAX;
+
+        m_goal_width = INT_MAX;
+        m_goal_hight = INT_MAX;
+        m_goal = false;
+    }
+    else{
+        m_goal = true;
+    }
+
     if (m_robot.get_robot_state() == ROBOT_DRIVER_CONTROL){
         driver_control();
     }
@@ -163,4 +298,17 @@ int Holonomic::task(){
         autonomous();
     }
     return 0;
+}
+
+void Holonomic::define_GUI(){
+    GUI::Screen &holonomic = GUI::Screen::create_screen("Holonomic");
+    holonomic.create_rectangle(0, 0, 480, 40, GUI_STYLES::white_text);
+    holonomic.create_label(0, 10, GUI_STYLES::red_text, "Holonomic", LV_ALIGN_IN_TOP_MID);
+
+    holonomic.create_label(20, 50, GUI_STYLES::white_text, "Goal x: %d", m_goal_x_position);
+    holonomic.create_label(20, 70, GUI_STYLES::white_text, "Goal y: %d", m_goal_y_position);
+    holonomic.create_label(20, 90, GUI_STYLES::white_text, "Goal width: %d", m_goal_width);
+    holonomic.create_label(20, 110, GUI_STYLES::white_text, "Gaol height: %d", m_goal_hight);
+
+
 }
