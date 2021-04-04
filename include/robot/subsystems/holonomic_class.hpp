@@ -46,13 +46,15 @@ private:
 
   pros::Vision vision_sensor{4};
 
-  pros::vision_signature_s_t Goal_Sig = pros::Vision::signature_from_utility(1, -5319, -4815, -5067, -6281, -5685, -5983, 5.000, 0);
+  pros::vision_signature_s_t Goal_Sig = pros::Vision::signature_from_utility(1, -4605, -4245, -4426, -4413, -3947, -4180, 9.000, 0);
 
   double m_goal_x_position;
   double m_goal_y_position;
 
   double m_goal_width;
   double m_goal_hight;
+
+  double goal_angle;
 
   bool m_goal = false;
 
@@ -61,6 +63,10 @@ private:
   Autonomous_Base_Status m_status;
 
   void vision_based_goal();
+
+  void time_based_movement();
+
+  void odometry_based_turn();
 
   void driver_control();
 

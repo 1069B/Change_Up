@@ -137,16 +137,15 @@ void Robot::task(){
 	check_robot_status();
 	GUI::Screen::task();
 	m_odometry.task();
+	m_holonomic.task();
 
 	if (m_robot_state == ROBOT_DRIVER_CONTROL)
 	{
-		m_holonomic.task();
 		m_manipulator.task();
 	}
 	else if (m_robot_state == ROBOT_AUTONOMOUS)
 	{
 		m_autonomous.task();
-		m_holonomic.task();
 		m_manipulator.task();
 	}
 }

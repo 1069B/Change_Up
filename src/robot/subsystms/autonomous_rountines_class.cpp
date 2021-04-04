@@ -159,36 +159,42 @@ void Autonomous_Routine::task(){
     if(l_current_event.m_lift_event.m_lift_status == AUTONOMOUS_LIFT_SORT_AND_SHOOT){
       l_manipulator.set_autonomous_lift_status(AUTONOMOUS_LIFT_SORT);
     }
-  }
-  
-  if(m_base_timer.get_preform_action()){
-    if(l_current_event.m_base_event.m_base_status == BASE_ORIENTATION){
-      l_holonomic.set_base_movement(l_current_event.m_base_event.m_base_status, l_current_event.m_base_event.m_delay, l_current_event.m_base_event.m_x_position, l_current_event.m_base_event.m_y_position, l_current_event.m_base_event.m_orientation);
-    }
-    else if(l_current_event.m_base_event.m_base_status == BASE_ALIGN_GOAL){
-      l_holonomic.set_base_vision_movement(l_current_event.m_base_event.m_base_status, l_current_event.m_base_event.m_translational_velocity, l_current_event.m_base_event.m_orientation, l_current_event.m_base_event.m_turning_velocity, l_current_event.m_base_event.m_duration);
-    }
-    else{
+
+    if(l_current_event.m_base_event.m_base_status == BASE_ALIGN_GOAL){
       l_holonomic.set_base_movement(l_current_event.m_base_event.m_translational_velocity, l_current_event.m_base_event.m_orientation, l_current_event.m_base_event.m_turning_velocity, l_current_event.m_base_event.m_duration);
     }
   }
-  else if(l_holonomic.get_movement_complete()){
+  
+  /* Base Calls */
+  if(l_current_event.m_base_event.m_base_status == BASE_ALIGN_GOAL && m_base_timer.get_preform_action()){
+    l_holonomic.set_base_vision_movement(BASE_ALIGN_GOAL, l_current_event.m_base_event.m_translational_velocity, l_current_event.m_base_event.m_orientation, l_current_event.m_base_event.m_turning_velocity, l_current_event.m_base_event.m_duration);
+  }
+  else if(l_current_event.m_base_event.m_base_status == BASE_ALIGN_GOAL && l_holonomic.get_movement_complete()){
     m_current_event++;
   }
-
-  if(l_current_event.m_lift_event.m_lift_status == AUTONOMOUS_LIFT_SORT_AND_SHOOT){
-    if(m_lift_timer.get_preform_action()){
-      l_manipulator.set_autonomous_lift_status(AUTONOMOUS_LIFT_SCORE_ONE);
-    }
-  }
   else{
-    if(m_lift_timer.get_preform_action()){
-      l_manipulator.set_autonomous_lift_status(l_current_event.m_lift_event.m_lift_status);
+    if(m_base_timer.get_preform_action()){
+      if(l_current_event.m_base_event.m_base_status == BASE_ORIENTATION){
+        l_holonomic.set_base_movement(l_current_event.m_base_event.m_base_status, l_current_event.m_base_event.m_delay, l_current_event.m_base_event.m_x_position, l_current_event.m_base_event.m_y_position, l_current_event.m_base_event.m_orientation);
+      }
+      else{
+        l_holonomic.set_base_movement(l_current_event.m_base_event.m_translational_velocity, l_current_event.m_base_event.m_orientation, l_current_event.m_base_event.m_turning_velocity, l_current_event.m_base_event.m_duration);
+      }
+    }
+    else if(l_holonomic.get_movement_complete()){
+      m_current_event++;
     }
   }
 
-  
+  /* Manipulator Calls */
+  if(l_current_event.m_lift_event.m_lift_status == AUTONOMOUS_LIFT_SORT_AND_SHOOT && m_lift_timer.get_preform_action()){
+      l_manipulator.set_autonomous_lift_status(AUTONOMOUS_LIFT_SCORE_ONE);
+  }
+  else if(m_lift_timer.get_preform_action()){
+      l_manipulator.set_autonomous_lift_status(l_current_event.m_lift_event.m_lift_status);
+  }
 
+  /* Intake Calls */
   if(m_intake_timer.get_preform_action()){
     l_manipulator.set_autonomous_intake_status(l_current_event.m_intake_event.m_intake_status, l_current_event.m_intake_event.m_intake_retract);
   }
